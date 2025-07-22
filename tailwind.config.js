@@ -12,7 +12,7 @@ module.exports = {
     "*.{js,ts,jsx,tsx,mdx}",
     "app/**/*.{ts,tsx}",
     "components/**/*.{ts,tsx}",
-    './**/*.vue'
+    // './**/*.vue'
   ],
   // theme: {
   //   ...tailwindConfig.theme,

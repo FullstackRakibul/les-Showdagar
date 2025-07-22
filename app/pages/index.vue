@@ -1,13 +1,13 @@
 <template>
   <!-- Popular Products Section -->
-  <section class="ml-64 w-full h-screen overflow-y-auto bg-gray-50">
+  <section class=" w-full h-screen overflow-y-auto bg-gray-50">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold text-gray-900">Popular Products</h2>
       <SfButton variant="tertiary" class="text-linkedin-blue">
         See all
       </SfButton>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <ProductCard v-for="product in popularProducts" :key="product.id" :product="product" />
     </div>
   </section>
