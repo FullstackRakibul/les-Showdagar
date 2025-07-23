@@ -30,7 +30,8 @@
       <AppHeader />
 
       <!-- Page Content -->
-      <main class="flex-1 overflow-y-auto bg-gray-50 p-4">
+      <main
+        class="flex-1 overflow-y-auto bg-gray-50 p-4 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-pink-100">
         <NuxtPage />
       </main>
     </div>

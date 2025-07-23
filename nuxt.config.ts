@@ -2,8 +2,8 @@ import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@storefront-ui/nuxt"],
-  css: ["@fortawesome/fontawesome-free/css/all.css"],
+  modules: ["@nuxtjs/tailwindcss", "@storefront-ui/nuxt", "nuxt-lucide-icons", "@pinia/nuxt"],
+  css: ["@fortawesome/fontawesome-free/css/all.css",'~/assets/css/main.css'],
   app: {
     head: {
       title: "Les Showdagar - Premium E-commerce",
@@ -15,4 +15,10 @@ export default defineNuxtConfig({
     },
   },
   srcDir: 'app/',
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 })

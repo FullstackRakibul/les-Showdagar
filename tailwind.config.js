@@ -1,5 +1,4 @@
-const { default: tailwindConfig } = require("tailwindcss/defaultConfig")
-
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -12,64 +11,33 @@ module.exports = {
     "*.{js,ts,jsx,tsx,mdx}",
     "app/**/*.{ts,tsx}",
     "components/**/*.{ts,tsx}",
-    // './**/*.vue'
+    './**/*.vue',
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./app.vue",
+    "./error.vue",
   ],
-  // theme: {
-  //   ...tailwindConfig.theme,
-  //   extend: {
-  //     colors: {
-  //       ...tailwindConfig.theme.extend.colors,
-  //       linkedin: {
-  //         blue: "#0077B5",
-  //         "blue-dark": "#005885",
-  //         "blue-light": "#4FC3F7",
-  //         gray: "#F3F2EF",
-  //         "gray-dark": "#666666",
-  //         "gray-light": "#FAFAFA",
-  //       },
-  //       border: "hsl(var(--border))",
-  //       input: "hsl(var(--input))",
-  //       ring: "hsl(var(--ring))",
-  //       background: "hsl(var(--background))",
-  //       foreground: "hsl(var(--foreground))",
-  //       primary: {
-  //         DEFAULT: "hsl(var(--primary))",
-  //         foreground: "hsl(var(--primary-foreground))",
-  //       },
-  //       secondary: {
-  //         DEFAULT: "hsl(var(--secondary))",
-  //         foreground: "hsl(var(--secondary-foreground))",
-  //       },
-  //       destructive: {
-  //         DEFAULT: "hsl(var(--destructive))",
-  //         foreground: "hsl(var(--destructive-foreground))",
-  //       },
-  //       muted: {
-  //         DEFAULT: "hsl(var(--muted))",
-  //         foreground: "hsl(var(--muted-foreground))",
-  //       },
-  //       accent: {
-  //         DEFAULT: "hsl(var(--accent))",
-  //         foreground: "hsl(var(--accent-foreground))",
-  //       },
-  //       popover: {
-  //         DEFAULT: "hsl(var(--popover))",
-  //         foreground: "hsl(var(--popover-foreground))",
-  //       },
-  //       card: {
-  //         DEFAULT: "hsl(var(--card))",
-  //         foreground: "hsl(var(--card-foreground))",
-  //       },
-  //     },
-  //     borderRadius: {
-  //       lg: "var(--radius)",
-  //       md: "calc(var(--radius) - 2px)",
-  //       sm: "calc(var(--radius) - 4px)",
-  //     },
-  //     fontFamily: {
-  //       sans: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-  //     },
-  //   },
-  // },
+  theme: {
+    extend: {
+      colors: {
+        primary: 'hsl(var(--color-primary))',
+        secondary: 'hsl(var(--color-secondary))',
+        background: 'hsl(var(--color-background))',
+        foreground: 'hsl(var(--color-foreground))',
+      },
+      borderRadius: {
+        lg: '0.5rem',
+        md: '0.375rem',
+        sm: '0.25rem',
+      },
+      fontFamily: {
+        sans: ['Tahomad', 'sans-serif'],
+      },
+  },
+  plugins: [],
+  // 
   plugins: [require("tailwindcss-animate")],
+}
 }
