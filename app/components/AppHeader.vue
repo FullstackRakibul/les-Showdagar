@@ -1,68 +1,82 @@
 <template>
   <header
-    class="sticky top-0 z-30 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
+    class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
     <div class="px-4 sm:px-6">
       <div class="flex items-center justify-between h-16">
-        <!-- Left Section: Sidebar Toggle & Logo -->
+        <!-- Left Section: Menu & Logo -->
         <div class="flex items-center space-x-3">
-          <!-- Left Sidebar Toggle -->
+          <!-- Mobile Menu Toggle -->
           <button @click="layoutStore.toggleLeftSidebar"
-            class="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 lg:hidden"
-            :class="{ 'text-primary': layoutStore.leftSidebarOpen, 'text-gray-500 dark:text-gray-400': !layoutStore.leftSidebarOpen }">
-            <Menu class="w-5 h-5" />
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 lg:hidden">
+            <Menu class="w-6 h-6 text-gray-700 dark:text-gray-300" />
           </button>
 
-          <!-- Logo (visible on mobile when sidebar is closed) -->
-          <NuxtLink to="/"
-            class="flex items-center space-x-2 text-xl font-bold text-primary hover:text-primary-dark transition-colors lg:hidden">
+          <!-- Logo -->
+          <button @click="navigateTo('/')" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <Store class="w-5 h-5 text-white" />
             </div>
-            <span class="hidden sm:block">ShopHub</span>
-          </NuxtLink>
+            <div class="hidden sm:flex flex-col">
+              <span class="font-bold text-gray-900 dark:text-white text-lg leading-tight">Les Showdagar</span>
+              <span class="text-xs text-gray-500 dark:text-gray-400 leading-tight">Premium E-commerce</span>
+            </div>
+            <div class="sm:hidden">
+              <span class="font-bold text-gray-900 dark:text-white text-lg">Les S</span>
+            </div>
+          </button>
         </div>
 
-        <!-- Middle Section: Search Bar -->
-        <div class="flex-1 mx-6 max-w-2xl hidden md:block">
-          <div class="relative">
-            <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <!-- Center Section: Search (Desktop) -->
+        <div class="hidden md:flex flex-1 max-w-2xl mx-6">
+          <div class="relative w-full">
+            <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input v-model="productStore.searchQuery" placeholder="Search products, brands, categories..."
-              class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400" />
+              class="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400" />
           </div>
         </div>
 
-        <!-- Right Section: Actions & Profile -->
+        <!-- Right Section: Actions -->
         <div class="flex items-center space-x-2">
-          <!-- Mobile Search Toggle -->
-          <button
-            class="md:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-colors duration-200"
-            @click="showMobileSearch = !showMobileSearch">
-            <Search class="w-5 h-5" />
+          <!-- Mobile Search -->
+          <button @click="showMobileSearch = !showMobileSearch"
+            class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+            <Search class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+          </button>
+
+          <!-- Theme Toggle -->
+          <button @click="toggleTheme"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+            :title="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+            <Sun v-if="isDarkMode" class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+            <Moon v-else class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
 
           <!-- Notifications -->
-          <button
-            class="relative p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200">
-            <Bell class="w-5 h-5" />
+          <button @click="navigateTo('/notifications')"
+            class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+            title="Notifications">
+            <Bell class="w-5 h-5 text-gray-700 dark:text-gray-300" />
             <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
               <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
             </span>
           </button>
 
-          <!-- Cart Button -->
+          <!-- Cart -->
           <button @click="showCartModal = true"
-            class="relative p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200">
-            <ShoppingCart class="w-5 h-5" />
+            class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+            title="Shopping Cart">
+            <ShoppingCart class="w-5 h-5 text-gray-700 dark:text-gray-300" />
             <span v-if="productStore.cartItemsCount > 0"
               class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
               {{ productStore.cartItemsCount > 9 ? '9+' : productStore.cartItemsCount }}
             </span>
           </button>
 
-          <!-- Profile Dropdown -->
+          <!-- Profile -->
           <div class="relative" ref="profileDropdown">
             <button @click="showProfileMenu = !showProfileMenu"
-              class="flex items-center space-x-2 p-1 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+              class="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+              title="Profile Menu">
               <div
                 class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold text-sm">
                 JD
@@ -72,10 +86,10 @@
                 :class="{ 'rotate-180': showProfileMenu }" />
             </button>
 
-            <!-- Profile Dropdown Menu -->
+            <!-- Profile Dropdown -->
             <transition name="dropdown">
               <div v-if="showProfileMenu"
-                class="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
+                class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
                 <!-- User Info -->
                 <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
                   <div class="flex items-center space-x-3">
@@ -90,60 +104,27 @@
                   </div>
                 </div>
 
-                <!-- Theme Toggle -->
-                <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
-                  <div class="flex items-center justify-between">
-                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Theme</span>
-                    <div class="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                      <button @click="setTheme('light')" :class="[
-                        'p-1.5 rounded-md transition-colors duration-200',
-                        currentTheme === 'light' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'hover:bg-gray-200 dark:hover:bg-gray-600'
-                      ]">
-                        <Sun class="w-4 h-4 text-gray-600 dark:text-gray-300" />
-                      </button>
-                      <button @click="setTheme('dark')" :class="[
-                        'p-1.5 rounded-md transition-colors duration-200',
-                        currentTheme === 'dark' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'hover:bg-gray-200 dark:hover:bg-gray-600'
-                      ]">
-                        <Moon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
-                      </button>
-                      <button @click="setTheme('system')" :class="[
-                        'p-1.5 rounded-md transition-colors duration-200',
-                        currentTheme === 'system' ? 'bg-white dark:bg-gray-600 shadow-sm' : 'hover:bg-gray-200 dark:hover:bg-gray-600'
-                      ]">
-                        <Monitor class="w-4 h-4 text-gray-600 dark:text-gray-300" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
                 <!-- Menu Items -->
                 <div class="py-2">
-                  <NuxtLink to="/profile"
+                  <button @click="navigateTo('/settings')"
                     class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
                     <User class="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    <span class="text-sm">Profile</span>
-                  </NuxtLink>
+                    <span class="text-sm">Profile Settings</span>
+                  </button>
 
-                  <NuxtLink to="/orders"
+                  <button @click="navigateTo('/orders')"
                     class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
                     <Package class="w-4 h-4 text-gray-500 dark:text-gray-400" />
                     <span class="text-sm">My Orders</span>
-                  </NuxtLink>
+                  </button>
 
-                  <NuxtLink to="/settings"
-                    class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
-                    <Settings class="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    <span class="text-sm">Settings</span>
-                  </NuxtLink>
-
-                  <button @click="openThemeSettings"
+                  <button @click="layoutStore.openThemeStudio(); showProfileMenu = false"
                     class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
                     <Palette class="w-4 h-4 text-gray-500 dark:text-gray-400" />
                     <span class="text-sm">Theme Settings</span>
                   </button>
 
-                  <button
+                  <button @click="showProfileMenu = false"
                     class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-red-600 dark:text-red-400">
                     <LogOut class="w-4 h-4" />
                     <span class="text-sm">Logout</span>
@@ -153,10 +134,11 @@
             </transition>
           </div>
 
-          <!-- Right Sidebar Toggle (Hidden on mobile) -->
+          <!-- Right Sidebar Toggle (Desktop) -->
           <button @click="layoutStore.toggleRightSidebar"
-            class="hidden xl:block p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-            :class="{ 'text-primary': layoutStore.rightSidebarOpen, 'text-gray-500 dark:text-gray-400': !layoutStore.rightSidebarOpen }">
+            class="hidden xl:block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+            :class="{ 'text-primary': layoutStore.rightSidebarOpen, 'text-gray-500 dark:text-gray-400': !layoutStore.rightSidebarOpen }"
+            title="Toggle Offers & Theme">
             <PanelRight class="w-5 h-5" />
           </button>
         </div>
@@ -166,9 +148,9 @@
       <transition name="slide-down">
         <div v-if="showMobileSearch" class="md:hidden pb-4 border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
           <div class="relative">
-            <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input v-model="productStore.searchQuery" placeholder="Search products..."
-              class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400" />
+              class="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400" />
           </div>
         </div>
       </transition>
@@ -252,26 +234,11 @@
                   <span class="text-xl font-bold text-gray-900 dark:text-white">${{ productStore.cartTotal.toFixed(2)
                     }}</span>
                 </div>
-                <NuxtLink to="/checkout" @click="showCartModal = false"
-                  class="w-full bg-primary text-white py-3 px-4 rounded-xl hover:bg-primary-dark transition-colors font-semibold text-center block">
+                <button @click="navigateTo('/checkout'); showCartModal = false"
+                  class="w-full bg-primary text-white py-3 px-4 rounded-xl hover:bg-primary-dark transition-colors font-semibold text-center">
                   Proceed to Checkout
-                </NuxtLink>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </teleport>
-
-    <!-- Theme Settings Modal -->
-    <teleport to="body">
-      <transition name="modal">
-        <div v-if="showThemeSettings" class="fixed inset-0 z-[9999] overflow-y-auto">
-          <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-black bg-opacity-50" @click="showThemeSettings = false"></div>
-
-            <div class="relative">
-              <ThemeSettings @close="showThemeSettings = false" />
             </div>
           </div>
         </div>
@@ -281,50 +248,44 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import {
-  Menu, Search, Bell, ShoppingCart, ChevronDown, Sun, Moon, Monitor,
-  User, Package, Settings, LogOut, PanelRight, X, Minus, Plus,
+  Menu, Search, Bell, ShoppingCart, ChevronDown, Sun, Moon,
+  User, Package, LogOut, PanelRight, X, Minus, Plus,
   Palette, Store
 } from 'lucide-vue-next'
 import { useProductStore } from '@/stores/products'
 import { useLayout } from '@/composables/useLayout'
-import ThemeSettings from '@/components/ThemeSettings.vue'
 
+const router = useRouter()
 const productStore = useProductStore()
 const layoutStore = useLayout()
 
+// Reactive state
 const showCartModal = ref(false)
 const showMobileSearch = ref(false)
 const showProfileMenu = ref(false)
-const showThemeSettings = ref(false)
 const profileDropdown = ref(null)
-const currentTheme = ref('system')
+const isDarkMode = ref(false)
 
-const setTheme = (theme) => {
-  currentTheme.value = theme
-
-  if (theme === 'dark') {
-    document.documentElement.classList.add('dark')
-  } else if (theme === 'light') {
-    document.documentElement.classList.remove('dark')
-  } else {
-    // System theme
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    if (prefersDark) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }
-
-  // Save to localStorage
-  localStorage.setItem('theme', theme)
+// Navigation function
+const navigateTo = (path) => {
+  router.push(path)
+  showProfileMenu.value = false
 }
 
-const openThemeSettings = () => {
-  showThemeSettings.value = true
-  showProfileMenu.value = false
+// Theme toggle function
+const toggleTheme = () => {
+  isDarkMode.value = !isDarkMode.value
+
+  if (isDarkMode.value) {
+    document.documentElement.classList.add('dark')
+    localStorage.setItem('theme', 'dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+    localStorage.setItem('theme', 'light')
+  }
 }
 
 // Close profile menu when clicking outside
@@ -334,14 +295,25 @@ const handleClickOutside = (event) => {
   }
 }
 
+// Initialize theme and event listeners
 onMounted(() => {
+  // Add click outside listener
   document.addEventListener('click', handleClickOutside)
 
-  // Load saved theme
-  const savedTheme = localStorage.getItem('theme') || 'system'
-  setTheme(savedTheme)
+  // Load saved theme or detect system preference
+  const savedTheme = localStorage.getItem('theme')
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+  if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+    isDarkMode.value = true
+    document.documentElement.classList.add('dark')
+  } else {
+    isDarkMode.value = false
+    document.documentElement.classList.remove('dark')
+  }
 })
 
+// Cleanup event listeners
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })

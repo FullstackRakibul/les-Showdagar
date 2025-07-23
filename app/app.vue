@@ -1,13 +1,16 @@
 <template>
   <div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-    <!-- Left Sidebar Overlay (Mobile) -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" @click="layoutStore.closeLeftSidebar"
-      v-if="layoutStore.isMobile && layoutStore.leftSidebarOpen"></div>
+    <!-- Mobile Overlay - Only show when mobile and any sidebar is open -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-30" @click="closeMobileSidebars"
+      v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"></div>
 
     <!-- Left Sidebar -->
     <transition name="slide-left">
-      <div class="fixed lg:relative top-0 left-0 h-full z-50 lg:z-10 flex-shrink-0"
-        :class="layoutStore.isMobile ? 'w-80' : 'w-64'" v-if="layoutStore.leftSidebarOpen">
+      <div v-if="leftSidebarOpen" class="z-40 flex-shrink-0" :class="[
+        isMobile
+          ? 'fixed top-0 left-0 h-full w-80'
+          : 'relative w-64'
+      ]">
         <LeftSidebar />
       </div>
     </transition>
@@ -15,24 +18,27 @@
     <!-- Main Content -->
     <div class="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
       <!-- Header -->
-      <AppHeader />
+      <div class="relative z-20 flex-shrink-0">
+        <AppHeader />
+      </div>
 
-      <!-- Page Content - Fixed height with internal scrolling -->
+      <!-- Page Content -->
       <main class="flex-1 overflow-hidden">
-        <div class="h-full overflow-y-auto p-4">
-          <NuxtPage />
+        <div class="h-full overflow-y-auto">
+          <div class="p-4 sm:p-6">
+            <NuxtPage />
+          </div>
         </div>
       </main>
     </div>
 
-    <!-- Right Sidebar Overlay (Mobile) -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-40 xl:hidden" @click="layoutStore.closeRightSidebar"
-      v-if="layoutStore.isMobile && layoutStore.rightSidebarOpen"></div>
-
     <!-- Right Sidebar -->
     <transition name="slide-right">
-      <div class="fixed xl:relative top-0 right-0 h-full z-50 xl:z-10 flex-shrink-0"
-        :class="layoutStore.isMobile ? 'w-80' : 'w-72'" v-if="layoutStore.rightSidebarOpen">
+      <div v-if="rightSidebarOpen" class="z-40 flex-shrink-0" :class="[
+        isMobile
+          ? 'fixed top-0 right-0 h-full w-80'
+          : 'relative w-80'
+      ]">
         <RightSidebar />
       </div>
     </transition>
@@ -40,12 +46,24 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useLayout } from '@/composables/useLayout'
 import AppHeader from '@/components/AppHeader.vue'
 import LeftSidebar from '@/components/LeftSidebar.vue'
 import RightSidebar from '@/components/RightSidebar.vue'
 
 const layoutStore = useLayout()
+
+// Computed properties for cleaner template
+const leftSidebarOpen = computed(() => layoutStore.leftSidebarOpen)
+const rightSidebarOpen = computed(() => layoutStore.rightSidebarOpen)
+const isMobile = computed(() => layoutStore.isMobile)
+
+const closeMobileSidebars = () => {
+  if (isMobile.value) {
+    layoutStore.closeBothSidebars()
+  }
+}
 </script>
 
 <style>
@@ -56,6 +74,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Sidebar transitions */
 .slide-left-enter-active,
 .slide-left-leave-active {
   transition: transform 0.3s ease;
@@ -80,5 +99,71 @@ body {
 
 .slide-right-leave-to {
   transform: translateX(100%);
+}
+
+/* CSS Variables for theme colors */
+:root {
+  --color-primary: #3b82f6;
+  --color-primary-rgb: 59, 130, 246;
+  --color-primary-dark: #2563eb;
+  --font-size-base: 16px;
+  --layout-density: 1;
+}
+
+/* Tailwind CSS custom utilities */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-primary-dark {
+  background-color: var(--color-primary-dark);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+.ring-primary {
+  --tw-ring-color: var(--color-primary);
+}
+
+.focus\:ring-primary:focus {
+  --tw-ring-color: var(--color-primary);
+}
+
+/* Hover states */
+.hover\:bg-primary:hover {
+  background-color: var(--color-primary);
+}
+
+.hover\:bg-primary-dark:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Ensure proper stacking and no unwanted overlays on desktop */
+@media (min-width: 1024px) {
+  .fixed {
+    position: relative !important;
+  }
+}
+
+/* Ensure content is always clickable */
+main {
+  pointer-events: auto;
+}
+
+main * {
+  pointer-events: auto;
 }
 </style>
