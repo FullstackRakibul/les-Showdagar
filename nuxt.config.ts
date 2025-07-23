@@ -3,6 +3,7 @@ import { defineNuxtConfig } from 'nuxt/config';
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "@storefront-ui/nuxt", "nuxt-lucide-icons", "@pinia/nuxt"],
+  
   css: ["@fortawesome/fontawesome-free/css/all.css",'~/assets/css/main.css'],
   app: {
     head: {

@@ -37,19 +37,6 @@
       </div>
     </section>
 
-    <!-- Featured Products -->
-    <section>
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Featured Products</h2>
-        <button class="text-primary hover:text-primary-dark font-medium transition-colors flex items-center space-x-1">
-          <span>See all</span>
-          <ChevronRight class="w-4 h-4" />
-        </button>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <ProductCard v-for="product in productStore.filteredProducts" :key="product.id" :product="product" />
-      </div>
-    </section>
 
 
     <!-- No Results -->

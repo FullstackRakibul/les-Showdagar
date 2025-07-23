@@ -100,7 +100,7 @@
         </div>
 
         <!-- Action Button -->
-        <button @click="handleAddToCart" :disabled="!product.inStock"
+        <button @click="handleAddToCart"  :disabled="!product.inStock"
           class="w-full bg-primary hover:bg-primary-dark disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white py-2.5 px-4 rounded-xl transition-colors font-semibold text-sm flex items-center justify-center space-x-2 shadow-sm hover:shadow-md">
           <ShoppingBag class="w-4 h-4" />
           <span>{{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}</span>
@@ -130,6 +130,10 @@ const formatRevenue = (revenue) => {
     return `${(revenue / 1000).toFixed(0)}K`
   }
   return revenue.toString()
+}
+
+function handleAdd() {
+  cart.addItem(props.product)
 }
 
 const openModal = () => {

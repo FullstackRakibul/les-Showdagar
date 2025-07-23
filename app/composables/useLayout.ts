@@ -1,4 +1,4 @@
-import { ref } from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 
 export const useLayout = () => {
   const leftSidebarOpen = ref(true)
@@ -14,12 +14,36 @@ export const useLayout = () => {
   }
 
   const checkMobile = () => {
-    isMobile.value = window.innerWidth < 1024
-    if (isMobile.value) {
-      leftSidebarOpen.value = false
-      rightSidebarOpen.value = false
+    if (typeof window !== "undefined") {
+      isMobile.value = window.innerWidth < 1024
+      if (isMobile.value) {
+        leftSidebarOpen.value = false
+        rightSidebarOpen.value = false
+      } else {
+        leftSidebarOpen.value = true
+        rightSidebarOpen.value = true
+      }
     }
   }
+
+  const closeLeftSidebar = () => {
+    leftSidebarOpen.value = false
+  }
+
+  const closeRightSidebar = () => {
+    rightSidebarOpen.value = false
+  }
+
+  onMounted(() => {
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+  })
+
+  onUnmounted(() => {
+    if (typeof window !== "undefined") {
+      window.removeEventListener("resize", checkMobile)
+    }
+  })
 
   return {
     leftSidebarOpen,
@@ -27,6 +51,8 @@ export const useLayout = () => {
     isMobile,
     toggleLeftSidebar,
     toggleRightSidebar,
+    closeLeftSidebar,
+    closeRightSidebar,
     checkMobile,
   }
 }
