@@ -118,12 +118,6 @@
                     <span class="text-sm">My Orders</span>
                   </button>
 
-                  <button @click="layoutStore.openThemeStudio(); showProfileMenu = false"
-                    class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
-                    <Palette class="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    <span class="text-sm">Theme Settings</span>
-                  </button>
-
                   <button @click="showProfileMenu = false"
                     class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-red-600 dark:text-red-400">
                     <LogOut class="w-4 h-4" />
@@ -138,7 +132,7 @@
           <button @click="layoutStore.toggleRightSidebar"
             class="hidden xl:block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
             :class="{ 'text-primary': layoutStore.rightSidebarOpen, 'text-gray-500 dark:text-gray-400': !layoutStore.rightSidebarOpen }"
-            title="Toggle Offers & Theme">
+            title="Toggle Offers">
             <PanelRight class="w-5 h-5" />
           </button>
         </div>
@@ -253,7 +247,7 @@ import { useRouter } from 'vue-router'
 import {
   Menu, Search, Bell, ShoppingCart, ChevronDown, Sun, Moon,
   User, Package, LogOut, PanelRight, X, Minus, Plus,
-  Palette, Store
+  Store
 } from 'lucide-vue-next'
 import { useProductStore } from '@/stores/products'
 import { useLayout } from '@/composables/useLayout'

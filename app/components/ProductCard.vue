@@ -1,15 +1,15 @@
 <template>
-  <div class="group relative">
-    <!-- Main Card -->
+  <div class="group relative h-full">
+    <!-- Main Card with Fixed Height -->
     <div
-      class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+      class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 h-full flex flex-col">
       <!-- Product Image -->
-      <div class="relative cursor-pointer overflow-hidden bg-gray-50 dark:bg-gray-700" @click="openModal">
+      <div class="relative cursor-pointer overflow-hidden bg-gray-50 dark:bg-gray-700 aspect-square" @click="openModal">
         <img :src="product.image" :alt="product.name"
-          class="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500" />
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
 
         <!-- Badges -->
-        <div class="absolute top-3 left-3 flex flex-col space-y-1">
+        <div class="absolute top-2 left-2 flex flex-col space-y-1">
           <span v-if="product.isNew"
             class="bg-primary text-white text-xs px-2 py-1 rounded-full font-semibold shadow-sm">
             NEW
@@ -24,19 +24,28 @@
           </span>
         </div>
 
-        <!-- Wishlist Button -->
-        <button
-          class="absolute top-3 right-3 w-9 h-9 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-lg flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100">
-          <Heart class="w-4 h-4 text-gray-400 hover:text-red-500 transition-colors" />
-        </button>
+        <!-- Action Buttons -->
+        <div
+          class="absolute top-2 right-2 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <button @click.stop="toggleWishlist"
+            class="w-8 h-8 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-lg flex items-center justify-center transition-all duration-200"
+            :class="{ 'text-red-500': isWishlisted, 'text-gray-400 hover:text-red-500': !isWishlisted }">
+            <Heart class="w-4 h-4" :class="{ 'fill-current': isWishlisted }" />
+          </button>
 
-        <!-- Quick Actions Overlay -->
+          <button @click.stop="handleQuickView"
+            class="w-8 h-8 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-lg flex items-center justify-center transition-all duration-200 text-gray-400 hover:text-primary">
+            <Eye class="w-4 h-4" />
+          </button>
+        </div>
+
+        <!-- Quick Add Overlay -->
         <div
           class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
           <button @click.stop="handleQuickAdd" :disabled="!product.inStock"
-            class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-            <ShoppingCart class="w-4 h-4 inline mr-2" />
-            Quick Add
+            class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2">
+            <ShoppingCart class="w-4 h-4" />
+            <span>Quick Add</span>
           </button>
         </div>
 
@@ -46,8 +55,8 @@
         </div>
       </div>
 
-      <!-- Product Info -->
-      <div class="p-4 sm:p-5">
+      <!-- Product Info - Flexible Height -->
+      <div class="p-3 sm:p-4 flex-1 flex flex-col">
         <!-- Brand -->
         <p v-if="product.brand"
           class="text-xs text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wide font-medium">
@@ -56,7 +65,7 @@
 
         <!-- Product Name -->
         <h3
-          class="font-semibold text-gray-900 dark:text-white mb-2 cursor-pointer hover:text-primary transition-colors line-clamp-2 text-sm sm:text-base"
+          class="font-semibold text-gray-900 dark:text-white mb-2 cursor-pointer hover:text-primary transition-colors line-clamp-2 text-sm flex-1"
           @click="openModal">
           {{ product.name }}
         </h3>
@@ -64,44 +73,31 @@
         <!-- Rating -->
         <div class="flex items-center mb-3">
           <div class="flex text-yellow-400 mr-2">
-            <Star v-for="star in 5" :key="star" :class="star <= product.rating ? 'fill-current' : ''"
-              class="w-3 h-3 sm:w-4 sm:h-4" />
+            <Star v-for="star in 5" :key="star" :class="star <= product.rating ? 'fill-current' : ''" class="w-3 h-3" />
           </div>
-          <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{{ product.rating }}</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">{{ product.rating }}</span>
           <span class="text-xs text-gray-400 dark:text-gray-500 ml-1">({{ product.reviews }})</span>
         </div>
 
-        <!-- Price and Revenue -->
-        <div class="space-y-2 mb-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-gray-500 dark:text-gray-400">Price</span>
-            <div class="flex items-center space-x-2">
-              <span class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">${{ product.price }}</span>
-              <span v-if="product.originalPrice" class="text-sm text-gray-500 line-through">
-                ${{ product.originalPrice }}
-              </span>
-            </div>
+        <!-- Price -->
+        <div class="mb-4">
+          <div class="flex items-center space-x-2">
+            <span class="text-lg font-bold text-gray-900 dark:text-white">${{ product.price }}</span>
+            <span v-if="product.originalPrice" class="text-sm text-gray-500 line-through">
+              ${{ product.originalPrice }}
+            </span>
           </div>
 
-          <div v-if="product.revenue" class="flex items-center justify-between">
-            <span class="text-xs text-gray-500 dark:text-gray-400">Revenue</span>
-            <div class="flex items-center space-x-1">
-              <span class="text-sm font-semibold text-green-600">${{ formatRevenue(product.revenue) }}</span>
-              <TrendingUp class="w-3 h-3 text-green-500" />
-            </div>
+          <div v-if="product.revenue" class="flex items-center space-x-1 mt-1">
+            <span class="text-xs text-gray-500 dark:text-gray-400">Revenue:</span>
+            <span class="text-sm font-semibold text-green-600">${{ formatRevenue(product.revenue) }}</span>
+            <TrendingUp class="w-3 h-3 text-green-500" />
           </div>
-        </div>
-
-        <!-- Additional Info -->
-        <div v-if="product.listingAge"
-          class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-4">
-          <span>Listing age</span>
-          <span>{{ product.listingAge }}</span>
         </div>
 
         <!-- Action Button -->
-        <button @click="handleAddToCart"  :disabled="!product.inStock"
-          class="w-full bg-primary hover:bg-primary-dark disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white py-2.5 px-4 rounded-xl transition-colors font-semibold text-sm flex items-center justify-center space-x-2 shadow-sm hover:shadow-md">
+        <button @click="handleAddToCart" :disabled="!product.inStock"
+          class="w-full bg-primary hover:bg-primary-dark disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white py-2.5 px-4 rounded-xl transition-colors font-semibold text-sm flex items-center justify-center space-x-2 shadow-sm hover:shadow-md mt-auto">
           <ShoppingBag class="w-4 h-4" />
           <span>{{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}</span>
         </button>
@@ -111,7 +107,8 @@
 </template>
 
 <script setup>
-import { Heart, ShoppingCart, Star, TrendingUp, ShoppingBag } from 'lucide-vue-next'
+import { ref } from 'vue'
+import { Heart, ShoppingCart, Star, TrendingUp, ShoppingBag, Eye } from 'lucide-vue-next'
 import { useProductStore } from '@/stores/products'
 
 const props = defineProps({
@@ -122,6 +119,7 @@ const props = defineProps({
 })
 
 const productStore = useProductStore()
+const isWishlisted = ref(false)
 
 const formatRevenue = (revenue) => {
   if (revenue >= 1000000) {
@@ -130,10 +128,6 @@ const formatRevenue = (revenue) => {
     return `${(revenue / 1000).toFixed(0)}K`
   }
   return revenue.toString()
-}
-
-function handleAdd() {
-  cart.addItem(props.product)
 }
 
 const openModal = () => {
@@ -147,6 +141,15 @@ const handleAddToCart = () => {
 const handleQuickAdd = () => {
   productStore.addToCart(props.product)
 }
+
+const handleQuickView = () => {
+  productStore.openProductModal(props.product)
+}
+
+const toggleWishlist = () => {
+  isWishlisted.value = !isWishlisted.value
+  // Add wishlist logic here
+}
 </script>
 
 <style scoped>
@@ -155,5 +158,9 @@ const handleQuickAdd = () => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
 }
 </style>

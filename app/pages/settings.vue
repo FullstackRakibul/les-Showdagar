@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto space-y-6">
+  <div class="max-w-4xl mx-auto space-y-6 p-4 sm:p-6">
     <!-- Page Header -->
     <div>
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
@@ -247,24 +247,87 @@
         <!-- Appearance Settings -->
         <div v-if="activeSection === 'appearance'"
           class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Appearance</h2>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Appearance & Theme</h2>
 
-          <div class="space-y-6">
+          <div class="space-y-8">
+            <!-- Theme Colors -->
             <div>
-              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Theme</h3>
-              <div class="grid grid-cols-3 gap-4">
-                <button v-for="theme in themes" :key="theme.key" @click="selectedTheme = theme.key" :class="[
-                  'p-4 border-2 rounded-xl transition-all',
-                  selectedTheme === theme.key
-                    ? 'border-primary bg-primary/10'
-                    : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Primary Color</h3>
+              <div class="grid grid-cols-3 gap-3">
+                <button v-for="color in themeColors" :key="color.name" @click="setActiveColor(color)" :class="[
+                  'w-full h-12 rounded-xl border-2 transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-opacity-50',
+                  activeColor.name === color.name
+                    ? 'border-gray-900 dark:border-white shadow-lg scale-105'
+                    : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                ]" :style="{ backgroundColor: color.value }" :aria-label="`Select ${color.name} theme`">
+                  <div v-if="activeColor.name === color.name"
+                    class="w-full h-full rounded-lg flex items-center justify-center">
+                    <Check class="w-5 h-5 text-white drop-shadow-sm" />
+                  </div>
+                </button>
+              </div>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                Current: {{ activeColor.name.charAt(0).toUpperCase() + activeColor.name.slice(1) }}
+              </p>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-white">Dark Mode</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Toggle dark theme</p>
+                </div>
+                <button @click="toggleDarkMode" :class="[
+                  'relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800',
+                  isDarkMode
+                    ? 'bg-primary focus:ring-primary'
+                    : 'bg-gray-300 dark:bg-gray-600 focus:ring-gray-300'
                 ]">
-                  <div :class="theme.preview" class="w-full h-16 rounded-lg mb-3"></div>
-                  <p class="font-medium text-gray-900 dark:text-white">{{ theme.name }}</p>
+                  <span :class="[
+                    'inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200',
+                    isDarkMode ? 'translate-x-6' : 'translate-x-1'
+                  ]" />
                 </button>
               </div>
             </div>
 
+            <!-- Font Size -->
+            <div>
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Font Size</h3>
+              <div class="space-y-3">
+                <div v-for="size in fontSizes" :key="size.key"
+                  class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+                  @click="setFontSize(size.key)">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-2 h-2 rounded-full bg-primary"
+                      :class="{ 'opacity-100': selectedFontSize === size.key, 'opacity-30': selectedFontSize !== size.key }">
+                    </div>
+                    <span class="font-medium text-gray-900 dark:text-white">{{ size.name }}</span>
+                  </div>
+                  <span :class="size.class" class="text-gray-600 dark:text-gray-400">Aa</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Layout Density -->
+            <div>
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Layout Density</h3>
+              <div class="grid grid-cols-2 gap-3">
+                <button v-for="density in layoutDensities" :key="density.key" @click="setLayoutDensity(density.key)"
+                  :class="[
+                    'p-4 border-2 rounded-xl transition-all duration-200 text-center',
+                    selectedDensity === density.key
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300'
+                  ]">
+                  <component :is="density.icon" class="w-6 h-6 mx-auto mb-2" />
+                  <p class="text-sm font-medium">{{ density.name }}</p>
+                </button>
+              </div>
+            </div>
+
+            <!-- Language -->
             <div>
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Language</h3>
               <select v-model="selectedLanguage"
@@ -277,6 +340,7 @@
               </select>
             </div>
 
+            <!-- Currency -->
             <div>
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Currency</h3>
               <select v-model="selectedCurrency"
@@ -287,6 +351,24 @@
                 <option value="CAD">CAD - Canadian Dollar</option>
                 <option value="AUD">AUD - Australian Dollar</option>
               </select>
+            </div>
+
+            <!-- Quick Actions -->
+            <div>
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+              <div class="space-y-3">
+                <button @click="resetToDefault"
+                  class="w-full flex items-center justify-center space-x-2 py-3 px-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl transition-colors font-medium">
+                  <RotateCcw class="w-4 h-4" />
+                  <span>Reset to Default</span>
+                </button>
+
+                <button @click="exportTheme"
+                  class="w-full flex items-center justify-center space-x-2 py-3 px-4 bg-primary hover:bg-primary-dark text-white rounded-xl transition-colors font-medium">
+                  <Download class="w-4 h-4" />
+                  <span>Export Theme</span>
+                </button>
+              </div>
             </div>
 
             <div class="flex justify-end">
@@ -303,8 +385,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { User, Shield, Bell, Lock, Palette } from 'lucide-vue-next'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { User, Shield, Bell, Lock, Palette, Check, RotateCcw, Download, Maximize2, Minimize2 } from 'lucide-vue-next'
 
 const activeSection = ref('profile')
 const selectedTheme = ref('light')
@@ -349,6 +431,168 @@ const themes = [
     preview: 'bg-gradient-to-br from-blue-400 to-purple-500'
   }
 ]
+
+// Theme configuration
+const themeColors = [
+  { name: 'blue', value: '#3b82f6' },
+  { name: 'purple', value: '#8b5cf6' },
+  { name: 'green', value: '#10b981' },
+  { name: 'orange', value: '#f97316' },
+  { name: 'pink', value: '#ec4899' },
+  { name: 'red', value: '#ef4444' }
+]
+
+const fontSizes = [
+  { key: 'small', name: 'Small', class: 'text-sm' },
+  { key: 'medium', name: 'Medium', class: 'text-base' },
+  { key: 'large', name: 'Large', class: 'text-lg' }
+]
+
+const layoutDensities = [
+  { key: 'compact', name: 'Compact', icon: Minimize2 },
+  { key: 'comfortable', name: 'Comfortable', icon: Maximize2 }
+]
+
+// Theme state
+const activeColor = ref(themeColors[3]) // Default to orange
+const isDarkMode = ref(false)
+const selectedFontSize = ref('medium')
+const selectedDensity = ref('comfortable')
+
+// Theme functions
+const setActiveColor = (color) => {
+  activeColor.value = color
+  updateCSSVariables()
+  saveToLocalStorage()
+}
+
+const toggleDarkMode = () => {
+  isDarkMode.value = !isDarkMode.value
+  updateDarkMode()
+  saveToLocalStorage()
+}
+
+const setFontSize = (size) => {
+  selectedFontSize.value = size
+  updateFontSize()
+  saveToLocalStorage()
+}
+
+const setLayoutDensity = (density) => {
+  selectedDensity.value = density
+  updateLayoutDensity()
+  saveToLocalStorage()
+}
+
+const updateCSSVariables = () => {
+  const root = document.documentElement
+  const color = activeColor.value.value
+
+  const hex = color.replace('#', '')
+  const r = parseInt(hex.substr(0, 2), 16)
+  const g = parseInt(hex.substr(2, 2), 16)
+  const b = parseInt(hex.substr(4, 2), 16)
+
+  root.style.setProperty('--color-primary', color)
+  root.style.setProperty('--color-primary-rgb', `${r}, ${g}, ${b}`)
+  root.style.setProperty('--color-primary-dark', darkenColor(color, 10))
+}
+
+const darkenColor = (color, percent) => {
+  const hex = color.replace('#', '')
+  const r = Math.max(0, parseInt(hex.substr(0, 2), 16) - Math.round(255 * percent / 100))
+  const g = Math.max(0, parseInt(hex.substr(2, 2), 16) - Math.round(255 * percent / 100))
+  const b = Math.max(0, parseInt(hex.substr(4, 2), 16) - Math.round(255 * percent / 100))
+
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+}
+
+const updateDarkMode = () => {
+  if (isDarkMode.value) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+}
+
+const updateFontSize = () => {
+  const root = document.documentElement
+  const sizes = {
+    small: '14px',
+    medium: '16px',
+    large: '18px'
+  }
+  root.style.setProperty('--font-size-base', sizes[selectedFontSize.value])
+}
+
+const updateLayoutDensity = () => {
+  const root = document.documentElement
+  const densities = {
+    compact: '0.75',
+    comfortable: '1'
+  }
+  root.style.setProperty('--layout-density', densities[selectedDensity.value])
+}
+
+const resetToDefault = () => {
+  activeColor.value = themeColors[3]
+  isDarkMode.value = false
+  selectedFontSize.value = 'medium'
+  selectedDensity.value = 'comfortable'
+
+  updateCSSVariables()
+  updateDarkMode()
+  updateFontSize()
+  updateLayoutDensity()
+  saveToLocalStorage()
+}
+
+const exportTheme = () => {
+  const themeConfig = {
+    color: activeColor.value,
+    darkMode: isDarkMode.value,
+    fontSize: selectedFontSize.value,
+    density: selectedDensity.value
+  }
+
+  const dataStr = JSON.stringify(themeConfig, null, 2)
+  const dataBlob = new Blob([dataStr], { type: 'application/json' })
+  const url = URL.createObjectURL(dataBlob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'les-showdagar-theme.json'
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
+const saveToLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    const settings = {
+      activeColor: activeColor.value,
+      isDarkMode: isDarkMode.value,
+      fontSize: selectedFontSize.value,
+      density: selectedDensity.value
+    }
+    localStorage.setItem('themeSettings', JSON.stringify(settings))
+  }
+}
+
+const loadFromLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('themeSettings')
+    if (saved) {
+      try {
+        const settings = JSON.parse(saved)
+        if (settings.activeColor) activeColor.value = settings.activeColor
+        if (typeof settings.isDarkMode === 'boolean') isDarkMode.value = settings.isDarkMode
+        if (settings.fontSize) selectedFontSize.value = settings.fontSize
+        if (settings.density) selectedDensity.value = settings.density
+      } catch (error) {
+        console.warn('Failed to load theme settings from localStorage:', error)
+      }
+    }
+  }
+}
 
 const notificationCategories = [
   {
@@ -406,4 +650,12 @@ const notificationCategories = [
     ]
   }
 ]
+
+onMounted(() => {
+  loadFromLocalStorage()
+  updateCSSVariables()
+  updateDarkMode()
+  updateFontSize()
+  updateLayoutDensity()
+})
 </script>

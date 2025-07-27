@@ -3,7 +3,6 @@ import { ref, onMounted, onUnmounted } from "vue"
 export const useLayout = () => {
   const leftSidebarOpen = ref(false)
   const rightSidebarOpen = ref(false)
-  const rightSidebarMode = ref("offers") // 'offers' or 'theme'
   const isMobile = ref(false)
 
   const toggleLeftSidebar = () => {
@@ -32,22 +31,6 @@ export const useLayout = () => {
     }
   }
 
-  const openThemeStudio = () => {
-    rightSidebarMode.value = "theme"
-    rightSidebarOpen.value = true
-    if (isMobile.value) {
-      leftSidebarOpen.value = false
-    }
-  }
-
-  const openOffers = () => {
-    rightSidebarMode.value = "offers"
-    rightSidebarOpen.value = true
-    if (isMobile.value) {
-      leftSidebarOpen.value = false
-    }
-  }
-
   const closeLeftSidebar = () => {
     leftSidebarOpen.value = false
   }
@@ -73,8 +56,7 @@ export const useLayout = () => {
       // When switching from mobile to desktop, open left sidebar by default
       else if (wasMobile && !isMobile.value) {
         leftSidebarOpen.value = true
-        rightSidebarOpen.value = true
-        rightSidebarMode.value = "offers" // Default to offers on desktop
+        rightSidebarOpen.value = true // Open right sidebar by default on desktop
       }
     }
   }
@@ -86,8 +68,7 @@ export const useLayout = () => {
     // Set initial state based on screen size
     if (!isMobile.value) {
       leftSidebarOpen.value = true
-      rightSidebarOpen.value = true
-      rightSidebarMode.value = "offers"
+      rightSidebarOpen.value = true // Default open on desktop
     }
   })
 
@@ -100,12 +81,9 @@ export const useLayout = () => {
   return {
     leftSidebarOpen,
     rightSidebarOpen,
-    rightSidebarMode,
     isMobile,
     toggleLeftSidebar,
     toggleRightSidebar,
-    openThemeStudio,
-    openOffers,
     closeLeftSidebar,
     closeRightSidebar,
     closeBothSidebars,
