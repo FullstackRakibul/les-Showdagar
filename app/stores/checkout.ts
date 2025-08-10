@@ -2,18 +2,16 @@ import { defineStore } from "pinia"
 import { ref } from "vue"
 
 export interface ShippingInfo {
-  firstName: string
-  lastName: string
-  email: string
+  name: string
   phone: string
-  address: string
-  city: string
-  state: string
-  zipCode: string
+  street: string
+  thana: string
+  zillah: string
+  note?: string
 }
 
 export interface PaymentInfo {
-  method: "card" | "paypal" | "apple"
+  method: "cash" | "card" | "paypal" | "apple"
   cardNumber?: string
   expiryDate?: string
   cvv?: string
@@ -41,22 +39,16 @@ export const useCheckoutStore = defineStore("checkout", () => {
   const orders = ref<Order[]>([])
 
   const shippingInfo = ref<ShippingInfo>({
-    firstName: "",
-    lastName: "",
-    email: "",
+    name: "",
     phone: "",
-    address: "",
-    city: "",
-    state: "",
-    zipCode: "",
+    street: "",
+    thana: "",
+    zillah: "",
+    note: "",
   })
 
   const paymentInfo = ref<PaymentInfo>({
-    method: "card",
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardholderName: "",
+    method: "cash", // default to cash on delivery
   })
 
   // Actions
@@ -76,7 +68,7 @@ export const useCheckoutStore = defineStore("checkout", () => {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
       const order: Order = {
         id: `ORD-${Date.now()}`,
@@ -109,22 +101,16 @@ export const useCheckoutStore = defineStore("checkout", () => {
 
   function resetForm() {
     shippingInfo.value = {
-      firstName: "",
-      lastName: "",
-      email: "",
+      name: "",
       phone: "",
-      address: "",
-      city: "",
-      state: "",
-      zipCode: "",
+      street: "",
+      thana: "",
+      zillah: "",
+      note: "",
     }
 
     paymentInfo.value = {
-      method: "card",
-      cardNumber: "",
-      expiryDate: "",
-      cvv: "",
-      cardholderName: "",
+      method: "cash",
     }
   }
 
