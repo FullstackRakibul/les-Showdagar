@@ -70,29 +70,31 @@
           {{ product.name }}
         </h3>
 
-        <!-- Rating -->
-        <div class="flex items-center mb-3">
-          <div class="flex text-yellow-400 mr-2">
-            <Star v-for="star in 5" :key="star" :class="star <= product.rating ? 'fill-current' : ''" class="w-3 h-3" />
-          </div>
-          <span class="text-xs text-gray-500 dark:text-gray-400">{{ product.rating }}</span>
-          <span class="text-xs text-gray-400 dark:text-gray-500 ml-1">({{ product.reviews }})</span>
-        </div>
+
 
         <!-- Price -->
-        <div class="mb-4">
+        <div class="mb-4 flex flex-col sm:flex-row items-center sm:items-center justify-between">
           <div class="flex items-center space-x-2">
-            <span class="text-lg font-bold text-gray-900 dark:text-white">${{ product.price }}</span>
+            <span class="text-lg font-bold text-gray-900 dark:text-white">৳ {{ product.price }}</span>
             <span v-if="product.originalPrice" class="text-sm text-gray-500 line-through">
-              ${{ product.originalPrice }}
+              ৳ {{ product.originalPrice }}
             </span>
           </div>
-
-          <div v-if="product.revenue" class="flex items-center space-x-1 mt-1">
-            <span class="text-xs text-gray-500 dark:text-gray-400">Revenue:</span>
-            <span class="text-sm font-semibold text-green-600">${{ formatRevenue(product.revenue) }}</span>
-            <TrendingUp class="w-3 h-3 text-green-500" />
+          <!-- Rating -->
+          <div class="flex items-center mb-3">
+            <div class="flex text-yellow-400 mr-2">
+              <Star v-for="star in 5" :key="star" :class="star <= product.rating ? 'fill-current' : ''"
+                class="w-3 h-3" />
+            </div>
+            <span class="text-xs text-gray-500 dark:text-gray-400">{{ product.rating }}</span>
+            <span class="text-xs text-gray-400 dark:text-gray-500 ml-1">({{ product.reviews }})</span>
           </div>
+
+          <!-- <div v-if="product.revenue" class="flex items-center space-x-1 mt-1">
+            <span class="text-xs text-gray-500 dark:text-gray-400">Revenue:</span>
+            <span class="text-sm font-semibold text-green-600">৳ {{ formatRevenue(product.revenue) }}</span>
+            <TrendingUp class="w-3 h-3 text-green-500" />
+          </div> -->
         </div>
 
         <!-- Action Button -->
@@ -109,7 +111,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Heart, ShoppingCart, Star, TrendingUp, ShoppingBag, Eye } from 'lucide-vue-next'
-import { useProductStore } from '@/stores/products'
+import { useProductStore } from '../stores/products'
 
 const props = defineProps({
   product: {
@@ -125,7 +127,7 @@ const formatRevenue = (revenue) => {
   if (revenue >= 1000000) {
     return `${(revenue / 1000000).toFixed(1)}M`
   } else if (revenue >= 1000) {
-    return `${(revenue / 1000).toFixed(0)}K`
+    return `৳{(revenue / 1000).toFixed(0)}K`
   }
   return revenue.toString()
 }

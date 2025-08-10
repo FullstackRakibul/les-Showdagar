@@ -2,9 +2,9 @@
   <teleport to="body">
     <transition name="modal">
       <div v-if="productStore.showProductModal && productStore.selectedProduct"
-        class="fixed inset-0 z-[9999] overflow-y-auto">
+        class="fixed inset-0 z-[9999] overflow-y-auto transition-opacity duration-300">
         <div class="flex items-center justify-center min-h-screen px-4 py-8">
-          <div class="fixed inset-0 bg-black bg-opacity-60" @click="productStore.closeProductModal"></div>
+          <div class="fixed inset-0 bg-black bg-opacity-10" @click="productStore.closeProductModal"></div>
 
           <div
             class="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
@@ -14,7 +14,7 @@
               <X class="w-6 h-6" />
             </button>
 
-            <div class="flex flex-col lg:flex-row max-h-[90vh] overflow-y-auto">
+            <div class="flex flex-col lg:flex-row max-h-[80vh] overflow-y-auto ">
               <!-- Product Images -->
               <div class="lg:w-1/2 p-8">
                 <div class="relative">
@@ -34,7 +34,7 @@
               </div>
 
               <!-- Product Details -->
-              <div class="lg:w-1/2 p-8 lg:pt-12">
+              <div class="lg:w-1/2 p-8 lg:py-12 ">
                 <!-- Brand -->
                 <p v-if="product.brand"
                   class="text-sm text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide font-medium">
@@ -137,7 +137,7 @@
                 <!-- Action Buttons -->
                 <div class="flex space-x-4">
                   <button @click="handleAddToCart" :disabled="!product.inStock"
-                    class="flex-1 bg-primary hover:bg-primary-dark disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white py-4 px-8 rounded-xl transition-colors font-bold text-lg flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl">
+                    class="flex-1 bg-primary hover:bg-primary-dark disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white py-4 px-8 rounded-xl transition-colors font-bold text-lg flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl mb-10">
                     <ShoppingCart class="w-5 h-5" />
                     <span>Add to Cart</span>
                   </button>
