@@ -1,20 +1,5 @@
-
-import { ref, computed } from 'vue'
-
-export interface Product {
-  id: number
-  name: string
-  price: number
-  originalPrice?: number
-  image: string
-  rating: number
-  reviews: number
-  category: string
-  description: string
-  inStock: boolean
-  isNew?: boolean
-  isHot?: boolean
-}
+import { ref, computed } from "vue"
+import { Product } from "../stores/products"
 
 export const useProducts = () => {
   const products = ref<Product[]>([
@@ -48,7 +33,8 @@ export const useProducts = () => {
       name: "Organic Cotton T-Shirt",
       price: 29.99,
       originalPrice: 39.99,
-      image: "https://img.freepik.com/premium-psd/realistic-watch-series-7-mockup-stairs_850346-37.jpg?semt=ais_hybrid&w=740",
+      image:
+        "https://img.freepik.com/premium-psd/realistic-watch-series-7-mockup-stairs_850346-37.jpg?semt=ais_hybrid&w=740",
       rating: 4.4,
       reviews: 456,
       category: "Clothing",
@@ -59,7 +45,8 @@ export const useProducts = () => {
       id: 4,
       name: "Professional Camera Lens",
       price: 899.99,
-      image: "https://images.unsplash.com/photo-1637756856486-9d0cbe42a560?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8",
+      image:
+        "https://images.unsplash.com/photo-1637756856486-9d0cbe42a560?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8",
       rating: 4.9,
       reviews: 234,
       category: "Photography",
@@ -83,7 +70,8 @@ export const useProducts = () => {
       id: 6,
       name: "Bluetooth Speaker",
       price: 79.99,
-      image: "https://img.freepik.com/free-photo/smartwatch-screen-digital-device_53876-97321.jpg?semt=ais_hybrid&w=740",
+      image:
+        "https://img.freepik.com/free-photo/smartwatch-screen-digital-device_53876-97321.jpg?semt=ais_hybrid&w=740",
       rating: 4.3,
       reviews: 1123,
       category: "Electronics",

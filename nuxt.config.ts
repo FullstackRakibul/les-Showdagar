@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   css: ["@fortawesome/fontawesome-free/css/all.css",'~/assets/css/main.css'],
   app: {
     head: {
-      title: "Les Showdagar - Premium E-commerce",
+      title: "SenderBD - Premium E-commerce",
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },

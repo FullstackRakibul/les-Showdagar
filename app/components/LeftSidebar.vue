@@ -2,7 +2,6 @@
   <aside
     class="h-full bg-white dark:bg-gray-900 flex flex-col shadow-xl border-r border-gray-200 dark:border-gray-700 transition-colors duration-200"
   >
-    <!-- Sidebar Header -->
     <div class="p-6 border-b border-gray-200 dark:border-gray-700">
       <div class="flex items-center space-x-2">
         <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -15,10 +14,8 @@
       </div>
     </div>
 
-    <!-- Navigation Menu -->
     <div class="flex-1 overflow-y-auto p-4">
       <nav class="space-y-4">
-        <!-- Keep only Shop (Products) -->
         <NuxtLink
           to="/products"
           :class="[
@@ -37,7 +34,6 @@
           <span class="font-medium">Shop</span>
         </NuxtLink>
 
-        <!-- Categories Section -->
         <div>
           <h3
             class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3"
@@ -73,7 +69,6 @@
       </nav>
     </div>
 
-    <!-- Bottom Links -->
     <div class="p-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
       <NuxtLink
         to="/about"
@@ -102,12 +97,10 @@ import { useProductStore } from "@/stores/products";
 const route = useRoute();
 const productStore = useProductStore();
 
-const categories = computed(() => productStore.categories);
-
+const categories = productStore.categories;
 const isActive = (path) => route.path === path;
 
 const selectCategory = (name) => {
   productStore.selectedCategory = name;
-  // On mobile, navigating to home to see product list can be helpful, but we keep user on current route.
 };
 </script>

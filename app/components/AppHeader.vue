@@ -4,7 +4,9 @@
   >
     <div class="px-4 sm:px-6">
       <div class="flex items-center justify-between h-16">
+        <!-- Left -->
         <div class="flex items-center space-x-3">
+          <!-- Mobile menu -->
           <button
             @click="layoutStore.toggleLeftSidebar"
             class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 lg:hidden"
@@ -12,7 +14,7 @@
           >
             <Menu class="w-6 h-6 text-gray-700 dark:text-gray-300" />
           </button>
-
+          <!-- Desktop left toggle -->
           <button
             @click="layoutStore.toggleLeftSidebar"
             class="hidden lg:inline-flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
@@ -24,7 +26,7 @@
           >
             <PanelLeft class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
-
+          <!-- Logo -->
           <button
             @click="navigateTo('/')"
             class="flex items-center space-x-2 hover:opacity-80 transition-opacity"
@@ -49,6 +51,7 @@
           </button>
         </div>
 
+        <!-- Center search -->
         <div class="hidden md:flex flex-1 max-w-2xl mx-6">
           <div class="relative w-full">
             <Search
@@ -62,7 +65,9 @@
           </div>
         </div>
 
+        <!-- Right -->
         <div class="flex items-center space-x-2">
+          <!-- Mobile search -->
           <button
             @click="showMobileSearch = !showMobileSearch"
             class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
@@ -70,6 +75,7 @@
             <Search class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
 
+          <!-- Theme -->
           <button
             @click="toggleTheme"
             class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
@@ -79,6 +85,7 @@
             <Moon v-else class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
 
+          <!-- Notifications -->
           <button
             @click="navigateTo('/notifications')"
             class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
@@ -92,6 +99,7 @@
             </span>
           </button>
 
+          <!-- Cart -->
           <button
             @click="showCartModal = true"
             class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
@@ -106,6 +114,7 @@
             </span>
           </button>
 
+          <!-- Profile -->
           <div class="relative" ref="profileDropdown">
             <button
               @click="showProfileMenu = !showProfileMenu"
@@ -115,7 +124,7 @@
               <div
                 class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold text-sm"
               >
-                RH
+                JD
               </div>
               <ChevronDown
                 class="w-4 h-4 text-gray-500 dark:text-gray-400 hidden sm:block transition-transform duration-200"
@@ -145,7 +154,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="py-2">
                   <button
                     @click="navigateTo('/settings')"
@@ -154,7 +162,6 @@
                     <User class="w-4 h-4 text-gray-500 dark:text-gray-400" />
                     <span class="text-sm">Profile Settings</span>
                   </button>
-
                   <button
                     @click="navigateTo('/orders')"
                     class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300"
@@ -162,7 +169,6 @@
                     <Package class="w-4 h-4 text-gray-500 dark:text-gray-400" />
                     <span class="text-sm">My Orders</span>
                   </button>
-
                   <button
                     @click="showProfileMenu = false"
                     class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-red-600 dark:text-red-400"
@@ -175,6 +181,7 @@
             </transition>
           </div>
 
+          <!-- Right sidebar toggle -->
           <button
             @click="layoutStore.toggleRightSidebar"
             class="hidden xl:block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
@@ -189,6 +196,7 @@
         </div>
       </div>
 
+      <!-- Mobile Search -->
       <transition name="slide-down">
         <div
           v-if="showMobileSearch"
@@ -208,6 +216,7 @@
       </transition>
     </div>
 
+    <!-- Cart Modal (unchanged) -->
     <teleport to="body">
       <transition name="modal">
         <div v-if="showCartModal" class="fixed inset-0 z-[9999] overflow-y-auto">
@@ -216,14 +225,15 @@
               class="fixed inset-0 bg-black bg-opacity-50"
               @click="showCartModal = false"
             ></div>
-
             <div
               class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full max-h-[85vh] overflow-hidden"
             >
               <div
                 class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700"
               >
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white"></h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                  Shopping Cart
+                </h3>
                 <button
                   @click="showCartModal = false"
                   class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
@@ -231,7 +241,6 @@
                   <X class="w-5 h-5" />
                 </button>
               </div>
-
               <div class="overflow-y-auto" style="max-height: calc(85vh - 200px)">
                 <div v-if="productStore.cart.length === 0" class="text-center py-12">
                   <ShoppingCart
@@ -245,7 +254,6 @@
                     Continue Shopping
                   </button>
                 </div>
-
                 <div v-else class="p-6 space-y-4">
                   <div
                     v-for="item in productStore.cart"
@@ -329,7 +337,6 @@
                   </div>
                 </div>
               </div>
-
               <div
                 v-if="productStore.cart.length > 0"
                 class="border-t border-gray-200 dark:border-gray-700 p-6"
@@ -382,29 +389,25 @@ import {
   Store,
 } from "lucide-vue-next";
 import { useProductStore } from "@/stores/products";
-import { useLayout } from "@/composables/useLayout";
+import { useLayoutStore } from "@/stores/layout";
 
 const router = useRouter();
 const productStore = useProductStore();
-const layoutStore = useLayout();
+const layoutStore = useLayoutStore();
 
-// Reactive state
 const showCartModal = ref(false);
 const showMobileSearch = ref(false);
 const showProfileMenu = ref(false);
 const profileDropdown = ref(null);
 const isDarkMode = ref(true); // default dark
 
-// Navigation function
 const navigateTo = (path) => {
   router.push(path);
   showProfileMenu.value = false;
 };
 
-// Theme toggle function
 const toggleTheme = () => {
   isDarkMode.value = !isDarkMode.value;
-
   if (isDarkMode.value) {
     document.documentElement.classList.add("dark");
     localStorage.setItem("theme", "dark");
@@ -414,24 +417,19 @@ const toggleTheme = () => {
   }
 };
 
-// Close profile menu when clicking outside
 const handleClickOutside = (event) => {
   if (profileDropdown.value && !profileDropdown.value.contains(event.target)) {
     showProfileMenu.value = false;
   }
 };
 
-// Initialize theme and event listeners
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
-
-  // Default to dark unless user already chose
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme === "light") {
     isDarkMode.value = false;
     document.documentElement.classList.remove("dark");
   } else {
-    // default dark
     isDarkMode.value = true;
     document.documentElement.classList.add("dark");
     localStorage.setItem("theme", "dark");

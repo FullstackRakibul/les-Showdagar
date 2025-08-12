@@ -1,28 +1,27 @@
 <template>
-  <div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-    <!-- Mobile Overlay - Only show when mobile and any sidebar is open -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-30" @click="closeMobileSidebars"
-      v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"></div>
+  <div
+    class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200"
+  >
+    <div
+      class="fixed inset-0 bg-black bg-opacity-50 z-30"
+      @click="closeMobileSidebars"
+      v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"
+    ></div>
 
-    <!-- Left Sidebar -->
     <transition name="slide-left">
-      <div v-if="leftSidebarOpen" class="z-40 flex-shrink-0" :class="[
-        isMobile
-          ? 'fixed top-0 left-0 h-full w-80'
-          : 'relative w-64'
-      ]">
+      <div
+        v-if="leftSidebarOpen"
+        class="z-40 flex-shrink-0"
+        :class="[isMobile ? 'fixed top-0 left-0 h-full w-80' : 'relative w-64']"
+      >
         <LeftSidebar />
       </div>
     </transition>
 
-    <!-- Main Content -->
     <div class="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
-      <!-- Header -->
       <div class="relative z-20 flex-shrink-0">
         <AppHeader />
       </div>
-
-      <!-- Page Content -->
       <main class="flex-1 overflow-hidden">
         <div class="h-full overflow-y-auto">
           <div class="p-4 sm:p-6">
@@ -32,13 +31,12 @@
       </main>
     </div>
 
-    <!-- Right Sidebar -->
     <transition name="slide-right">
-      <div v-if="rightSidebarOpen" class="z-40 flex-shrink-0" :class="[
-        isMobile
-          ? 'fixed top-0 right-0 h-full w-80'
-          : 'relative w-80'
-      ]">
+      <div
+        v-if="rightSidebarOpen"
+        class="z-40 flex-shrink-0"
+        :class="[isMobile ? 'fixed top-0 right-0 h-full w-80' : 'relative w-80']"
+      >
         <RightSidebar />
       </div>
     </transition>
@@ -46,24 +44,28 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useLayout } from '@/composables/useLayout'
-import AppHeader from '@/components/AppHeader.vue'
-import LeftSidebar from '@/components/LeftSidebar.vue'
-import RightSidebar from '@/components/RightSidebar.vue'
+import { computed, onMounted, onUnmounted } from "vue";
+import { useLayoutStore } from "@/stores/layout";
+import AppHeader from "@/components/AppHeader.vue";
+import LeftSidebar from "@/components/LeftSidebar.vue";
+import RightSidebar from "@/components/RightSidebar.vue";
 
-const layoutStore = useLayout()
+const layoutStore = useLayoutStore();
 
-// Computed properties for cleaner template
-const leftSidebarOpen = computed(() => layoutStore.leftSidebarOpen)
-const rightSidebarOpen = computed(() => layoutStore.rightSidebarOpen)
-const isMobile = computed(() => layoutStore.isMobile)
+const leftSidebarOpen = computed(() => layoutStore.leftSidebarOpen);
+const rightSidebarOpen = computed(() => layoutStore.rightSidebarOpen);
+const isMobile = computed(() => layoutStore.isMobile);
 
 const closeMobileSidebars = () => {
-  if (isMobile.value) {
-    layoutStore.closeBothSidebars()
-  }
-}
+  if (isMobile.value) layoutStore.closeBothSidebars();
+};
+
+onMounted(() => {
+  layoutStore.init();
+});
+onUnmounted(() => {
+  layoutStore.destroy();
+});
 </script>
 
 <style>
@@ -71,7 +73,7 @@ body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* Sidebar transitions */
@@ -151,14 +153,7 @@ body {
   transition-duration: 200ms;
 }
 
-/* Ensure proper stacking and no unwanted overlays on desktop */
-@media (min-width: 1024px) {
-  .fixed {
-    position: relative !important;
-  }
-}
-
-/* Ensure content is always clickable */
+/* IMPORTANT: do not override .fixed on desktop (this broke modals/sidebars) */
 main {
   pointer-events: auto;
 }
