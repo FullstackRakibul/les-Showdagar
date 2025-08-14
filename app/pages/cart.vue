@@ -79,20 +79,20 @@
           <div class="space-y-4 mb-6">
             <div class="flex justify-between">
               <span class="text-gray-600 dark:text-gray-400">Subtotal</span>
-              <span class="font-medium">${{ productStore.cartTotal.toFixed(2) }}</span>
+              <span class="font-medium">৳{{ productStore.cartTotal.toFixed(2) }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600 dark:text-gray-400">Shipping</span>
-              <span class="font-medium">${{ shipping.toFixed(2) }}</span>
+              <span class="font-medium">৳{{ shipping.toFixed(2) }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600 dark:text-gray-400">Tax</span>
-              <span class="font-medium">${{ tax.toFixed(2) }}</span>
+              <span class="font-medium">৳{{ tax.toFixed(2) }}</span>
             </div>
             <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
               <div class="flex justify-between">
                 <span class="text-lg font-semibold text-gray-900 dark:text-white">Total</span>
-                <span class="text-xl font-bold text-gray-900 dark:text-white">${{ total.toFixed(2) }}</span>
+                <span class="text-xl font-bold text-gray-900 dark:text-white">৳{{ total.toFixed(2) }}</span>
               </div>
             </div>
           </div>

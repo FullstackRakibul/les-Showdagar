@@ -124,7 +124,7 @@
               <div
                 class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold text-sm"
               >
-                JD
+                <p class="text-gray-800 dark:text-white">RH</p>
               </div>
               <ChevronDown
                 class="w-4 h-4 text-gray-500 dark:text-gray-400 hidden sm:block transition-transform duration-200"
@@ -146,10 +146,10 @@
                     </div>
                     <div>
                       <h3 class="font-semibold text-gray-900 dark:text-white">
-                        John Doe
+                        Rakibul H. Rabbi
                       </h3>
                       <p class="text-sm text-gray-500 dark:text-gray-400">
-                        john.doe@example.com
+                        rakibul.979.hasan@gmail.com
                       </p>
                     </div>
                   </div>

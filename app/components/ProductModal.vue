@@ -72,12 +72,12 @@
 
                 <div class="flex items-center mb-8">
                   <span class="text-5xl font-bold text-gray-900 dark:text-white"
-                    >${{ product.price }}</span
+                    >৳{{ product.price }}</span
                   >
                   <span
                     v-if="product.originalPrice"
                     class="text-2xl text-gray-500 line-through ml-4"
-                    >${{ product.originalPrice }}</span
+                    >৳{{ product.originalPrice }}</span
                   >
                   <span
                     v-if="product.originalPrice"
