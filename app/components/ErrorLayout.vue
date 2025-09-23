@@ -10,7 +10,7 @@
     </p>
     <NuxtLink to="/" class="px-5 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
       Back to Home
-    </NuxtLink>
+      </NuxtLink>
   </div>
 </template>
 

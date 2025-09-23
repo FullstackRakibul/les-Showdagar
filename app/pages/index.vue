@@ -1,21 +1,24 @@
 <template>
-  <div class="min-h-screen bg-black text-white overflow-hidden">
+  <div class="min-h-screen bg-black text-white overflow-hidden rounded-l-lg">
     <!-- Hero Section with Video Background -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
       <!-- Background Video -->
       <div class="absolute inset-0 z-0">
         <video autoplay muted loop class="w-full h-full object-cover opacity-40">
-          <source src="https://youtu.be/ZT5ETCmOrGY?si=0nepoUVMioc6ukzY&t=14" type="video/mp4">
+          <source src="../assets/video/bg.mp4" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
       </div>
+
 
       <!-- Hero Content -->
       <div class="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6">
         <div class="mb-6">
           <span class="inline-flex items-center bg-white/10 text-white/90 px-4 py-2 rounded-full text-sm font-medium">
-            🌍 Global Business Network • Trusted by 10,000+ Companies
+            🌍 Global Business Network • Trusted by 5,000+ Clients
           </span>
+
+
         </div>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight">
@@ -33,7 +36,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button @click="scrollToCategories"
             class="bg-white text-black font-semibold px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-200 flex items-center space-x-2 text-lg">
-            <span>Start Trading</span>
+            <span>Start Exploring</span>
             <ArrowRight class="w-5 h-5" />
           </button>
           <button @click="openRequestModal"
@@ -232,15 +235,15 @@
                         required />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-300 mb-2">Budget (USD)</label>
-                      <input v-model="requestForm.budget" type="number" placeholder="10000"
+                      <label class="block text-sm font-medium text-gray-300 mb-2">Budget (USD) / Budget (TK)</label>
+                      <input v-model="requestForm.budget" type="text" placeholder="10000"
                         class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400" />
                     </div>
                   </div>
 
                   <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">Contact Email</label>
-                    <input v-model="requestForm.email" type="email" placeholder="your@company.com"
+                    <input v-model="requestForm.email" type="email" placeholder="your@gmail.com"
                       class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                       required />
                   </div>

@@ -67,8 +67,8 @@ export const useLayout = () => {
 
     // Set initial state based on screen size
     if (!isMobile.value) {
-      leftSidebarOpen.value = true
-      rightSidebarOpen.value = true // Default open on desktop
+      leftSidebarOpen.value = false
+      rightSidebarOpen.value = false // Default open on desktop
     }
   })
 
