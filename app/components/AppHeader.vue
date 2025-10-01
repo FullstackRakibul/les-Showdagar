@@ -14,17 +14,16 @@
           <!-- Desktop left toggle -->
           <button @click="layoutStore.toggleLeftSidebar"
             class="hidden lg:inline-flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-            :title="
-              layoutStore.leftSidebarOpen
+            :title="layoutStore.leftSidebarOpen
                 ? 'Collapse Left Sidebar'
                 : 'Expand Left Sidebar'
-            ">
+              ">
             <PanelLeft class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           <!-- Logo -->
           <button @click="navigateTo('/')" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <img src="" alt="" />
+              <Store class="w-5 h-5 text-white" />
             </div>
             <div class="hidden sm:flex flex-col">
               <span class="font-bold text-start text-gray-900 dark:text-white text-lg leading-tight">RH Business
@@ -64,80 +63,91 @@
             <Moon v-else class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
 
-          <!-- Notifications -->
-          <button @click="navigateTo('/notifications')"
-            class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-            title="Notifications">
-            <Bell class="w-5 h-5 text-gray-700 dark:text-gray-300" />
-            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
-              <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
-            </span>
-          </button>
-
-          <!-- Cart -->
-          <button @click="showCartModal = true"
-            class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-            title="Shopping Cart">
-            <ShoppingCart class="w-5 h-5 text-gray-700 dark:text-gray-300" />
-            <span v-if="productStore.cartItemsCount > 0"
-              class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-              {{ productStore.cartItemsCount > 9 ? "9+" : productStore.cartItemsCount }}
-            </span>
-          </button>
-
-          <!-- Profile -->
-          <div class="relative" ref="profileDropdown">
-            <button @click="showProfileMenu = !showProfileMenu"
-              class="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-              title="Profile Menu">
-              <div
-                class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                <p class="text-gray-800 dark:text-white">RH</p>
-              </div>
-              <ChevronDown
-                class="w-4 h-4 text-gray-500 dark:text-gray-400 hidden sm:block transition-transform duration-200"
-                :class="{ 'rotate-180': showProfileMenu }" />
+          <!-- Notifications and Cart only when logged in -->
+          <template v-if="authStore.isLoggedIn">
+            <!-- Notifications -->
+            <button @click="navigateTo('/notifications')"
+              class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+              title="Notifications">
+              <Bell class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+              <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
+                <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+              </span>
             </button>
 
-            <transition name="dropdown">
-              <div v-if="showProfileMenu"
-                class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
-                <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
-                  <div class="flex items-center space-x-3">
-                    <div
-                      class="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg">
-                      JD
-                    </div>
-                    <div>
-                      <h3 class="font-semibold text-gray-900 dark:text-white">
-                        Rakibul H. Rabbi
-                      </h3>
-                      <p class="text-sm text-gray-500 dark:text-gray-400">
-                        rakibul.979.hasan@gmail.com
-                      </p>
+            <!-- Cart -->
+            <button @click="showCartModal = true"
+              class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+              title="Shopping Cart">
+              <ShoppingCart class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+              <span v-if="productStore.cartItemsCount > 0"
+                class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                {{ productStore.cartItemsCount > 9 ? "9+" : productStore.cartItemsCount }}
+              </span>
+            </button>
+
+            <!-- Profile -->
+            <div class="relative" ref="profileDropdown">
+              <button @click="showProfileMenu = !showProfileMenu"
+                class="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                title="Profile Menu">
+                <div
+                  class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                  {{ authStore.user?.initials || 'RH' }}
+                </div>
+                <ChevronDown
+                  class="w-4 h-4 text-gray-500 dark:text-gray-400 hidden sm:block transition-transform duration-200"
+                  :class="{ 'rotate-180': showProfileMenu }" />
+              </button>
+
+              <transition name="dropdown">
+                <div v-if="showProfileMenu"
+                  class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
+                  <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg">
+                        {{ authStore.user?.initials || 'RH' }}
+                      </div>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">
+                          {{ authStore.user?.name || 'Guest User' }}
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                          {{ authStore.user?.email || 'guest@example.com' }}
+                        </p>
+                      </div>
                     </div>
                   </div>
+                  <div class="py-2">
+                    <button @click="navigateTo('/settings')"
+                      class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
+                      <User class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                      <span class="text-sm">Profile Settings</span>
+                    </button>
+                    <button @click="navigateTo('/orders')"
+                      class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
+                      <Package class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                      <span class="text-sm">My Orders</span>
+                    </button>
+                    <button @click="handleLogout"
+                      class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-red-600 dark:text-red-400">
+                      <LogOut class="w-4 h-4" />
+                      <span class="text-sm">Logout</span>
+                    </button>
+                  </div>
                 </div>
-                <div class="py-2">
-                  <button @click="navigateTo('/settings')"
-                    class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
-                    <User class="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    <span class="text-sm">Profile Settings</span>
-                  </button>
-                  <button @click="navigateTo('/orders')"
-                    class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-gray-700 dark:text-gray-300">
-                    <Package class="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                    <span class="text-sm">My Orders</span>
-                  </button>
-                  <button @click="showProfileMenu = false"
-                    class="w-full px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-red-600 dark:text-red-400">
-                    <LogOut class="w-4 h-4" />
-                    <span class="text-sm">Logout</span>
-                  </button>
-                </div>
-              </div>
-            </transition>
-          </div>
+              </transition>
+            </div>
+          </template>
+
+          <!-- Login button when not logged in -->
+          <template v-else>
+            <button @click="navigateTo('/login')"
+              class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium text-sm">
+              Sign In
+            </button>
+          </template>
 
           <!-- Right sidebar toggle -->
           <button @click="layoutStore.toggleRightSidebar"
@@ -203,18 +213,19 @@
                       </p>
                       <div class="flex items-center space-x-2 mt-1">
                         <span v-if="item.selectedColor"
-                          class="text-xs bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">{{ item.selectedColor }}</span>
+                          class="text-xs bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">{{
+                          item.selectedColor }}</span>
                         <span v-if="item.selectedSize" class="text-xs bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">{{
                           item.selectedSize }}</span>
                       </div>
                       <div class="flex items-center space-x-2 mt-2">
                         <button @click="
-                            productStore.updateCartQuantity(
-                              item.product.id,
-                              item.quantity - 1,
-                              item.selectedColor,
-                              item.selectedSize
-                            )
+                          productStore.updateCartQuantity(
+                            item.product.id,
+                            item.quantity - 1,
+                            item.selectedColor,
+                            item.selectedSize
+                          )
                           "
                           class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center justify-center transition-colors">
                           <Minus class="w-3 h-3" />
@@ -222,12 +233,12 @@
                         <span class="font-medium text-gray-900 dark:text-white min-w-[2rem] text-center">{{
                           item.quantity }}</span>
                         <button @click="
-                            productStore.updateCartQuantity(
-                              item.product.id,
-                              item.quantity + 1,
-                              item.selectedColor,
-                              item.selectedSize
-                            )
+                          productStore.updateCartQuantity(
+                            item.product.id,
+                            item.quantity + 1,
+                            item.selectedColor,
+                            item.selectedSize
+                          )
                           "
                           class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center justify-center transition-colors">
                           <Plus class="w-3 h-3" />
@@ -239,11 +250,11 @@
                         ${{ (item.product.price * item.quantity).toFixed(2) }}
                       </p>
                       <button @click="
-                          productStore.removeFromCart(
-                            item.product.id,
-                            item.selectedColor,
-                            item.selectedSize
-                          )
+                        productStore.removeFromCart(
+                          item.product.id,
+                          item.selectedColor,
+                          item.selectedSize
+                        )
                         " class="text-red-500 hover:text-red-700 text-sm mt-1 transition-colors">
                         Remove
                       </button>
@@ -255,12 +266,12 @@
                 <div class="flex justify-between items-center mb-4">
                   <span class="text-lg font-semibold text-gray-900 dark:text-white">Total:</span>
                   <span class="text-xl font-bold text-gray-900 dark:text-white">${{ productStore.cartTotal.toFixed(2)
-                    }}</span>
+                  }}</span>
                 </div>
                 <button @click="
-                    navigateTo('/checkout');
-                    showCartModal = false;
-                  "
+                  navigateTo('/checkout');
+                showCartModal = false;
+                "
                   class="w-full bg-primary text-white py-3 px-4 rounded-xl hover:bg-primary-dark transition-colors font-semibold text-center">
                   Proceed to Checkout
                 </button>
@@ -296,20 +307,28 @@ import {
 } from "lucide-vue-next";
 import { useProductStore } from "@/stores/products";
 import { useLayoutStore } from "@/stores/layout";
+import { useAuthStore } from "@/stores/auth";
 
 const router = useRouter();
 const productStore = useProductStore();
 const layoutStore = useLayoutStore();
+const authStore = useAuthStore();
 
 const showCartModal = ref(false);
 const showMobileSearch = ref(false);
 const showProfileMenu = ref(false);
 const profileDropdown = ref(null);
-const isDarkMode = ref(false); // default dark
+const isDarkMode = ref(false); // Default to light mode
 
 const navigateTo = (path) => {
   router.push(path);
   showProfileMenu.value = false;
+};
+
+const handleLogout = () => {
+  authStore.logout();
+  showProfileMenu.value = false;
+  router.push('/products');
 };
 
 const toggleTheme = () => {
@@ -332,13 +351,15 @@ const handleClickOutside = (event) => {
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
   const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "light") {
-    isDarkMode.value = false;
-    document.documentElement.classList.remove("dark");
-  } else {
+  if (savedTheme === "dark") {
     isDarkMode.value = true;
     document.documentElement.classList.add("dark");
-    localStorage.setItem("theme", "dark");
+  } else {
+    isDarkMode.value = false;
+    document.documentElement.classList.remove("dark");
+    if (!savedTheme) {
+      localStorage.setItem("theme", "light");
+    }
   }
 });
 

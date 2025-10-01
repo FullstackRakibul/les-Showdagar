@@ -53,11 +53,8 @@ export const useLayoutStore = defineStore("layout", () => {
   function init() {
     if (typeof window === "undefined") return
     checkMobile()
-    // Open both on desktop by default
-    if (!isMobile.value) {
-      leftSidebarOpen.value = true
-      rightSidebarOpen.value = true
-    }
+    leftSidebarOpen.value = false
+    rightSidebarOpen.value = false
     boundResize = () => checkMobile()
     window.addEventListener("resize", boundResize)
   }

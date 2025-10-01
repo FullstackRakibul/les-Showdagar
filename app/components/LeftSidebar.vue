@@ -16,15 +16,15 @@
     <div class="flex-1 overflow-y-auto p-4">
       <nav class="space-y-4">
         <NuxtLink to="/products" :class="[
-            'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group',
-            isActive('/products')
-              ? 'bg-primary text-white shadow-lg'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
-          ]">
+          'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group',
+          isActive('/products')
+            ? 'bg-primary text-white shadow-lg'
+            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
+        ]">
           <Package :class="[
-              'w-5 h-5',
-              isActive('/products') ? 'text-white' : 'text-gray-500 dark:text-gray-400',
-            ]" />
+            'w-5 h-5',
+            isActive('/products') ? 'text-white' : 'text-gray-500 dark:text-gray-400',
+          ]" />
           <span class="font-medium">Shop</span>
         </NuxtLink>
 
@@ -34,18 +34,18 @@
           </h3>
           <div class="space-y-1">
             <button v-for="category in categories" :key="category.name" @click="selectCategory(category.name)" :class="[
-                'w-full flex items-center justify-between px-4 py-2 rounded-lg transition-all duration-200 group',
-                productStore.selectedCategory === category.name
-                  ? 'bg-primary/10 text-primary border border-primary/20'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
-              ]">
+              'w-full flex items-center justify-between px-4 py-2 rounded-lg transition-all duration-200 group',
+              productStore.selectedCategory === category.name
+                ? 'bg-primary/10 text-primary border border-primary/20'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
+            ]">
               <span class="font-medium text-sm">{{ category.name }}</span>
               <span :class="[
-                  'text-xs px-2 py-1 rounded-full font-semibold',
-                  productStore.selectedCategory === category.name
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 group-hover:bg-gray-300 dark:group-hover:bg-gray-600',
-                ]">
+                'text-xs px-2 py-1 rounded-full font-semibold',
+                productStore.selectedCategory === category.name
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 group-hover:bg-gray-300 dark:group-hover:bg-gray-600',
+              ]">
                 {{ category.count }}
               </span>
             </button>

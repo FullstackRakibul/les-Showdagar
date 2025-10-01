@@ -1,178 +1,310 @@
 <template>
-  <div class="min-h-screen bg-black text-white overflow-hidden rounded-l-lg">
-    <!-- Hero Section with Video Background -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-      <!-- Background Video -->
+  <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white text-gray-900">
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <!-- <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 opacity-70"></div>
+        <div class="absolute inset-0"
+          style="background-image: radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.1) 1px, transparent 0); background-size: 40px 40px;">
+        </div>
+      </div> -->
       <div class="absolute inset-0 z-0">
         <video autoplay muted loop class="w-full h-full object-cover opacity-40">
           <source src="../assets/video/bg.mp4" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-10"></div>
       </div>
 
-
-      <!-- Hero Content -->
-      <div class="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="mb-6">
-          <span class="inline-flex items-center bg-white/10 text-white/90 px-4 py-2 rounded-full text-sm font-medium">
-            🌍 Global Business Network • Trusted by 5,000+ Clients
+      <div class="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 py-20">
+        <div class="mb-6 animate-fade-in">
+          <span
+            class="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg">
+            🌍 Connecting Global Commerce • Empowering Targeted Excellence
           </span>
-
-
         </div>
 
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight">
-          The complete platform for
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-            global business
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight">
+          Welcome to
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+            RH Business Club
           </span>
         </h1>
 
-        <p class="text-xl sm:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto text-balance">
-          Connect with international suppliers, access premium products, and scale your business with bulk orders and
-          custom procurement solutions.
+        <p class="text-xl sm:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto text-balance leading-relaxed">
+          Your premier commercial hub for sourcing, importing, and distributing high-quality specialized products and
+          services across exclusive sectors.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button @click="scrollToCategories"
-            class="bg-white text-black font-semibold px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-200 flex items-center space-x-2 text-lg">
-            <span>Start Exploring</span>
-            <ArrowRight class="w-5 h-5" />
+          <button @click="scrollToSection('clubs')"
+            class="group bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-xl hover:shadow-2xl transition-all duration-300 flex items-center space-x-2 text-lg transform hover:scale-105">
+            <span>Explore Our Clubs</span>
+            <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
-          <button @click="openRequestModal"
-            class="border border-white/30 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-200 text-lg">
-            Request Custom Quote
+          <button @click="scrollToSection('products')"
+            class="border-2 border-gray-300 text-gray-700 font-semibold px-8 py-4 rounded-xl hover:border-blue-600 hover:text-blue-600 hover:shadow-lg transition-all duration-300 text-lg">
+            Browse Products
           </button>
         </div>
       </div>
+
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <ChevronDown class="w-8 h-8 text-gray-400" />
+      </div>
     </section>
 
-    <!-- Trust Indicators -->
-    <section class="py-16 border-b border-gray-800">
+    <section class="py-16 bg-white border-y border-gray-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
           <div class="text-center">
-            <div class="text-3xl font-bold text-white mb-2">50M+</div>
-            <div class="text-gray-400 text-sm">Products Available</div>
+            <div
+              class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+              50M+</div>
+            <div class="text-gray-600 text-sm font-medium">Products Available</div>
           </div>
           <div class="text-center">
-            <div class="text-3xl font-bold text-white mb-2">180+</div>
-            <div class="text-gray-400 text-sm">Countries Served</div>
+            <div
+              class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+              180+</div>
+            <div class="text-gray-600 text-sm font-medium">Countries Served</div>
           </div>
           <div class="text-center">
-            <div class="text-3xl font-bold text-white mb-2">24/7</div>
-            <div class="text-gray-400 text-sm">Support Available</div>
+            <div
+              class="text-4xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent mb-2">
+              24/7</div>
+            <div class="text-gray-600 text-sm font-medium">Support Available</div>
           </div>
           <div class="text-center">
-            <div class="text-3xl font-bold text-white mb-2">99.9%</div>
-            <div class="text-gray-400 text-sm">Uptime Guarantee</div>
+            <div
+              class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+              99.9%</div>
+            <div class="text-gray-600 text-sm font-medium">Client Satisfaction</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Business Categories -->
-    <section id="categories" class="py-20">
+    <section id="clubs" class="py-24 bg-gradient-to-b from-white to-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-16">
           <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-balance">
-            Explore Business Categories
+            Our Specialized <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Business Clubs</span>
           </h2>
-          <p class="text-xl text-gray-400 max-w-3xl mx-auto text-balance">
-            From electronics to lifestyle products, find everything your business needs from verified international
-            suppliers.
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto text-balance">
+            Three distinct subsidiaries, one unified platform. Each club focuses on excellence in its niche while
+            sharing our commitment to quality.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="category in businessCategories" :key="category.name" @click="navigateToCategory(category.slug)"
-            class="group relative overflow-hidden rounded-2xl bg-gray-900 border border-gray-800 hover:border-gray-600 transition-all duration-300 cursor-pointer">
-            <div class="aspect-video relative overflow-hidden">
-              <img :src="category.image" :alt="category.name"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-              <div
-                class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all duration-300">
-              </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="group relative overflow-hidden rounded-3xl bg-white border-2 border-gray-200 hover:border-blue-500 transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2">
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500 to-cyan-500 opacity-10 rounded-bl-full">
             </div>
-            <div class="p-6">
-              <h3 class="text-xl font-semibold text-white mb-2">{{ category.name }}</h3>
-              <p class="text-gray-400 text-sm mb-4">{{ category.description }}</p>
-              <div class="flex items-center justify-between">
-                <span class="text-blue-400 font-medium">{{ category.productCount }}+ Products</span>
-                <ArrowRight
-                  class="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-200" />
+            <div class="p-8">
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Cpu class="w-8 h-8 text-white" />
               </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">Quantum Club</h3>
+              <p class="text-sm text-blue-600 font-semibold mb-4 uppercase tracking-wide">Tech-Inspired Quality Products
+              </p>
+              <p class="text-gray-600 mb-6 leading-relaxed">
+                Latest high-quality and innovative technology goods, gadgets, and smart solutions from global markets.
+              </p>
+              <button @click="navigateToCategory('electronics')"
+                class="text-blue-600 font-semibold flex items-center space-x-2 group-hover:translate-x-2 transition-transform">
+                <span>Explore Tech</span>
+                <ArrowRight class="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="group relative overflow-hidden rounded-3xl bg-white border-2 border-gray-200 hover:border-purple-500 transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2">
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-500 opacity-10 rounded-bl-full">
+            </div>
+            <div class="p-8">
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Sparkles class="w-8 h-8 text-white" />
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">Elegance Club</h3>
+              <p class="text-sm text-purple-600 font-semibold mb-4 uppercase tracking-wide">Premium Fashion & Lifestyle
+              </p>
+              <p class="text-gray-600 mb-6 leading-relaxed">
+                Curated premium and designer fashion, accessories, and luxury lifestyle items for discerning clientele.
+              </p>
+              <button @click="navigateToCategory('fashion')"
+                class="text-purple-600 font-semibold flex items-center space-x-2 group-hover:translate-x-2 transition-transform">
+                <span>Explore Fashion</span>
+                <ArrowRight class="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="group relative overflow-hidden rounded-3xl bg-white border-2 border-gray-200 hover:border-green-500 transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2">
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500 to-emerald-500 opacity-10 rounded-bl-full">
+            </div>
+            <div class="p-8">
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Plane class="w-8 h-8 text-white" />
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">NextStop Club</h3>
+              <p class="text-sm text-green-600 font-semibold mb-4 uppercase tracking-wide">Travel & Visa Services</p>
+              <p class="text-gray-600 mb-6 leading-relaxed">
+                Comprehensive global travel, logistics, and visa/immigration consultation for international movement.
+              </p>
+              <button @click="openRequestModal"
+                class="text-green-600 font-semibold flex items-center space-x-2 group-hover:translate-x-2 transition-transform">
+                <span>Get Consultation</span>
+                <ArrowRight class="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="py-20 bg-gray-900/50">
+    <section id="products" class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-balance">
+            Featured <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Products</span>
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto text-balance">
+            Discover our curated selection of premium products across technology, fashion, and lifestyle categories.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div v-for="product in featuredProducts" :key="product.id"
+            class="group bg-white rounded-2xl border-2 border-gray-200 hover:border-blue-500 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div class="relative aspect-square overflow-hidden bg-gray-100">
+              <img :src="product.image" :alt="product.name"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div v-if="product.isNew"
+                class="absolute top-3 left-3 bg-green-500 text-white text-xs px-3 py-1 rounded-full font-semibold">NEW
+              </div>
+              <div v-if="product.isHot"
+                class="absolute top-3 right-3 bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold">🔥 HOT
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-1">{{ product.category }}</p>
+              <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ product.name }}</h3>
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-2">
+                  <!-- <span class="text-lg font-bold text-gray-900">৳{{ product.price }}</span>
+                  <span v-if="product.originalPrice" class="text-sm text-gray-400 line-through">৳{{
+                    product.originalPrice }}</span> -->
+                </div>
+                <div class="flex items-center space-x-1">
+                  <Star class="w-4 h-4 text-yellow-400 fill-current" />
+                  <span class="text-sm text-gray-600">{{ product.rating }}</span>
+                </div>
+              </div>
+              <!-- <button @click="handleAddToCart(product)"
+                class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                Add to Cart
+              </button> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button @click="navigateTo('/products')"
+            class="inline-flex items-center space-x-2 bg-gray-900 text-white font-semibold px-8 py-4 rounded-xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+            <span>View All Products</span>
+            <ArrowRight class="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-gradient-to-b from-gray-50 to-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-balance">
-              Built for modern businesses.
+              Why Choose <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">RH
+                Business Club</span>?
             </h2>
-            <p class="text-xl text-gray-400 mb-8 text-balance">
-              Advanced tools and features designed to streamline your procurement process and accelerate business
-              growth.
+            <p class="text-xl text-gray-600 mb-8 text-balance leading-relaxed">
+              We bridge the gap between discerning clients and their desired global products and services through our
+              unified platform.
             </p>
 
             <div class="space-y-6">
               <div class="flex items-start space-x-4">
-                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Package class="w-6 h-6 text-blue-400" />
+                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Package class="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h3 class="text-lg font-semibold text-white mb-2">Bulk & Single Orders</h3>
-                  <p class="text-gray-400">Order anything from single units to container loads with flexible pricing.
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Quality Assurance</h3>
+                  <p class="text-gray-600">Triple-layer vetting ensures all products and services meet our stringent
+                    quality standards.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Globe class="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Global Sourcing</h3>
+                  <p class="text-gray-600">Access to international suppliers and authentic products from verified
+                    sources worldwide.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Shield class="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Unified Platform</h3>
+                  <p class="text-gray-600">Consolidated efficiency with shared resources across all specialized clubs.
                   </p>
                 </div>
               </div>
 
               <div class="flex items-start space-x-4">
-                <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <MessageSquare class="w-6 h-6 text-green-400" />
+                <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Users class="w-6 h-6 text-pink-600" />
                 </div>
                 <div>
-                  <h3 class="text-lg font-semibold text-white mb-2">Custom Procurement</h3>
-                  <p class="text-gray-400">Request specific products and get quotes from verified suppliers worldwide.
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-start space-x-4">
-                <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Shield class="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 class="text-lg font-semibold text-white mb-2">Verified Suppliers</h3>
-                  <p class="text-gray-400">All suppliers are thoroughly vetted for quality and reliability.</p>
+                  <h3 class="text-lg font-semibold text-gray-900 mb-2">Client-Centric Service</h3>
+                  <p class="text-gray-600">Dedicated to finding and delivering your desired products with exceptional
+                    support.</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="relative">
-            <div class="aspect-square bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-3xl p-8">
-              <div
-                class="w-full h-full bg-gray-800/50 rounded-2xl border border-gray-700 p-6 flex flex-col justify-center">
-                <div class="space-y-4">
-                  <div class="flex items-center justify-between p-4 bg-gray-700/50 rounded-xl">
-                    <span class="text-white font-medium">Electronics</span>
-                    <span class="text-green-400">2.5M+ products</span>
-                  </div>
-                  <div class="flex items-center justify-between p-4 bg-gray-700/50 rounded-xl">
-                    <span class="text-white font-medium">Fashion & Lifestyle</span>
-                    <span class="text-blue-400">1.8M+ products</span>
-                  </div>
-                  <div class="flex items-center justify-between p-4 bg-gray-700/50 rounded-xl">
-                    <span class="text-white font-medium">Home & Garden</span>
-                    <span class="text-purple-400">950K+ products</span>
-                  </div>
+            <div class="aspect-square bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 rounded-3xl p-8">
+              <div class="w-full h-full bg-white rounded-2xl shadow-xl p-6 flex flex-col justify-center space-y-4">
+                <div
+                  class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200">
+                  <span class="text-gray-900 font-semibold">Quantum Club</span>
+                  <span class="text-blue-600 font-bold">2.5M+ products</span>
+                </div>
+                <div
+                  class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200">
+                  <span class="text-gray-900 font-semibold">Elegance Club</span>
+                  <span class="text-purple-600 font-bold">1.8M+ products</span>
+                </div>
+                <div
+                  class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+                  <span class="text-gray-900 font-semibold">NextStop Club</span>
+                  <span class="text-green-600 font-bold">Global Services</span>
                 </div>
               </div>
             </div>
@@ -181,75 +313,73 @@
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-20">
+    <section class="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
       <div class="max-w-4xl mx-auto text-center px-4 sm:px-6">
-        <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-balance">
-          Ready to scale your business?
+        <h2 class="text-4xl sm:text-5xl font-bold mb-6 text-white text-balance">
+          Ready to Experience Excellence?
         </h2>
-        <p class="text-xl text-gray-400 mb-8 text-balance">
-          Join thousands of businesses already trading on RH Business Club. Start your global expansion today.
+        <p class="text-xl text-white/90 mb-8 text-balance leading-relaxed">
+          Join thousands of satisfied clients who trust RH Business Club for their global commerce needs.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button @click="navigateTo('/products')"
-            class="bg-white text-black font-semibold px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-200 text-lg">
-            Browse Products
+            class="bg-white text-gray-900 font-semibold px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 text-lg shadow-xl transform hover:scale-105">
+            Start Shopping
           </button>
           <button @click="openRequestModal"
-            class="border border-white/30 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-200 text-lg">
-            Get Custom Quote
+            class="border-2 border-white text-white font-semibold px-8 py-4 rounded-xl hover:bg-white hover:text-gray-900 transition-all duration-300 text-lg transform hover:scale-105">
+            Request Custom Quote
           </button>
         </div>
       </div>
     </section>
 
-    <!-- Request Modal -->
     <teleport to="body">
       <transition name="modal">
         <div v-if="showRequestModal" class="fixed inset-0 z-[9999] overflow-y-auto">
           <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-black bg-opacity-75" @click="showRequestModal = false"></div>
-            <div class="relative bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full border border-gray-700">
+            <div class="fixed inset-0 bg-black bg-opacity-50" @click="showRequestModal = false"></div>
+            <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full border border-gray-200">
               <div class="p-6">
                 <div class="flex items-center justify-between mb-6">
-                  <h3 class="text-xl font-semibold text-white">Request Custom Quote</h3>
+                  <h3 class="text-xl font-semibold text-gray-900">Request Custom Quote</h3>
                   <button @click="showRequestModal = false"
-                    class="p-2 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors">
+                    class="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
                     <X class="w-5 h-5" />
                   </button>
                 </div>
 
                 <form @submit.prevent="submitRequest" class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Product Description</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Product Description</label>
                     <textarea v-model="requestForm.description" placeholder="Describe the product you're looking for..."
-                      class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
                       rows="3" required></textarea>
                   </div>
 
                   <div class="grid grid-cols-2 gap-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-300 mb-2">Quantity</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
                       <input v-model="requestForm.quantity" type="number" placeholder="1000"
-                        class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
                         required />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-300 mb-2">Budget (USD) / Budget (TK)</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Budget (৳)</label>
                       <input v-model="requestForm.budget" type="text" placeholder="10000"
-                        class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400" />
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400" />
                     </div>
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Contact Email</label>
-                    <input v-model="requestForm.email" type="email" placeholder="your@gmail.com"
-                      class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+                    <input v-model="requestForm.email" type="email" placeholder="your@email.com"
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
                       required />
                   </div>
 
                   <button type="submit"
-                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 transition-colors font-semibold">
+                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105">
                     Submit Request
                   </button>
                 </form>
@@ -260,17 +390,16 @@
       </transition>
     </teleport>
   </div>
+  
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ArrowRight, Package, MessageSquare, Shield, X } from 'lucide-vue-next'
+import { ArrowRight, ChevronDown, Package, Globe, Shield, Users, Star, Cpu, Sparkles, Plane, X } from 'lucide-vue-next'
 
-// Initialize router
 const router = useRouter()
 
-// Reactive data - all declared at the top level
 const showRequestModal = ref(false)
 const requestForm = ref({
   description: '',
@@ -279,57 +408,86 @@ const requestForm = ref({
   email: ''
 })
 
-// Business categories data
-const businessCategories = ref([
+const featuredProducts = ref([
   {
-    name: 'Electronics & Technology',
-    slug: 'electronics',
-    description: 'Smartphones, laptops, components, and cutting-edge tech products',
-    productCount: '2.5M',
-    image: 'https://friendlyturtle.com/cdn/shop/articles/eco-friendly-gadgets.jpg?v=1691526848'
+    id: 1,
+    name: "Premium Wireless Headphones",
+    price: 299.99,
+    originalPrice: 399.99,
+    image: "https://img.freepik.com/free-photo/rendering-smart-home-device_23-2151039302.jpg",
+    rating: 4.8,
+    category: "Electronics",
+    isHot: true,
   },
   {
-    name: 'Fashion & Lifestyle',
-    slug: 'fashion',
-    description: 'Apparel, accessories, beauty products, and lifestyle goods',
-    productCount: '1.8M',
-    image: 'https://cdn.shopify.com/s/files/1/0817/7988/4088/articles/best_20fashion_20ecommerce_20sites_36edb549-bb10-4880-b15c-128449f9b373.jpg?v=1746799686'
+    id: 2,
+    name: "Smart Fitness Watch",
+    price: 199.99,
+    image: "https://t3.ftcdn.net/jpg/13/37/59/58/360_F_1337595881_iRH94v8gXcq6qDZOmpeEd9XtpL2jIV9h.jpg",
+    rating: 4.6,
+    category: "Wearables",
+    isNew: true,
   },
   {
-    name: 'Home & Garden',
-    slug: 'home-garden',
-    description: 'Furniture, decor, gardening tools, and home improvement',
-    productCount: '950K',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS14zj89DSMyogxEJghV73RfU7PrdO88Xy-usLDLIqNuGb8UZvmLjDEYIZuE-DpSZ1Ugdw&usqp=CAU'
+    id: 3,
+    name: "Designer Leather Handbag",
+    price: 449.99,
+    originalPrice: 599.99,
+    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500",
+    rating: 4.9,
+    category: "Fashion",
+    isHot: true,
   },
   {
-    name: 'Industrial Equipment',
-    slug: 'industrial',
-    description: 'Machinery, tools, safety equipment, and industrial supplies',
-    productCount: '750K',
-    image: 'https://www.mitsubishielectric.com/fa/products/cnt/plcnet/pmerit/cclink_ie_tsn/lineup/img/drv_hmi_img01.jpg'
+    id: 4,
+    name: "Professional Camera Lens",
+    price: 899.99,
+    image: "https://images.unsplash.com/photo-1637756856486-9d0cbe42a560?w=500",
+    rating: 4.9,
+    category: "Photography",
   },
   {
-    name: 'Health & Beauty',
-    slug: 'health-beauty',
-    description: 'Cosmetics, skincare, wellness products, and medical supplies',
-    productCount: '680K',
-    image: 'https://www.intuitsolutions.net/wp-content/uploads/2022/11/health-and-beauty-b2b-cosmetics-ecommerce.jpg'
+    id: 5,
+    name: "Luxury Silk Scarf",
+    price: 129.99,
+    image: "https://i5.walmartimages.com/asr/98cdac3c-946f-4f22-8552-323995c1eb9f.acc8bc893823c599b27ab2b605589c8b.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
+    rating: 4.7,
+    category: "Fashion",
+    isNew: true,
   },
   {
-    name: 'Sports & Recreation',
-    slug: 'sports',
-    description: 'Sporting goods, outdoor equipment, and recreational products',
-    productCount: '420K',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnk553Xu64gdv6GIpD9Z8_DDzsDIiuSWCa67k06p2h4wEQK0jUo84Crrr03sw3Fn4kb0Y&usqp=CAU'
+    id: 6,
+    name: "Wireless Gaming Mouse",
+    price: 79.99,
+    originalPrice: 99.99,
+    image: "https://m.media-amazon.com/images/I/61Mk3YqYHpL.jpg",
+    rating: 4.5,
+    category: "Gaming",
+  },
+  {
+    id: 7,
+    name: "Premium Sunglasses",
+    price: 189.99,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBRLRmME3ChslGO295OF8bAvf20oKCK6K9BQ&s",
+    rating: 4.6,
+    category: "Fashion",
+  },
+  {
+    id: 8,
+    name: "4K Action Camera",
+    price: 349.99,
+    originalPrice: 449.99,
+    image: "https://ausha.co.in/cdn/shop/files/G.jpg",
+    rating: 4.8,
+    category: "Electronics",
+    isHot: true,
   }
 ])
 
-// Methods
-const scrollToCategories = () => {
-  const element = document.getElementById('categories')
+const scrollToSection = (sectionId) => {
+  const element = document.getElementById(sectionId)
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
 
@@ -345,25 +503,22 @@ const navigateToCategory = (slug) => {
   router.push(`/products?category=${slug}`)
 }
 
+const handleAddToCart = (product) => {
+  console.log('Adding to cart:', product)
+  alert(`${product.name} added to cart!`)
+}
+
 const submitRequest = () => {
-  // Handle form submission
   console.log('Request submitted:', requestForm.value)
   showRequestModal.value = false
-  // Reset form
   requestForm.value = {
     description: '',
     quantity: '',
     budget: '',
     email: ''
   }
-  // Show success message
   alert('Request submitted successfully! We will contact you within 24 hours.')
 }
-
-// Set dark theme by default
-onMounted(() => {
-  document.documentElement.classList.add('dark')
-})
 </script>
 
 <style scoped>
@@ -377,21 +532,30 @@ onMounted(() => {
   opacity: 0;
 }
 
-/* Custom scrollbar for dark theme */
-::-webkit-scrollbar {
-  width: 8px;
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-::-webkit-scrollbar-track {
-  background: #1f2937;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: #4b5563;
-  border-radius: 4px;
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+html {
+  scroll-behavior: smooth;
 }
 </style>

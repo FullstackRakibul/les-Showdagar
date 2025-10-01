@@ -70,10 +70,10 @@
 
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-2">
-            <span class="text-lg font-bold text-gray-900 dark:text-white">৳{{ product.price }}</span>
+            <!-- <span class="text-lg font-bold text-gray-900 dark:text-white">৳{{ product.price }}</span>
             <span v-if="product.originalPrice" class="text-sm text-gray-500 line-through">
               ৳{{ product.originalPrice }}
-            </span>
+            </span> -->
           </div>
           <div class="flex items-center space-x-1">
             <Star class="w-4 h-4 text-yellow-400 fill-current" />
@@ -82,11 +82,11 @@
         </div>
 
         <!-- Social media style action button -->
-        <button @click="handleAddToCart" :disabled="!product.inStock"
+        <!-- <button @click="handleAddToCart" :disabled="!product.inStock"
           class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 disabled:from-gray-300 disabled:to-gray-400 text-white py-2.5 px-4 rounded-xl transition-all duration-300 font-semibold text-sm flex items-center justify-center space-x-2 shadow-sm hover:shadow-md transform hover:scale-[1.02]">
           <ShoppingBag class="w-4 h-4" />
           <span>{{ product.inStock ? "Add to Cart" : "Out of Stock" }}</span>
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
@@ -119,11 +119,11 @@ const likeCount = ref(Math.floor(Math.random() * 500) + 50);
 
 // Creator info based on product category
 const creators = {
-  'Electronics': { name: 'SenderBD', role: 'Tech Enthusiast', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
-  'Sports': { name: 'SenderBD', role: 'Athlete', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
-  'Gaming': { name: 'SenderBD', role: 'Pro Gamer', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
-  'Photography': { name: 'SenderBD', role: 'Photographer', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
-  'default': { name: 'SenderBD', role: 'Product Curator', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' }
+  'Electronics': { name: 'Quantum Club', role: 'Tech Enthusiast', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
+  'Sports': { name: 'Quantum Club', role: 'Athlete', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
+  'Gaming': { name: 'Quantum Club', role: 'Pro Gamer', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
+  'Photography': { name: 'Elegance Club', role: 'Photographer', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
+  'default': { name: 'RH Business Club', role: 'Product Curator', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' }
 };
 
 const creatorInfo = computed(() => creators[props.product.category] || creators.default);
