@@ -2,13 +2,10 @@
   <div class="space-y-8">
     <!-- Promotional Section: Google Pixel 6A -->
     <section
-      class="relative overflow-hidden rounded-3xl p-6 sm:p-10 bg-gradient-to-r from-emerald-500 to-teal-600 text-white"
-    >
+      class="relative overflow-hidden rounded-3xl p-6 sm:p-10 bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
       <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div>
-          <div
-            class="inline-flex items-center bg-white/10 text-white/90 px-3 py-1 rounded-full text-xs mb-3"
-          >
+          <div class="inline-flex items-center bg-white/10 text-white/90 px-3 py-1 rounded-full text-xs mb-3">
             Limited Stock • 7 Days Delivery
           </div>
           <h2 class="text-3xl sm:text-4xl font-extrabold mb-3">
@@ -19,58 +16,40 @@
           </p>
           <div class="flex items-center space-x-3 mb-6">
             <span class="text-2xl sm:text-3xl font-extrabold">৳ 20,890</span>
-            <span class="text-xs sm:text-sm bg-white/10 px-2 py-1 rounded-full"
-              >Cash on Delivery</span
-            >
+            <span class="text-xs sm:text-sm bg-white/10 px-2 py-1 rounded-full">Cash on Delivery</span>
           </div>
           <div class="flex flex-wrap gap-3">
-            <button
-              @click="openPromo"
-              class="bg-white text-emerald-600 font-semibold px-5 py-3 rounded-xl hover:bg-gray-100 transition-colors flex items-center space-x-2"
-            >
+            <button @click="openPromo"
+              class="bg-white text-emerald-600 font-semibold px-5 py-3 rounded-xl hover:bg-gray-100 transition-colors flex items-center space-x-2">
               <ShoppingBag class="w-4 h-4" />
               <span>View Details</span>
             </button>
-            <a
-              href=""
-              target="_blank"
-              rel="noopener"
-              class="bg-emerald-700/70 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-xl transition-colors flex items-center space-x-2"
-            >
+            <a href="" target="_blank" rel="noopener"
+              class="bg-emerald-700/70 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-xl transition-colors flex items-center space-x-2">
               <Phone class="w-4 h-4" />
               <span>WhatsApp +971 564785090</span>
             </a>
           </div>
         </div>
         <div class="relative">
-          <img
-            src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2022/05/Untitled-design-9.jpg"
-            alt="Google Pixel 6A promotional"
-            class="w-full rounded-2xl shadow-2xl"
-          />
-          <div
-            class="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"
-          ></div>
+          <img src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2022/05/Untitled-design-9.jpg"
+            alt="Google Pixel 6A promotional" class="w-full rounded-2xl shadow-2xl" />
+          <div class="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
         </div>
       </div>
     </section>
 
     <!-- Category Filter Bar -->
     <section
-      class="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700"
-    >
+      class="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
       <div class="flex flex-wrap items-center gap-2">
-        <button
-          v-for="category in productStore.categories"
-          :key="category.name"
-          @click="productStore.selectedCategory = category.name"
-          :class="[
+        <button v-for="category in productStore.categories" :key="category.name"
+          @click="productStore.selectedCategory = category.name" :class="[
             'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
             productStore.selectedCategory === category.name
               ? 'bg-primary text-white'
               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600',
-          ]"
-        >
+          ]">
           {{ category.name }} ({{ category.count }})
         </button>
       </div>
@@ -89,11 +68,7 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <ProductCard
-          v-for="product in displayedProducts"
-          :key="product.id"
-          :product="product"
-        />
+        <ProductCard v-for="product in displayedProducts" :key="product.id" :product="product" />
       </div>
 
       <!-- Empty State -->
@@ -105,10 +80,8 @@
         <p class="text-gray-500 dark:text-gray-500 mb-6">
           Try adjusting your search or filter criteria
         </p>
-        <button
-          @click="resetFilters"
-          class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl transition-colors font-semibold"
-        >
+        <button @click="resetFilters"
+          class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl transition-colors font-semibold">
           Clear Filters
         </button>
       </div>

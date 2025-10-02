@@ -3,8 +3,8 @@
     <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Products</h1>
-        <p class="mt-2 text-gray-600 dark:text-gray-400">Discover our premium collection</p>
+        <!-- <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Products</h1>
+        <p class="mt-2 text-gray-600 dark:text-gray-400">Discover our premium collection</p> -->
       </div>
       <div class="mt-4 sm:mt-0 flex items-center space-x-3">
         <select v-model="sortBy"

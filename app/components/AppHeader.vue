@@ -6,34 +6,27 @@
         <!-- Left -->
         <div class="flex items-center space-x-3">
           <!-- Mobile menu -->
-          <button @click="layoutStore.toggleLeftSidebar"
+          <button @click="toggleLeftSidebar"
             class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 lg:hidden"
             title="Toggle Left Sidebar">
             <Menu class="w-6 h-6 text-gray-700 dark:text-gray-300" />
           </button>
           <!-- Desktop left toggle -->
-          <button @click="layoutStore.toggleLeftSidebar"
+          <button @click="toggleLeftSidebar"
             class="hidden lg:inline-flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-            :title="layoutStore.leftSidebarOpen
-                ? 'Collapse Left Sidebar'
-                : 'Expand Left Sidebar'
-              ">
+            :title="leftSidebarOpen ? 'Collapse Left Sidebar' : 'Expand Left Sidebar'">
             <PanelLeft class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           <!-- Logo -->
           <button @click="navigateTo('/')" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Store class="w-5 h-5 text-white" />
-            </div>
+
             <div class="hidden sm:flex flex-col">
-              <span class="font-bold text-start text-gray-900 dark:text-white text-lg leading-tight">RH Business
-                Club</span>
+              <img width="120" src="../assets/img/globalUse/rhbusinessclub-logo.png" />
               <span class="text-xs text-gray-500 dark:text-gray-400 leading-tight">Building a Club of Smart
                 Shoppers.</span>
             </div>
             <div class="sm:hidden">
-              <span class="font-bold text-gray-900 dark:text-white text-lg">RH Business
-                Club</span>
+              <img width="80" src="../assets/img/globalUse/rhbusinessclub-logo.png" />
             </div>
           </button>
         </div>
@@ -57,39 +50,24 @@
 
           <!-- Theme -->
           <button @click="toggleTheme"
-            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+            class="p-2 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-800 transition-colors duration-200"
             :title="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
             <Sun v-if="isDarkMode" class="w-5 h-5 text-gray-700 dark:text-gray-300" />
             <Moon v-else class="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
 
-          <!-- Notifications and Cart only when logged in -->
+          <!-- Notifications and Cart as separate components when logged in -->
           <template v-if="authStore.isLoggedIn">
-            <!-- Notifications -->
-            <button @click="navigateTo('/notifications')"
-              class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-              title="Notifications">
-              <Bell class="w-5 h-5 text-gray-700 dark:text-gray-300" />
-              <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
-                <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
-              </span>
-            </button>
+            <!-- Notifications Component -->
+            <NotificationDropdown />
 
-            <!-- Cart -->
-            <button @click="showCartModal = true"
-              class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-              title="Shopping Cart">
-              <ShoppingCart class="w-5 h-5 text-gray-700 dark:text-gray-300" />
-              <span v-if="productStore.cartItemsCount > 0"
-                class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                {{ productStore.cartItemsCount > 9 ? "9+" : productStore.cartItemsCount }}
-              </span>
-            </button>
+            <!-- Cart Component -->
+            <CartDropdown />
 
             <!-- Profile -->
             <div class="relative" ref="profileDropdown">
               <button @click="showProfileMenu = !showProfileMenu"
-                class="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                class="flex items-center bg-primary rounded-full space-x-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                 title="Profile Menu">
                 <div
                   class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold text-sm">
@@ -144,8 +122,8 @@
           <!-- Login button when not logged in -->
           <template v-else>
             <button @click="navigateTo('/login')"
-              class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium text-sm">
-              Sign In
+              class="p-1 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors font-medium text-sm">
+              <UserSearch/>
             </button>
           </template>
 
@@ -172,115 +150,6 @@
         </div>
       </transition>
     </div>
-
-    <!-- Cart Modal (unchanged) -->
-    <teleport to="body">
-      <transition name="modal">
-        <div v-if="showCartModal" class="fixed inset-0 z-[9999] overflow-y-auto">
-          <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-black bg-opacity-50" @click="showCartModal = false"></div>
-            <div
-              class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full max-h-[85vh] overflow-hidden">
-              <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                  Shopping Cart
-                </h3>
-                <button @click="showCartModal = false"
-                  class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                  <X class="w-5 h-5" />
-                </button>
-              </div>
-              <div class="overflow-y-auto" style="max-height: calc(85vh - 200px)">
-                <div v-if="productStore.cart.length === 0" class="text-center py-12">
-                  <ShoppingCart class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-                  <p class="text-gray-500 dark:text-gray-400 mb-4">Your cart is empty</p>
-                  <button @click="showCartModal = false"
-                    class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium">
-                    Continue Shopping
-                  </button>
-                </div>
-                <div v-else class="p-6 space-y-4">
-                  <div v-for="item in productStore.cart"
-                    :key="`${item.product.id}-${item.selectedColor}-${item.selectedSize}`"
-                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                    <img :src="item.product.image" :alt="item.product.name" class="w-16 h-16 object-cover rounded-lg" />
-                    <div class="flex-1 min-w-0">
-                      <h4 class="font-medium text-gray-900 dark:text-white truncate">
-                        {{ item.product.name }}
-                      </h4>
-                      <p class="text-sm text-gray-500 dark:text-gray-400">
-                        ${{ item.product.price }}
-                      </p>
-                      <div class="flex items-center space-x-2 mt-1">
-                        <span v-if="item.selectedColor"
-                          class="text-xs bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">{{
-                          item.selectedColor }}</span>
-                        <span v-if="item.selectedSize" class="text-xs bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">{{
-                          item.selectedSize }}</span>
-                      </div>
-                      <div class="flex items-center space-x-2 mt-2">
-                        <button @click="
-                          productStore.updateCartQuantity(
-                            item.product.id,
-                            item.quantity - 1,
-                            item.selectedColor,
-                            item.selectedSize
-                          )
-                          "
-                          class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center justify-center transition-colors">
-                          <Minus class="w-3 h-3" />
-                        </button>
-                        <span class="font-medium text-gray-900 dark:text-white min-w-[2rem] text-center">{{
-                          item.quantity }}</span>
-                        <button @click="
-                          productStore.updateCartQuantity(
-                            item.product.id,
-                            item.quantity + 1,
-                            item.selectedColor,
-                            item.selectedSize
-                          )
-                          "
-                          class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center justify-center transition-colors">
-                          <Plus class="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                    <div class="text-right">
-                      <p class="font-semibold text-gray-900 dark:text-white">
-                        ${{ (item.product.price * item.quantity).toFixed(2) }}
-                      </p>
-                      <button @click="
-                        productStore.removeFromCart(
-                          item.product.id,
-                          item.selectedColor,
-                          item.selectedSize
-                        )
-                        " class="text-red-500 hover:text-red-700 text-sm mt-1 transition-colors">
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div v-if="productStore.cart.length > 0" class="border-t border-gray-200 dark:border-gray-700 p-6">
-                <div class="flex justify-between items-center mb-4">
-                  <span class="text-lg font-semibold text-gray-900 dark:text-white">Total:</span>
-                  <span class="text-xl font-bold text-gray-900 dark:text-white">${{ productStore.cartTotal.toFixed(2)
-                  }}</span>
-                </div>
-                <button @click="
-                  navigateTo('/checkout');
-                showCartModal = false;
-                "
-                  class="w-full bg-primary text-white py-3 px-4 rounded-xl hover:bg-primary-dark transition-colors font-semibold text-center">
-                  Proceed to Checkout
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </teleport>
   </header>
 </template>
 
@@ -290,8 +159,6 @@ import { useRouter } from "vue-router";
 import {
   Menu,
   Search,
-  Bell,
-  ShoppingCart,
   ChevronDown,
   Sun,
   Moon,
@@ -300,25 +167,25 @@ import {
   LogOut,
   PanelRight,
   PanelLeft,
-  X,
-  Minus,
-  Plus,
   Store,
+  UserSearch,
 } from "lucide-vue-next";
 import { useProductStore } from "@/stores/products";
 import { useLayoutStore } from "@/stores/layout";
 import { useAuthStore } from "@/stores/auth";
+import NotificationDropdown from "@/components/NotificationDropdown.vue";
+import CartDropdown from "@/components/CartDropdown.vue";
 
 const router = useRouter();
 const productStore = useProductStore();
 const layoutStore = useLayoutStore();
 const authStore = useAuthStore();
 
-const showCartModal = ref(false);
 const showMobileSearch = ref(false);
 const showProfileMenu = ref(false);
 const profileDropdown = ref(null);
-const isDarkMode = ref(false); // Default to light mode
+const isDarkMode = ref(false);
+const leftSidebarOpen = ref(false);
 
 const navigateTo = (path) => {
   router.push(path);
@@ -340,6 +207,11 @@ const toggleTheme = () => {
     document.documentElement.classList.remove("dark");
     localStorage.setItem("theme", "light");
   }
+};
+
+const toggleLeftSidebar = () => {
+  leftSidebarOpen.value = !leftSidebarOpen.value;
+  layoutStore.toggleLeftSidebar();
 };
 
 const handleClickOutside = (event) => {
@@ -393,15 +265,5 @@ onUnmounted(() => {
 .slide-down-leave-to {
   opacity: 0;
   transform: translateY(-10px);
-}
-
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
 }
 </style>

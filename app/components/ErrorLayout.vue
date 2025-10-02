@@ -8,13 +8,16 @@
     <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md">
       {{ message }}
     </p>
-    <NuxtLink to="/" class="px-5 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
-      Back to Home
-    </NuxtLink>
+    <ClientOnly>
+      <NuxtLink to="/" class="px-5 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+        Back to Home
+      </NuxtLink>
+    </ClientOnly>
   </div>
 </template>
 
 <script setup>
+
 defineProps({
   title: {
     type: String,
@@ -25,4 +28,9 @@ defineProps({
     default: 'An unexpected error occurred. Please try again later.'
   }
 })
+
+
+import { NuxtLink } from '#components'
+
+
 </script>

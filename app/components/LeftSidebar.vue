@@ -15,7 +15,7 @@
 
     <div class="flex-1 overflow-y-auto p-4">
       <nav class="space-y-4">
-        <NuxtLink to="/products" :class="[
+        <NuxtLink to="/shop" :class="[
           'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group',
           isActive('/products')
             ? 'bg-primary text-white shadow-lg'

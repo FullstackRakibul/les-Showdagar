@@ -15,6 +15,8 @@ export default defineNuxtConfig({
       ],
     },
   },
+  ssr: true,
+  compatibilityDate: '2025-10-01',
   srcDir: 'app/',
   postcss: {
     plugins: {
@@ -22,4 +24,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  components: [
+    { path: '~/app/components', pathPrefix: false },
+    { path: '~/components', pathPrefix: false },
+  ],
+  
 })

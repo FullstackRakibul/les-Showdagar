@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+  --color-primary: 221 83% 53%; /* Equivalent to #162942 */
+  --color-secondary: 9 87% 56%; /* Equivalent to #F0492D */
+  --color-background: 0 0% 100%;
+  --color-foreground: 222 84% 5%;
+}
+
+.dark {
+  --color-background: 222 84% 5%;
+  --color-foreground: 0 0% 100%;
+}

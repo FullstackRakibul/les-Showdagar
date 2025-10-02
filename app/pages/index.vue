@@ -17,7 +17,7 @@
       <div class="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 py-20">
         <div class="mb-6 animate-fade-in">
           <span
-            class="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg">
+            class="inline-flex items-center bg-gradient-to-r from-blue-800 to-purple-300 text-white px-6 py-3 rounded-full text-sm font-semibold shadow-lg">
             🌍 Connecting Global Commerce • Empowering Targeted Excellence
           </span>
         </div>
@@ -56,8 +56,9 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
           <div class="text-center">
+          
             <div
-              class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+              class="text-4xl   font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
               50M+</div>
             <div class="text-gray-600 text-sm font-medium">Products Available</div>
           </div>
@@ -322,7 +323,7 @@
           Join thousands of satisfied clients who trust RH Business Club for their global commerce needs.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button @click="navigateTo('/products')"
+          <button @click="navigateTo('/shop')"
             class="bg-white text-gray-900 font-semibold px-8 py-4 rounded-xl hover:bg-gray-100 transition-all duration-300 text-lg shadow-xl transform hover:scale-105">
             Start Shopping
           </button>
@@ -390,7 +391,7 @@
       </transition>
     </teleport>
   </div>
-  
+
 </template>
 
 <script setup>
