@@ -1,0 +1,6 @@
+services:
+  lesshowdagarecommerce:
+    image: lesshowdagarecommerce
+    build:
+      context: .
+      dockerfile: ./Dockerfile
