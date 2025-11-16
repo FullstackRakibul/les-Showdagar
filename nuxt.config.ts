@@ -1,8 +1,15 @@
 import { defineNuxtConfig } from 'nuxt/config';
 
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@storefront-ui/nuxt", "nuxt-lucide-icons", "@pinia/nuxt"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@storefront-ui/nuxt",
+    "nuxt-lucide-icons",
+    "@pinia/nuxt",
+    "@ant-design-vue/nuxt",
+  ],
   
   css: ["@fortawesome/fontawesome-free/css/all.css",'~/assets/css/main.css'],
   app: {
@@ -27,6 +34,8 @@ export default defineNuxtConfig({
   components: [
     { path: '~/app/components', pathPrefix: false },
     { path: '~/components', pathPrefix: false },
+    
   ],
+  
   
 })

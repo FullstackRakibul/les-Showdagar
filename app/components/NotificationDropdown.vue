@@ -72,7 +72,7 @@
                         </h5>
                         <div class="flex items-center space-x-2 mt-1">
                           <div class="flex items-center">
-                            <Star class="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                            <LucideStar class="w-3 h-3 text-yellow-400 fill-yellow-400" />
                             <span class="text-xs text-gray-600 dark:text-gray-400 ml-1">
                               {{ notification.product.rating }}
                             </span>

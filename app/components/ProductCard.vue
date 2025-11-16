@@ -76,7 +76,7 @@
             </span> -->
           </div>
           <div class="flex items-center space-x-1">
-            <Star class="w-4 h-4 text-yellow-400 fill-current" />
+            <LucideStar class="w-4 h-4 text-yellow-400 fill-current" />
             <span class="text-sm text-gray-600 dark:text-gray-400">{{ product.rating }}</span>
           </div>
         </div>
@@ -119,7 +119,7 @@ const likeCount = ref(Math.floor(Math.random() * 500) + 50);
 
 // Creator info based on product category
 const creators = {
-  'Electronics': { name: 'Quantum Club', role: 'Tech Enthusiast', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
+  'Electronics': { name: 'Quantum Club', role: 'Tech Enthusiast', avatar: '@/assets/img/globalUse/rhbusinessclub-logo.png' },
   'Sports': { name: 'Quantum Club', role: 'Athlete', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
   'Gaming': { name: 'Quantum Club', role: 'Pro Gamer', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },
   'Photography': { name: 'Elegance Club', role: 'Photographer', avatar: 'https://scontent.fzyl2-2.fna.fbcdn.net/v/t39.30808-6/346868074_747880563801104_5042220215925177930_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=KRpnzHLGdbgQ7kNvwGlbhwM&_nc_oc=Admvbgs2We413zQ5tEBGTOgIcheAv9q2uFwrgm4G2QQK2A4EavypJIvzf3idZkcufnA&_nc_zt=23&_nc_ht=scontent.fzyl2-2.fna&_nc_gid=ny4yrjYCS73TfrpZRFKYzw&oh=00_AfVwS-TIuKc3ORJxOkEYJcfyZP8GQrx86BKsiFD7BCYSgw&oe=68B8E4F3' },

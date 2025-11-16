@@ -14,8 +14,8 @@ export const useAuthStore = defineStore("auth", () => {
     isLoggedIn.value = true
     user.value = {
       name: "Rakibul H. Rabbi",
-      email: email,
-      initials: "RH",
+      email: 'rh@admin.com',
+      initials: "A",
     }
     if (typeof window !== "undefined") {
       localStorage.setItem("isLoggedIn", "true")

@@ -44,10 +44,10 @@
             <div class="flex items-center space-x-2">
               <span class="text-lg font-bold text-gray-900 dark:text-white">${{ item.price }}</span>
               <span v-if="item.originalPrice" class="text-sm text-gray-500 line-through">${{ item.originalPrice
-                }}</span>
+              }}</span>
             </div>
             <div class="flex items-center">
-              <Star class="w-4 h-4 text-yellow-400 fill-current" />
+              <LucideStar class="w-4 h-4 text-yellow-400 fill-current" />
               <span class="text-sm text-gray-600 dark:text-gray-400 ml-1">{{ item.rating }}</span>
             </div>
           </div>

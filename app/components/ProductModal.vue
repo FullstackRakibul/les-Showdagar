@@ -10,7 +10,7 @@
             class="relative bg-white dark:bg-gray-900 rounded-3xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
             <button @click="productStore.closeProductModal"
               class="absolute top-6 right-6 z-10 w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-200">
-              <X class="w-6 h-6" />
+              <LucideX class="w-6 h-6" />
             </button>
 
             <div class="flex flex-col lg:flex-row max-h-[80vh] overflow-y-auto">
@@ -19,7 +19,7 @@
                 <!-- Reels Section -->
                 <div class="mb-6">
                   <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                    <Play class="w-5 h-5 mr-2 text-red-500" />
+                    <LucidePlay class="w-5 h-5 mr-2 text-red-500" />
                     Product Reels
                   </h3>
                   <div class="grid grid-cols-2 gap-3">
@@ -61,87 +61,87 @@
               <div class="lg:w-1/2 p-6 lg:py-8 ">
 
 
-                  <!-- Creator info -->
-                  <div class="  flex items-center mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <img :src="creatorAvatar" :alt="creatorName"
-                      class="w-12 h-12 rounded-full object-cover border-2 border-gray-200" />
-                    <div class="ml-3 flex-1">
-                      <h4 class="font-semibold text-gray-900 dark:text-white">{{ creatorName }}</h4>
-                      <p class="text-sm text-gray-500 dark:text-gray-400">{{ creatorRole }}</p>
-                    </div>
-                    <button
-                      class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                      Follow
-                    </button>
+                <!-- Creator info -->
+                <div class="  flex items-center mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                  <img :src="creatorAvatar" :alt="creatorName"
+                    class="w-12 h-12 rounded-full object-cover border-2 border-gray-200" />
+                  <div class="ml-3 flex-1">
+                    <h4 class="font-semibold text-gray-900 dark:text-white">{{ creatorName }}</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ creatorRole }}</p>
                   </div>
-
-                  <p v-if="product.brand"
-                    class="text-sm text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide font-medium">
-                    {{ product.brand }}
-                  </p>
-                  <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                    {{ product.name }}
-                  </h2>
-
-                  <!-- Social engagement stats -->
-                  <div class="flex items-center space-x-6 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                    <div class="text-center">
-                      <div class="text-xl font-bold text-gray-900 dark:text-white">{{ likeCount }}</div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">Likes</div>
-                    </div>
-                    <div class="text-center">
-                      <div class="text-xl font-bold text-gray-900 dark:text-white">{{ product.reviews }}</div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">Comments</div>
-                    </div>
-                    <div class="text-center">
-                      <div class="text-xl font-bold text-gray-900 dark:text-white">{{ shareCount }}</div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">Shares</div>
-                    </div>
-                    <div class="text-center">
-                      <div class="flex text-yellow-400 justify-center mb-1">
-                        <Star class="w-4 h-4 fill-current" />
-                      </div>
-                      <div class="text-xl font-bold text-gray-900 dark:text-white">{{ product.rating }}</div>
-                    </div>
-                  </div>
-
-                  <div class="flex items-center mb-6">
-                    <span class="text-4xl font-bold text-gray-900 dark:text-white">৳{{ product.price }}</span>
-                    <span v-if="product.originalPrice" class="text-xl text-gray-500 line-through ml-4">৳{{
-                      product.originalPrice }}</span>
-                    <span v-if="product.originalPrice"
-                      class="ml-4 bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">Save ৳{{
-                      (product.originalPrice - product.price).toFixed(2) }}</span>
-                  </div>
-
-                  <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    {{ product.description }}
-                  </p>
-
-                  <!-- Social media style action buttons -->
-                  <div class="flex space-x-3 mb-6">
-                    <button @click="handleAddToCart" :disabled="!product.inStock"
-                      class="flex-1 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 disabled:from-gray-300 disabled:to-gray-400 text-white py-4 px-6 rounded-xl transition-all duration-300 font-bold text-lg flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
-                      <ShoppingCart class="w-5 h-5" />
-                      <span>Add to Cart</span>
-                    </button>
-                    <button @click="toggleLike"
-                      class="w-16 h-16 border-2 border-gray-300 dark:border-gray-600 hover:border-red-500 rounded-xl transition-colors flex items-center justify-center"
-                      :class="{ 'border-red-500 text-red-500': isLiked, 'text-gray-400 hover:text-red-500': !isLiked }">
-                      <Heart class="w-6 h-6" :class="{ 'fill-current': isLiked }" />
-                    </button>
-                    <button
-                      class="w-16 h-16 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-500 rounded-xl transition-colors flex items-center justify-center text-gray-400">
-                      <Share class="w-6 h-6" />
-                    </button>
-                  </div>
-
+                  <button
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    Follow
+                  </button>
                 </div>
+
+                <p v-if="product.brand"
+                  class="text-sm text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide font-medium">
+                  {{ product.brand }}
+                </p>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  {{ product.name }}
+                </h2>
+
+                <!-- Social engagement stats -->
+                <div class="flex items-center space-x-6 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                  <div class="text-center">
+                    <div class="text-xl font-bold text-gray-900 dark:text-white">{{ likeCount }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Likes</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-xl font-bold text-gray-900 dark:text-white">{{ product.reviews }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Comments</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-xl font-bold text-gray-900 dark:text-white">{{ shareCount }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Shares</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="flex text-yellow-400 justify-center mb-1">
+                      <LucideStar class="w-4 h-4 fill-current" />
+                    </div>
+                    <div class="text-xl font-bold text-gray-900 dark:text-white">{{ product.rating }}</div>
+                  </div>
+                </div>
+
+                <div class="flex items-center mb-6">
+                  <span class="text-4xl font-bold text-gray-900 dark:text-white">৳{{ product.price }}</span>
+                  <span v-if="product.originalPrice" class="text-xl text-gray-500 line-through ml-4">৳{{
+                    product.originalPrice }}</span>
+                  <span v-if="product.originalPrice"
+                    class="ml-4 bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">Save ৳{{
+                    (product.originalPrice - product.price).toFixed(2) }}</span>
+                </div>
+
+                <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  {{ product.description }}
+                </p>
+
+                <!-- Social media style action buttons -->
+                <div class="flex space-x-3 mb-6">
+                  <button @click="handleAddToCart" :disabled="!product.inStock"
+                    class="flex-1 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 disabled:from-gray-300 disabled:to-gray-400 text-white py-4 px-6 rounded-xl transition-all duration-300 font-bold text-lg flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                    <LucideShoppingCart class="w-5 h-5" />
+                    <span>Add to Cart</span>
+                  </button>
+                  <button @click="toggleLike"
+                    class="w-16 h-16 border-2 border-gray-300 dark:border-gray-600 hover:border-red-500 rounded-xl transition-colors flex items-center justify-center"
+                    :class="{ 'border-red-500 text-red-500': isLiked, 'text-gray-400 hover:text-red-500': !isLiked }">
+                    <Heart class="w-6 h-6" :class="{ 'fill-current': isLiked }" />
+                  </button>
+                  <button
+                    class="w-16 h-16 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 hover:text-blue-500 rounded-xl transition-colors flex items-center justify-center text-gray-400">
+                    <LucideShare class="w-6 h-6" />
+                  </button>
+                </div>
+
               </div>
             </div>
           </div>
         </div>
-      
+      </div>
+
     </transition>
   </teleport>
 </template>

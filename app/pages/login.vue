@@ -3,16 +3,11 @@
     <div class="max-w-md w-full space-y-8">
       <div>
         <div class="flex justify-center">
-          <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center">
-            <ShoppingBag class="w-10 h-10 text-white" />
-          </div>
+          <button @click="navigateTo('/')" class="flex items-center hover:opacity-80 transition-opacity">
+            <img src="@/assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
+              class="h-10 sm:h-10 " />
+          </button>
         </div>
-        <h2 class="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
-          Welcome to RH Business Club
-        </h2>
-        <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-          Sign in to access your account
-        </p>
       </div>
 
       <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
@@ -24,7 +19,7 @@
 
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Email address
+              Sign in to access your account
             </label>
             <div class="relative">
               <Mail class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -35,9 +30,6 @@
           </div>
 
           <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Password
-            </label>
             <div class="relative">
               <Lock class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" required
@@ -122,7 +114,8 @@ const handleLogin = async () => {
   setTimeout(() => {
     if (email.value && password.value) {
       authStore.login(email.value, password.value)
-      router.push('/products')
+      const redirectTo = router.currentRoute.value.query.redirect || '/'
+      router.push(redirectTo)
     } else {
       error.value = 'Please enter valid credentials'
     }

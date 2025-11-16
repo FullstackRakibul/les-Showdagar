@@ -3,13 +3,17 @@
     class="h-full bg-white dark:bg-gray-900 flex flex-col shadow-xl border-r border-gray-200 dark:border-gray-700 transition-colors duration-200">
     <div class="p-6 border-b border-gray-200 dark:border-gray-700">
       <div class="flex items-center space-x-2">
-        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-          <Store class="w-5 h-5 text-white" />
-        </div>
-        <div class="flex flex-col">
-          <span class="font-bold text-gray-900 dark:text-white text-lg">RH Business Club</span>
-          <span class="text-xs text-gray-500 dark:text-gray-400">Beyond Business, Into Lifestyle.</span>
-        </div>
+        <!-- Logo -->
+        <button @click="navigateTo('/')" class="flex items-center hover:opacity-80 transition-opacity">
+          <img src="../assets/img/globalUse/RH-Business-Club-logo-black-trsns-vvv.png" alt="RH Business Club"
+            class="w-auto" />
+        </button>
+
+        <!-- Close Button -->
+        <button @click="layoutStore.toggleLeftSidebar"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <LucidePanelLeftClose class="w-5 h-5 " />
+        </button>
       </div>
     </div>
 
@@ -21,7 +25,7 @@
             ? 'bg-primary text-white shadow-lg'
             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
         ]">
-          <Package :class="[
+          <LucidePackage :class="[
             'w-5 h-5',
             isActive('/products') ? 'text-white' : 'text-gray-500 dark:text-gray-400',
           ]" />
@@ -57,12 +61,12 @@
     <div class="p-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
       <NuxtLink to="/about"
         class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300">
-        <Info class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+        <LucideInfo class="w-5 h-5 text-gray-500 dark:text-gray-400" />
         <span class="font-medium">About</span>
       </NuxtLink>
       <NuxtLink to="/settings"
         class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300">
-        <Settings class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+        <LucideSettings class="w-5 h-5 text-gray-500 dark:text-gray-400" />
         <span class="font-medium">Account Settings</span>
       </NuxtLink>
     </div>
@@ -70,13 +74,19 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { PanelLeftClose } from 'lucide-vue-next';
 import { useRoute } from "vue-router";
 import { Store, Package, Info, Settings } from "lucide-vue-next";
 import { useProductStore } from "@/stores/products";
+import { useLayoutStore } from '@/stores/layout';
 
 const route = useRoute();
 const productStore = useProductStore();
+
+const layoutStore = useLayoutStore();
+const toggleLeftSidebar = () => {
+  layoutStore.toggleLeftSidebar();
+};
 
 const categories = productStore.categories;
 const isActive = (path) => route.path === path;

@@ -1,19 +1,11 @@
 <template>
-  <div
-    class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200"
-  >
-    <div
-      class="fixed inset-0 bg-black bg-opacity-50 z-30"
-      @click="closeMobileSidebars"
-      v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"
-    ></div>
+  <div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-30" @click="closeMobileSidebars"
+      v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"></div>
 
     <transition name="slide-left">
-      <div
-        v-if="leftSidebarOpen"
-        class="z-40 flex-shrink-0"
-        :class="[isMobile ? 'fixed top-0 left-0 h-full w-80' : 'relative w-64']"
-      >
+      <div v-if="leftSidebarOpen" class="z-40 flex-shrink-0"
+        :class="[isMobile ? 'fixed top-0 left-0 h-full w-80' : 'relative w-64']">
         <LeftSidebar />
       </div>
     </transition>
@@ -32,11 +24,8 @@
     </div>
 
     <transition name="slide-right">
-      <div
-        v-if="rightSidebarOpen"
-        class="z-40 flex-shrink-0"
-        :class="[isMobile ? 'fixed top-0 right-0 h-full w-80' : 'relative w-80']"
-      >
+      <div v-if="rightSidebarOpen" class="z-40 flex-shrink-0"
+        :class="[isMobile ? 'fixed top-0 right-0 h-full w-80' : 'relative w-80']">
         <RightSidebar />
       </div>
     </transition>
@@ -44,6 +33,7 @@
 </template>
 
 <script setup>
+import 'ant-design-vue/dist/reset.css';
 import { computed, onMounted, onUnmounted } from "vue";
 import { useLayoutStore } from "@/stores/layout";
 import AppHeader from "@/components/AppHeader.vue";
