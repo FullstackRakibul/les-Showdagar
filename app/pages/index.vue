@@ -88,10 +88,9 @@
     </section>
 
     <OurSpecializedBusinessClubs />
-    <HeroSectionBanner />
-
-
+    <!-- <HeroSectionBanner /> -->
     <FeaturedProducts />
+    <HeroSectionOne />
 
     <section class="py-24 bg-gradient-to-b from-gray-50 to-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -265,6 +264,7 @@ import { ArrowRight, ChevronDown, Package, Globe, Shield, Users, Star, Cpu, Spar
 import OurSpecializedBusinessClubs from '../components/index/OurSpecializedBusinessClubs.vue'
 import FeaturedProducts from '../components/index/FeaturedProducts.vue'
 import HeroSectionBanner from '../components/index/HeroSectionBanner.vue'
+import HeroSectionOne from '@/components/index/herosection/HeroSectionOne.vue'
 
 const router = useRouter()
 

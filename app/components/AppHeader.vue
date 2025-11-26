@@ -1,4 +1,5 @@
 <template>
+
   <header
     class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 transition-colors duration-200">
     <div class="px-4 sm:px-6">

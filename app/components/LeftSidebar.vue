@@ -85,7 +85,7 @@ const productStore = useProductStore();
 
 const layoutStore = useLayoutStore();
 const toggleLeftSidebar = () => {
-  layoutStore.toggleLeftSidebar();
+  layoutStore.leftSidebarOpen.value = !layoutStore.leftSidebarOpen.value;
 };
 
 const categories = productStore.categories;

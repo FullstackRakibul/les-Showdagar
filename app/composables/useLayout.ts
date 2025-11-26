@@ -8,13 +8,17 @@ export const useLayout = () => {
   const toggleLeftSidebar = () => {
     if (isMobile.value) {
       // On mobile, close right sidebar when opening left
+      
+
       if (!leftSidebarOpen.value) {
         rightSidebarOpen.value = false
       }
       leftSidebarOpen.value = !leftSidebarOpen.value
+
     } else {
       // On desktop, just toggle left sidebar
       leftSidebarOpen.value = !leftSidebarOpen.value
+      console.log("side bar open tarpor , ", leftSidebarOpen.value)
     }
   }
 

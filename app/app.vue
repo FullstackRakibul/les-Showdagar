@@ -1,4 +1,5 @@
 <template>
+
   <div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
     <div class="fixed inset-0 bg-black bg-opacity-50 z-30" @click="closeMobileSidebars"
       v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"></div>
@@ -11,7 +12,9 @@
     </transition>
 
     <div class="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
+
       <div class="relative z-20 flex-shrink-0">
+
         <AppHeader />
       </div>
       <main class="flex-1 overflow-hidden">
@@ -19,9 +22,11 @@
           <div class="p-4 sm:p-6">
             <NuxtPage />
           </div>
+          <AppFooter />
         </div>
       </main>
     </div>
+
 
     <transition name="slide-right">
       <div v-if="rightSidebarOpen" class="z-40 flex-shrink-0"
@@ -91,6 +96,17 @@ body {
 
 .slide-right-leave-to {
   transform: translateX(100%);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
 }
 
 /* CSS Variables for theme colors */

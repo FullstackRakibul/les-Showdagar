@@ -108,8 +108,9 @@ const isOpen = ref(false);
 const activeMenu = ref('Menu');
 
 const layoutStore = useLayout();
+
 const toggleLeftSidebar = () => {
-  layoutStore.toggleLeftSidebar();
+  -  layoutStore.toggleLeftSidebar();
 };
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;

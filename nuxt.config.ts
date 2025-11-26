@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   
   css: ["@fortawesome/fontawesome-free/css/all.css",'~/assets/css/main.css'],
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       title: "RH Business Club",
       meta: [
