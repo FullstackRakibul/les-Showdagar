@@ -40,7 +40,7 @@
               <p class="text-xs text-gray-500 dark:text-gray-400">Browse entire catalog</p>
             </div>
           </button>
-          <button @click="layoutStore.toggleLeftSidebar"
+          <button @click="toggleLeftSidebar"
             class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
             <LucideListIndentDecrease class="w-5 h-5 " />
             <div>
@@ -101,16 +101,17 @@ import {
   Gift,
   Calendar,
 } from 'lucide-vue-next';
-import { useLayout } from '../../composables/useLayout';
+import { useLayoutStore } from '../../stores/layout';
 
 const router = useRouter();
 const isOpen = ref(false);
 const activeMenu = ref('Menu');
 
-const layoutStore = useLayout();
+const layoutStore = useLayoutStore();
 
 const toggleLeftSidebar = () => {
-  -  layoutStore.toggleLeftSidebar();
+
+  layoutStore.toggleLeftSidebar();
 };
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
@@ -124,12 +125,12 @@ const closeMenu = () => {
   isOpen.value = false;
 };
 
-const selectMenu = (menu) => {
+const selectMenu = (menu: string) => {
   activeMenu.value = menu;
   isOpen.value = false;
 
   // Navigate based on menu selection
-  const routes = {
+  const routes: Record<string, string> = {
     'Home': '/',
     'All Products': '/products',
     'Categories': '/shop',

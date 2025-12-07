@@ -6,19 +6,15 @@
       <!-- Footer Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
         <!-- Brand Section -->
-        <div class="col-span-1">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <Store class="w-6 h-6 text-white" />
-            </div>
-            <div class="flex flex-col">
-              <span class="font-bold text-gray-900 dark:text-white text-sm">RH Business Club</span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">Smart Shopping Club</span>
-            </div>
+        <div class="col-span-1 flex items-center space-x-3 mb-4">
+
+          <div class="flex-1 flex justify-center">
+            <button @click="navigateTo('/')" class="flex items-center hover:opacity-80 transition-opacity">
+              <img src="@/assets/img/globalUse/RH-Business-Club-logo-trsns-black.png" alt="RH Business Club"
+                class="h-40 w-auto" />
+            </button>
           </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-            Discover premium tech products and electronics for your lifestyle.
-          </p>
+
         </div>
 
         <!-- Shop Links -->
@@ -57,25 +53,25 @@
           <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-4">Support</h3>
           <ul class="space-y-3">
             <li>
-              <NuxtLink to="/contact"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 Contact Us
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/faq"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 FAQ
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/shipping"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 Shipping Info
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/returns"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 Returns
               </NuxtLink>
@@ -88,25 +84,25 @@
           <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-4">Legal</h3>
           <ul class="space-y-3">
             <li>
-              <NuxtLink to="/about"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 About Us
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/privacy"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 Privacy Policy
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/terms"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 Terms of Service
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/cookies"
+              <NuxtLink to="/"
                 class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
                 Cookie Policy
               </NuxtLink>
@@ -134,16 +130,16 @@
     <div class="md:hidden px-4 py-6 space-y-6">
       <!-- Quick Links -->
       <div class="grid grid-cols-2 gap-4 text-center">
-        <NuxtLink to="/contact" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
           Contact
         </NuxtLink>
-        <NuxtLink to="/faq" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
           FAQ
         </NuxtLink>
-        <NuxtLink to="/privacy" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
           Privacy
         </NuxtLink>
-        <NuxtLink to="/terms" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
           Terms
         </NuxtLink>
       </div>

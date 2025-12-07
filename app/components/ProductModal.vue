@@ -111,7 +111,7 @@
                     product.originalPrice }}</span>
                   <span v-if="product.originalPrice"
                     class="ml-4 bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">Save ৳{{
-                    (product.originalPrice - product.price).toFixed(2) }}</span>
+                      (product.originalPrice - product.price).toFixed(2) }}</span>
                 </div>
 
                 <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
@@ -177,7 +177,7 @@ const productReels = computed(() => [
   {
     id: 1,
     title: `${product.value.name} - Unboxing & First Look`,
-    thumbnail: '/tech-unboxing-thumbnail.png',
+    thumbnail: 'https://www.youtube.com/shorts/Sl_3Xo9g80M?feature=share',
     views: '12.5K'
   },
   {
@@ -189,7 +189,7 @@ const productReels = computed(() => [
   {
     id: 3,
     title: `${product.value.brand} vs Competition`,
-    thumbnail: '/gaming-setup-thumbnail.png',
+    thumbnail: 'https://img.freepik.com/free-vector/shopping-store-icon-isolated-illustration_18591-82228.jpg?semt=ais_hybrid&w=740&q=80',
     views: '15.1K'
   },
   {

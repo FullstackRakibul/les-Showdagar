@@ -21,8 +21,8 @@
         <!-- Center: Logo -->
         <div class="flex-1 flex justify-center">
           <button @click="navigateTo('/')" class="flex items-center hover:opacity-80 transition-opacity">
-            <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns.png" alt="RH Business Club"
-              class="h-10 sm:h-12 w-auto" />
+            <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
+              class="h-8 sm:h-10 w-auto" />
           </button>
         </div>
 
@@ -135,10 +135,10 @@ const layoutStore = useLayoutStore();
 const authStore = useAuthStore();
 
 const showProfileMenu = ref(false);
-const profileDropdown = ref(null);
+const profileDropdown = ref<HTMLElement | null>(null);
 const isDarkMode = ref(false);
 
-const navigateTo = (path) => {
+const navigateTo = (path: string) => {
   router.push(path);
   showProfileMenu.value = false;
 };
@@ -164,7 +164,7 @@ const toggleLeftSidebar = () => {
   layoutStore.toggleLeftSidebar();
 };
 
-const handleClickOutside = (event) => {
+const handleClickOutside = (event: any) => {
   if (profileDropdown.value && !profileDropdown.value.contains(event.target)) {
     showProfileMenu.value = false;
   }

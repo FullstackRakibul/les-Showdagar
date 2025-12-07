@@ -5,7 +5,7 @@
       <div class="flex items-center space-x-2">
         <!-- Logo -->
         <button @click="navigateTo('/')" class="flex items-center hover:opacity-80 transition-opacity">
-          <img src="../assets/img/globalUse/RH-Business-Club-logo-black-trsns-vvv.png" alt="RH Business Club"
+          <img src="@/assets/img/globalUse/RH-Business-Club-logo-black-trsns-vvv.png" alt="RH Business Club"
             class="w-auto" />
         </button>
 

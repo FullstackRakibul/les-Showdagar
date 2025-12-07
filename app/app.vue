@@ -18,7 +18,7 @@
         <AppHeader />
       </div>
       <main class="flex-1 overflow-hidden">
-        <div class="h-full overflow-y-auto">
+        <div class="h-full overflow-y-auto" ref="scrollContainer">
           <div class="p-4 sm:p-6">
             <NuxtPage />
           </div>
@@ -39,17 +39,21 @@
 
 <script setup>
 import 'ant-design-vue/dist/reset.css';
-import { computed, onMounted, onUnmounted } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useLayoutStore } from "@/stores/layout";
 import AppHeader from "@/components/AppHeader.vue";
 import LeftSidebar from "@/components/LeftSidebar.vue";
 import RightSidebar from "@/components/RightSidebar.vue";
+import { useNuxtApp } from '#app';
+
+const { $lenis, $Lenis } = useNuxtApp();
+const scrollContainer = ref(null);
 
 const layoutStore = useLayoutStore();
 
 const leftSidebarOpen = computed(() => layoutStore.leftSidebarOpen);
 const rightSidebarOpen = computed(() => layoutStore.rightSidebarOpen);
-const isMobile = computed(() => layoutStore.isMobile);
+const isMobile = computed(() => layoutStore.isMobile.value);
 
 const closeMobileSidebars = () => {
   if (isMobile.value) layoutStore.closeBothSidebars();
@@ -57,9 +61,32 @@ const closeMobileSidebars = () => {
 
 onMounted(() => {
   layoutStore.init();
+
+  if (process.client && $Lenis && scrollContainer.value) {
+    $lenis.value = new $Lenis({
+      wrapper: scrollContainer.value,
+      content: scrollContainer.value.firstElementChild,
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    })
+
+    function raf(time) {
+      $lenis.value?.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+  }
 });
+
 onUnmounted(() => {
   layoutStore.destroy();
+  $lenis.value?.destroy()
 });
 </script>
 
@@ -166,5 +193,26 @@ main {
 
 main * {
   pointer-events: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 </style>

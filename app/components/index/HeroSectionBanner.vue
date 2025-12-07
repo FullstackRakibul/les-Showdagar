@@ -32,7 +32,7 @@
         <div
           class="group h-32 sm:h-40 md:h-48 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer bg-white flex items-center justify-center">
           <div class="relative w-full h-full flex items-center justify-center p-4">
-            <img src="@/assets/img/globalUse/rhbusinessclub-logo.png" alt="Watches"
+            <img src="@/assets/img/globalUse/RH-Business-Club-logo-trsns-black.png" alt="Watches"
               class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
           </div>
         </div>
@@ -41,7 +41,7 @@
         <div
           class="group h-32 sm:h-40 md:h-48 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer bg-white flex items-center justify-center">
           <div class="relative w-full h-full flex items-center justify-center p-4">
-            <img src="@/assets/img/globalUse/rhbusinessclub-logo.png" alt="Computers"
+            <img src="@/assets/img/globalUse/RH-Business-Club-logo-trsns-black.png" alt="Computers"
               class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
           </div>
         </div>
@@ -50,7 +50,7 @@
         <div
           class="group h-32 sm:h-40 md:h-48 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer bg-white flex items-center justify-center">
           <div class="relative w-full h-full flex items-center justify-center p-4">
-            <img src="@/assets/img/globalUse/rhbusinessclub-logo.png" alt="Beauty"
+            <img src="@/assets/img/globalUse/RH-Business-Club-logo-trsns-black.png" alt="Beauty"
               class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
           </div>
         </div>
