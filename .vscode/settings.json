@@ -1,3 +1,10 @@
 {
-  "vue3snippets.enable-compile-vue-file-on-did-save-code": false
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+  "stylelint.enable": false,
+  "tailwindCSS.experimental.configFile": null,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }

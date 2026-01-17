@@ -1,163 +1,168 @@
 <template>
   <div class="relative">
-    <!-- Menu Button -->
-    <button @click="toggleMenu" @mouseenter="openMenu" @mouseleave="closeMenu"
-      class="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-      :class="{ 'bg-gray-100 dark:bg-gray-800': isOpen }">
-      <LucideMenu class="w-5 h-5 text-gray-700 dark:text-gray-300" />
-      <span class="hidden sm:inline text-sm font-medium text-gray-900 dark:text-white">{{ activeMenu }}</span>
-      <LucideChevronDown class="w-4 h-4 text-gray-600 dark:text-gray-400 transition-transform duration-200"
+    <Button variant="ghost" size="sm" class="flex items-center gap-2" @click="toggleMenu" ref="triggerRef">
+      <HugeiconsIcon :icon="Menu09Icon" :size="20" />
+      <span class="hidden sm:inline text-sm">Browse</span>
+      <HugeiconsIcon :icon="ArrowDown01Icon" :size="16" class="transition-transform"
         :class="{ 'rotate-180': isOpen }" />
-    </button>
+    </Button>
 
     <!-- Megamenu Dropdown -->
-    <transition name="megamenu">
-      <div v-if="isOpen" @mouseenter="openMenu" @mouseleave="closeMenu"
-        class="absolute left-0 mt-1 w-80 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 py-2 z-50">
-
-        <!-- Home Section -->
-        <div class="px-2 py-1">
-          <button @click="selectMenu('Home')"
-            class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
-            <LucideHome class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+    <Transition name="menu">
+      <div v-if="isOpen"
+        class="absolute left-0 top-full mt-2 w-[600px] bg-card border border-border rounded-xl shadow-lg z-50"
+        ref="menuRef">
+        <div class="p-6">
+          <div class="grid grid-cols-3 gap-6">
+            <!-- Quantum Club -->
             <div>
-              <p class="text-sm font-semibold text-gray-900 dark:text-white">Home</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Back to dashboard</p>
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 bg-quantum-500/20 rounded-lg flex items-center justify-center">
+                  <HugeiconsIcon :icon="CpuIcon" :size="16" class="text-quantum-500" />
+                </div>
+                <h3 class="font-medium text-foreground">Quantum</h3>
+              </div>
+              <ul class="space-y-2">
+                <li v-for="cat in quantumCategories" :key="cat.slug">
+                  <NuxtLink :to="`/products?category=${cat.slug}`"
+                    class="text-sm text-muted-foreground hover:text-foreground transition-colors block py-1"
+                    @click="closeMenu">
+                    {{ cat.name }}
+                  </NuxtLink>
+                </li>
+              </ul>
             </div>
-          </button>
-        </div>
 
-        <div class="border-t border-gray-100 dark:border-gray-800 my-1"></div>
+            <!-- Elegance Club -->
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 bg-elegance-500/20 rounded-lg flex items-center justify-center">
+                  <HugeiconsIcon :icon="DiamondIcon" :size="16" class="text-elegance-500" />
+                </div>
+                <h3 class="font-medium text-foreground">Elegance</h3>
+              </div>
+              <ul class="space-y-2">
+                <li v-for="cat in eleganceCategories" :key="cat.slug">
+                  <NuxtLink :to="`/products?category=${cat.slug}`"
+                    class="text-sm text-muted-foreground hover:text-foreground transition-colors block py-1"
+                    @click="closeMenu">
+                    {{ cat.name }}
+                  </NuxtLink>
+                </li>
+              </ul>
+            </div>
 
-        <!-- Shop Section -->
-        <div class="px-2 py-1">
-          <p class="px-3 py-1 text-xs font-semibold text-gray-600 dark:text-gray-500 uppercase tracking-wide">Shop</p>
-          <button @click="selectMenu('All Products')"
-            class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
-            <LucideShoppingBag class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <!-- NextStop Club -->
             <div>
-              <p class="text-sm font-semibold text-gray-900 dark:text-white">All Products</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Browse entire catalog</p>
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 bg-nextstop-500/20 rounded-lg flex items-center justify-center">
+                  <HugeiconsIcon :icon="Airplane01Icon" :size="16" class="text-nextstop-500" />
+                </div>
+                <h3 class="font-medium text-foreground">NextStop</h3>
+              </div>
+              <ul class="space-y-2">
+                <li v-for="cat in nextstopCategories" :key="cat.slug">
+                  <NuxtLink :to="`/products?category=${cat.slug}`"
+                    class="text-sm text-muted-foreground hover:text-foreground transition-colors block py-1"
+                    @click="closeMenu">
+                    {{ cat.name }}
+                  </NuxtLink>
+                </li>
+              </ul>
             </div>
-          </button>
-          <button @click="toggleLeftSidebar"
-            class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
-            <LucideListIndentDecrease class="w-5 h-5 " />
-            <div>
-              <p class="text-sm font-semibold text-gray-900 dark:text-white">More Events</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">See Events on Left Sidebar.</p>
-            </div>
-          </button>
-          <button @click="selectMenu('Deals')"
-            class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
-            <LucideZap class="w-5 h-5 text-yellow-500" />
-            <div>
-              <p class="text-sm font-semibold text-gray-900 dark:text-white">Deals & Offers</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Hot deals available</p>
-            </div>
-          </button>
-        </div>
+          </div>
 
-        <div class="border-t border-gray-100 dark:border-gray-800 my-1"></div>
-
-        <!-- Club Section -->
-        <div class="px-2 py-1">
-          <p class="px-3 py-1 text-xs font-semibold text-gray-600 dark:text-gray-500 uppercase tracking-wide">Club</p>
-          <button @click="selectMenu('Membership')"
-            class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
-            <Users class="w-5 h-5 text-purple-600 dark:text-purple-400" />
-            <div>
-              <p class="text-sm font-semibold text-gray-900 dark:text-white">Membership</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Join RH Business Club</p>
-            </div>
-          </button>
-          <button @click="selectMenu('Benefits')"
-            class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
-            <LucideGift class="w-5 h-5 text-pink-600 dark:text-pink-400" />
-            <div>
-              <p class="text-sm font-semibold text-gray-900 dark:text-white">Member Benefits</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Exclusive perks</p>
-            </div>
-          </button>
-
+          <!-- Footer -->
+          <div class="mt-6 pt-4 border-t border-border flex items-center justify-between">
+            <NuxtLink to="/products" class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              @click="closeMenu">
+              View All Products
+            </NuxtLink>
+            <Button variant="outline" size="sm" @click="closeMenu">
+              <HugeiconsIcon :icon="Search01Icon" :size="16" class="mr-2" />
+              Search
+            </Button>
+          </div>
         </div>
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Button } from '@/components/ui/button'
 
+import { HugeiconsIcon } from '@hugeicons/vue'
 import {
-  Menu,
-  ChevronDown,
-  Home,
-  ShoppingBag,
-  Tag,
-  Zap,
-  Users,
-  Gift,
-  Calendar,
-} from 'lucide-vue-next';
-import { useLayoutStore } from '../../stores/layout';
+  Menu09Icon,
+  ArrowDown01Icon,
+  CpuIcon,
+  DiamondIcon,
+  Airplane01Icon,
+  Search01Icon,
+} from '@hugeicons/core-free-icons'
 
-const router = useRouter();
-const isOpen = ref(false);
-const activeMenu = ref('Menu');
+const isOpen = ref(false)
+const triggerRef = ref<HTMLElement | null>(null)
+const menuRef = ref<HTMLElement | null>(null)
 
-const layoutStore = useLayoutStore();
+const quantumCategories = [
+  { name: 'Electronics', slug: 'electronics' },
+  { name: 'Smartphones', slug: 'smartphones' },
+  { name: 'Audio', slug: 'audio' },
+  { name: 'Accessories', slug: 'accessories' },
+]
 
-const toggleLeftSidebar = () => {
+const eleganceCategories = [
+  { name: 'Fashion', slug: 'fashion' },
+  { name: 'Watches', slug: 'watches' },
+  { name: 'Jewelry', slug: 'jewelry' },
+  { name: 'Lifestyle', slug: 'lifestyle' },
+]
 
-  layoutStore.toggleLeftSidebar();
-};
+const nextstopCategories = [
+  { name: 'Visa Services', slug: 'visa' },
+  { name: 'Travel Packages', slug: 'travel' },
+  { name: 'Consultation', slug: 'consultation' },
+  { name: 'Immigration', slug: 'immigration' },
+]
+
 const toggleMenu = () => {
-  isOpen.value = !isOpen.value;
-};
-
-const openMenu = () => {
-  isOpen.value = true;
-};
+  isOpen.value = !isOpen.value
+}
 
 const closeMenu = () => {
-  isOpen.value = false;
-};
+  isOpen.value = false
+}
 
-const selectMenu = (menu: string) => {
-  activeMenu.value = menu;
-  isOpen.value = false;
-
-  // Navigate based on menu selection
-  const routes: Record<string, string> = {
-    'Home': '/',
-    'All Products': '/products',
-    'Categories': '/shop',
-    'Deals': '/products?filter=deals',
-    'Membership': '/club/membership',
-    'Benefits': '/club/benefits',
-    'Events': '/club/events',
-  };
-
-  if (routes[menu]) {
-    router.push(routes[menu]);
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as Node
+  if (
+    triggerRef.value && !triggerRef.value.contains(target) &&
+    menuRef.value && !menuRef.value.contains(target)
+  ) {
+    closeMenu()
   }
-};
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <style scoped>
-.megamenu-enter-active,
-.megamenu-leave-active {
-  transition: all 0.2s ease;
+.menu-enter-active,
+.menu-leave-active {
+  transition: all 0.15s ease;
 }
 
-.megamenu-enter-from {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-.megamenu-leave-to {
+.menu-enter-from,
+.menu-leave-to {
   opacity: 0;
   transform: translateY(-8px);
 }

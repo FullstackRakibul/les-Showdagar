@@ -1,180 +1,107 @@
 <template>
-  <div class="relative" ref="cartDropdown">
-    <!-- Cart Button -->
-    <button @click="toggleCart"
-      class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-      title="Shopping Cart">
-      <ShoppingCart class="w-5 h-5 text-gray-700 dark:text-gray-300" />
-      <span v-if="productStore.cartItemsCount > 0"
-        class="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-        {{ productStore.cartItemsCount > 9 ? "9+" : productStore.cartItemsCount }}
+  <div class="relative" ref="dropdownRef">
+    <Button variant="ghost" size="icon" class="relative" @click="toggleDropdown">
+      <HugeiconsIcon :icon="ShoppingCart01Icon" :size="20" />
+      <span v-if="cartCount > 0"
+        class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-quantum-500 rounded-full text-[10px] font-medium text-white flex items-center justify-center">
+        {{ cartCount > 9 ? '9+' : cartCount }}
       </span>
-    </button>
+    </Button>
 
-    <!-- Cart Modal -->
-    <teleport to="body">
-      <transition name="modal">
-        <div v-if="isOpen" class="fixed inset-0 z-[9999] overflow-y-auto">
-          <div class="flex items-center justify-center min-h-screen px-4">
-            <!-- Backdrop -->
-            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="closeCart"></div>
+    <!-- Dropdown -->
+    <Transition name="dropdown">
+      <div v-if="isOpen"
+        class="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
+        <!-- Header -->
+        <div class="px-4 py-3 border-b border-border">
+          <h3 class="font-medium text-foreground">Cart ({{ cartCount }})</h3>
+        </div>
 
-            <!-- Modal Content -->
-            <div
-              class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full max-h-[85vh] overflow-hidden">
-              <!-- Header -->
-              <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                  Shopping Cart
-                </h3>
-                <button @click="closeCart"
-                  class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                  <X class="w-5 h-5" />
-                </button>
+        <!-- Items -->
+        <div class="max-h-80 overflow-y-auto">
+          <div v-if="cartItems.length === 0" class="py-8 text-center">
+            <HugeiconsIcon :icon="ShoppingCart01Icon" :size="40" class="text-muted-foreground/50 mx-auto mb-2" />
+            <p class="text-sm text-muted-foreground">Your cart is empty</p>
+          </div>
+          <div v-else class="divide-y divide-border">
+            <div v-for="item in cartItems" :key="item.product.id" class="p-4 flex items-center gap-3">
+              <img :src="item.product.image" :alt="item.product.name" class="w-14 h-14 object-cover rounded-lg" />
+              <div class="min-w-0 flex-1">
+                <p class="text-sm text-foreground truncate">{{ item.product.name }}</p>
+                <p class="text-xs text-muted-foreground mt-0.5">
+                  ৳{{ item.product.price }} × {{ item.quantity }}
+                </p>
               </div>
-
-              <!-- Cart Items -->
-              <div class="overflow-y-auto" style="max-height: calc(85vh - 200px)">
-                <!-- Empty State -->
-                <div v-if="productStore.cart.length === 0" class="text-center py-12">
-                  <ShoppingCart class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-                  <p class="text-gray-500 dark:text-gray-400 mb-4">Your cart is empty</p>
-                  <button @click="closeCart"
-                    class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium">
-                    Continue Shopping
-                  </button>
-                </div>
-
-                <!-- Cart Items List -->
-                <div v-else class="p-6 space-y-4">
-                  <div v-for="item in productStore.cart"
-                    :key="`${item.product.id}-${item.selectedColor}-${item.selectedSize}`"
-                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                    <!-- Product Image -->
-                    <img :src="item.product.image" :alt="item.product.name" class="w-16 h-16 object-cover rounded-lg" />
-
-                    <!-- Product Details -->
-                    <div class="flex-1 min-w-0">
-                      <h4 class="font-medium text-gray-900 dark:text-white truncate">
-                        {{ item.product.name }}
-                      </h4>
-                      <p class="text-sm text-gray-500 dark:text-gray-400">
-                        ${{ item.product.price }}
-                      </p>
-
-                      <!-- Variants -->
-                      <div class="flex items-center space-x-2 mt-1">
-                        <span v-if="item.selectedColor" class="text-xs bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">
-                          {{ item.selectedColor }}
-                        </span>
-                        <span v-if="item.selectedSize" class="text-xs bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">
-                          {{ item.selectedSize }}
-                        </span>
-                      </div>
-
-                      <!-- Quantity Controls -->
-                      <div class="flex items-center space-x-2 mt-2">
-                        <button @click="decreaseQuantity(item)"
-                          class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center justify-center transition-colors">
-                          <Minus class="w-3 h-3" />
-                        </button>
-                        <span class="font-medium text-gray-900 dark:text-white min-w-[2rem] text-center">
-                          {{ item.quantity }}
-                        </span>
-                        <button @click="increaseQuantity(item)"
-                          class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center justify-center transition-colors">
-                          <Plus class="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-
-                    <!-- Price and Remove -->
-                    <div class="text-right">
-                      <p class="font-semibold text-gray-900 dark:text-white">
-                        ${{ (item.product.price * item.quantity).toFixed(2) }}
-                      </p>
-                      <button @click="removeItem(item)"
-                        class="text-red-500 hover:text-red-700 text-sm mt-1 transition-colors">
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Footer with Total and Checkout -->
-              <div v-if="productStore.cart.length > 0" class="border-t border-gray-200 dark:border-gray-700 p-6">
-                <div class="flex justify-between items-center mb-4">
-                  <span class="text-lg font-semibold text-gray-900 dark:text-white">Total:</span>
-                  <span class="text-xl font-bold text-gray-900 dark:text-white">
-                    ${{ productStore.cartTotal.toFixed(2) }}
-                  </span>
-                </div>
-                <button @click="proceedToCheckout"
-                  class="w-full bg-primary text-white py-3 px-4 rounded-xl hover:bg-primary-dark transition-colors font-semibold text-center">
-                  Proceed to Checkout
-                </button>
-              </div>
+              <button class="text-muted-foreground hover:text-red-500 transition-colors" @click="removeItem(item)">
+                <HugeiconsIcon :icon="Delete01Icon" :size="16" />
+              </button>
             </div>
           </div>
         </div>
-      </transition>
-    </teleport>
+
+        <!-- Footer -->
+        <div v-if="cartItems.length > 0" class="p-4 border-t border-border space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-muted-foreground">Subtotal</span>
+            <span class="font-medium text-foreground">৳{{ cartTotal }}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <Button variant="outline" size="sm" @click="goToCart">
+              View Cart
+            </Button>
+            <Button size="sm" @click="goToCheckout">
+              Checkout
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { ShoppingCart, X, Minus, Plus } from 'lucide-vue-next'
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useProductStore } from '@/stores/products'
-import { navigateTo } from '#app'
+import { Button } from '@/components/ui/button'
 
+import { HugeiconsIcon } from '@hugeicons/vue'
+import {
+  ShoppingCart01Icon,
+  Delete01Icon,
+} from '@hugeicons/core-free-icons'
+
+const router = useRouter()
 const productStore = useProductStore()
-const isOpen = ref(false)
-const cartDropdown = ref(null)
 
-const toggleCart = () => {
+const isOpen = ref(false)
+const dropdownRef = ref<HTMLElement | null>(null)
+
+const cartItems = computed(() => productStore.cart)
+const cartCount = computed(() => productStore.cartItemsCount)
+const cartTotal = computed(() => productStore.cartTotal)
+
+const toggleDropdown = () => {
   isOpen.value = !isOpen.value
 }
 
-const closeCart = () => {
+const removeItem = (item: any) => {
+  productStore.removeFromCart(item.product.id, item.selectedColor, item.selectedSize)
+}
+
+const goToCart = () => {
   isOpen.value = false
+  router.push('/cart')
 }
 
-const decreaseQuantity = (item) => {
-  productStore.updateCartQuantity(
-    item.product.id,
-    item.quantity - 1,
-    item.selectedColor,
-    item.selectedSize
-  )
+const goToCheckout = () => {
+  isOpen.value = false
+  router.push('/checkout')
 }
 
-const increaseQuantity = (item) => {
-  productStore.updateCartQuantity(
-    item.product.id,
-    item.quantity + 1,
-    item.selectedColor,
-    item.selectedSize
-  )
-}
-
-const removeItem = (item) => {
-  productStore.removeFromCart(
-    item.product.id,
-    item.selectedColor,
-    item.selectedSize
-  )
-}
-
-const proceedToCheckout = () => {
-  closeCart()
-  navigateTo('/checkout')
-}
-
-const handleClickOutside = (event) => {
-  if (cartDropdown.value && !cartDropdown.value.contains(event.target)) {
-    closeCart()
+const handleClickOutside = (event: MouseEvent) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+    isOpen.value = false
   }
 }
 
@@ -188,39 +115,14 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.3s ease;
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: all 0.15s ease;
 }
 
-.modal-enter-from,
-.modal-leave-to {
+.dropdown-enter-from,
+.dropdown-leave-to {
   opacity: 0;
-}
-
-/* Custom scrollbar */
-.overflow-y-auto::-webkit-scrollbar {
-  width: 6px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
-}
-
-.dark .overflow-y-auto::-webkit-scrollbar-thumb {
-  background: #4b5563;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
-
-.dark .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+  transform: translateY(-8px);
 }
 </style>

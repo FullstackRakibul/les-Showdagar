@@ -1,162 +1,124 @@
 <template>
-  <footer
-    class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 transition-colors duration-200">
-    <!-- Main Footer Content (Hidden on Mobile) -->
-    <div class="hidden md:block px-4 sm:px-6 py-12">
-      <!-- Footer Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-        <!-- Brand Section -->
-        <div class="col-span-1 flex items-center space-x-3 mb-4">
-
-          <div class="flex-1 flex justify-center">
-            <button @click="navigateTo('/')" class="flex items-center hover:opacity-80 transition-opacity">
-              <img src="@/assets/img/globalUse/RH-Business-Club-logo-trsns-black.png" alt="RH Business Club"
-                class="h-40 w-auto" />
-            </button>
-          </div>
-
+  <footer class="bg-card border-t border-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Brand Column -->
+        <div class="lg:col-span-1">
+          <NuxtLink to="/" class="inline-block mb-4">
+            <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
+              class="h-10 w-auto" />
+          </NuxtLink>
+          <p class="text-muted-foreground text-sm leading-relaxed max-w-xs">
+            Your premier commercial hub for sourcing, importing, and distributing
+            high-quality specialized products across exclusive sectors.
+          </p>
         </div>
 
-        <!-- Shop Links -->
+        <!-- Business Clubs -->
         <div>
-          <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-4">Shop</h3>
-          <ul class="space-y-3">
+          <h3 class="text-foreground font-medium mb-4">Business Clubs</h3>
+          <ul class="space-y-2">
             <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                All Products
+              <NuxtLink to="/products?club=quantum"
+                class="text-muted-foreground hover:text-quantum-500 text-sm transition-colors flex items-center gap-2">
+                <HugeiconsIcon :icon="CpuIcon" :size="16" />
+                Quantum Club
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                Best Sellers
+              <NuxtLink to="/products?club=elegance"
+                class="text-muted-foreground hover:text-elegance-500 text-sm transition-colors flex items-center gap-2">
+                <HugeiconsIcon :icon="DiamondIcon" :size="16" />
+                Elegance Club
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                New Arrivals
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                On Sale
+              <NuxtLink to="/products?club=nextstop"
+                class="text-muted-foreground hover:text-nextstop-500 text-sm transition-colors flex items-center gap-2">
+                <HugeiconsIcon :icon="Airplane01Icon" :size="16" />
+                NextStop Club
               </NuxtLink>
             </li>
           </ul>
         </div>
 
-        <!-- Support Links -->
+        <!-- Support -->
         <div>
-          <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-4">Support</h3>
-          <ul class="space-y-3">
+          <h3 class="text-foreground font-medium mb-4">Support</h3>
+          <ul class="space-y-2">
             <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                Contact Us
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                FAQ
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                Shipping Info
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                Returns
-              </NuxtLink>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Legal Links -->
-        <div>
-          <h3 class="font-semibold text-gray-900 dark:text-white text-sm mb-4">Legal</h3>
-          <ul class="space-y-3">
-            <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+              <NuxtLink to="/about" class="text-muted-foreground hover:text-foreground text-sm transition-colors">
                 About Us
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                Privacy Policy
+              <NuxtLink to="/contact" class="text-muted-foreground hover:text-foreground text-sm transition-colors">
+                Contact
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                Terms of Service
+              <NuxtLink to="/faq" class="text-muted-foreground hover:text-foreground text-sm transition-colors">
+                FAQ
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/"
-                class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                Cookie Policy
+              <NuxtLink to="/shipping" class="text-muted-foreground hover:text-foreground text-sm transition-colors">
+                Shipping Info
               </NuxtLink>
             </li>
           </ul>
         </div>
-      </div>
 
-
-
-      <!-- Bottom Footer -->
-      <div class="pt-8 border-t border-gray-200 dark:border-gray-700">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p class="text-sm text-gray-500 dark:text-gray-400">
-            © {{ currentYear }} RH Business Club. All rights reserved.
-          </p>
-          <div class="flex items-center space-x-6 text-xs text-gray-500 dark:text-gray-400">
-            <span>❤️ for smart shoppers</span>
+        <!-- Connect -->
+        <div>
+          <h3 class="text-foreground font-medium mb-4">Connect</h3>
+          <div class="flex items-center gap-3 mb-4">
+            <a href="#"
+              class="w-9 h-9 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors">
+              <i class="fab fa-facebook-f text-sm"></i>
+            </a>
+            <a href="#"
+              class="w-9 h-9 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors">
+              <i class="fab fa-instagram text-sm"></i>
+            </a>
+            <a href="#"
+              class="w-9 h-9 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors">
+              <i class="fab fa-twitter text-sm"></i>
+            </a>
           </div>
+          <p class="text-muted-foreground text-sm flex items-center gap-2">
+            <HugeiconsIcon :icon="Mail01Icon" :size="16" />
+            support@rhbusinessclub.com
+          </p>
         </div>
       </div>
-    </div>
 
-    <!-- Mobile Footer (Simplified) -->
-    <div class="md:hidden px-4 py-6 space-y-6">
-      <!-- Quick Links -->
-      <div class="grid grid-cols-2 gap-4 text-center">
-        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-          Contact
-        </NuxtLink>
-        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-          FAQ
-        </NuxtLink>
-        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-          Privacy
-        </NuxtLink>
-        <NuxtLink to="/" class="text-xs text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-          Terms
-        </NuxtLink>
-      </div>
-
-      <!-- Copyright -->
-      <div class="text-center">
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          © {{ currentYear }} RH Business Club
-        </p>
+      <!-- Bottom Bar -->
+      <div class="mt-12 pt-8 border-t border-border">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p class="text-muted-foreground text-sm">
+            © 2026 RH Business Club. All rights reserved.
+          </p>
+          <div class="flex items-center gap-6">
+            <NuxtLink to="/privacy" class="text-muted-foreground hover:text-foreground text-sm transition-colors">
+              Privacy Policy
+            </NuxtLink>
+            <NuxtLink to="/terms" class="text-muted-foreground hover:text-foreground text-sm transition-colors">
+              Terms of Service
+            </NuxtLink>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
 </template>
 
-<script setup>
-import { computed } from 'vue'
-import { Store, Facebook, Twitter, Instagram, Linkedin } from 'lucide-vue-next'
-
-const currentYear = computed(() => new Date().getFullYear())
+<script setup lang="ts">
+import { HugeiconsIcon } from '@hugeicons/vue'
+import {
+  CpuIcon,
+  DiamondIcon,
+  Airplane01Icon,
+  Mail01Icon,
+} from '@hugeicons/core-free-icons'
 </script>

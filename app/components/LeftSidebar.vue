@@ -1,97 +1,111 @@
 <template>
-  <aside
-    class="h-full bg-white dark:bg-gray-900 flex flex-col shadow-xl border-r border-gray-200 dark:border-gray-700 transition-colors duration-200">
-    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-      <div class="flex items-center space-x-2">
-        <!-- Logo -->
-        <button @click="navigateTo('/')" class="flex items-center hover:opacity-80 transition-opacity">
-          <img src="@/assets/img/globalUse/RH-Business-Club-logo-black-trsns-vvv.png" alt="RH Business Club"
-            class="w-auto" />
-        </button>
-
-        <!-- Close Button -->
-        <button @click="layoutStore.toggleLeftSidebar"
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-          <LucidePanelLeftClose class="w-5 h-5 " />
-        </button>
+  <aside class="h-full bg-card border-r border-border flex flex-col">
+    <!-- Header -->
+    <div class="p-4 border-b border-border">
+      <div class="flex items-center justify-between">
+        <h2 class="font-medium text-foreground">Navigation</h2>
+        <Button v-if="isMobile" variant="ghost" size="icon" @click="layoutStore.closeLeftSidebar">
+          <HugeiconsIcon :icon="Cancel01Icon" :size="20" />
+        </Button>
       </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-4">
-      <nav class="space-y-4">
-        <NuxtLink to="/shop" :class="[
-          'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group',
-          isActive('/products')
-            ? 'bg-primary text-white shadow-lg'
-            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
-        ]">
-          <LucidePackage :class="[
-            'w-5 h-5',
-            isActive('/products') ? 'text-white' : 'text-gray-500 dark:text-gray-400',
-          ]" />
-          <span class="font-medium">Shop</span>
-        </NuxtLink>
+    <!-- Navigation -->
+    <nav class="flex-1 overflow-y-auto p-4">
+      <ul class="space-y-1">
+        <li v-for="item in navItems" :key="item.path">
+          <NuxtLink :to="item.path" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors" :class="[
+            isActive(item.path)
+              ? 'bg-muted text-foreground'
+              : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+          ]" @click="handleNavClick">
+            <HugeiconsIcon :icon="item.icon" :size="20" />
+            <span class="text-sm">{{ item.label }}</span>
+          </NuxtLink>
+        </li>
+      </ul>
 
-        <div>
-          <h3 class="px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-            Categories
-          </h3>
-          <div class="space-y-1">
-            <button v-for="category in categories" :key="category.name" @click="selectCategory(category.name)" :class="[
-              'w-full flex items-center justify-between px-4 py-2 rounded-lg transition-all duration-200 group',
-              productStore.selectedCategory === category.name
-                ? 'bg-primary/10 text-primary border border-primary/20'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
-            ]">
-              <span class="font-medium text-sm">{{ category.name }}</span>
-              <span :class="[
-                'text-xs px-2 py-1 rounded-full font-semibold',
-                productStore.selectedCategory === category.name
-                  ? 'bg-primary text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 group-hover:bg-gray-300 dark:group-hover:bg-gray-600',
-              ]">
-                {{ category.count }}
-              </span>
-            </button>
-          </div>
-        </div>
-      </nav>
-    </div>
+      <!-- Clubs Section -->
+      <div class="mt-8">
+        <h3 class="px-3 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+          Business Clubs
+        </h3>
+        <ul class="space-y-1">
+          <li v-for="club in clubs" :key="club.id">
+            <NuxtLink :to="`/products?club=${club.id}`"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              @click="handleNavClick">
+              <div class="w-2 h-2 rounded-full" :class="club.colorClass" />
+              <span class="text-sm">{{ club.name }}</span>
+            </NuxtLink>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-    <div class="p-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
-      <NuxtLink to="/about"
-        class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300">
-        <LucideInfo class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-        <span class="font-medium">About</span>
-      </NuxtLink>
-      <NuxtLink to="/settings"
-        class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300">
-        <LucideSettings class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-        <span class="font-medium">Account Settings</span>
-      </NuxtLink>
+    <!-- Footer -->
+    <div class="p-4 border-t border-border">
+      <Button variant="outline" size="sm" class="w-full" @click="navigateTo('/settings')">
+        <HugeiconsIcon :icon="Settings01Icon" :size="16" class="mr-2" />
+        Settings
+      </Button>
     </div>
   </aside>
 </template>
 
-<script setup>
-import { PanelLeftClose } from 'lucide-vue-next';
-import { useRoute } from "vue-router";
-import { Store, Package, Info, Settings } from "lucide-vue-next";
-import { useProductStore } from "@/stores/products";
-import { useLayoutStore } from '@/stores/layout';
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useLayoutStore } from '@/stores/layout'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
-const route = useRoute();
-const productStore = useProductStore();
+import { HugeiconsIcon } from '@hugeicons/vue'
+import {
+  Home01Icon,
+  Store01Icon,
+  ShoppingCart01Icon,
+  FavouriteIcon,
+  Package01Icon,
+  Settings01Icon,
+  Cancel01Icon,
+} from '@hugeicons/core-free-icons'
 
-const layoutStore = useLayoutStore();
-const toggleLeftSidebar = () => {
-  layoutStore.leftSidebarOpen.value = !layoutStore.leftSidebarOpen.value;
-};
+const route = useRoute()
+const router = useRouter()
+const layoutStore = useLayoutStore()
 
-const categories = productStore.categories;
-const isActive = (path) => route.path === path;
+const isMobile = computed(() => layoutStore.isMobile)
 
-const selectCategory = (name) => {
-  productStore.selectedCategory = name;
-};
+const navItems = [
+  { path: '/', icon: Home01Icon, label: 'Home' },
+  { path: '/products', icon: Store01Icon, label: 'Products' },
+  { path: '/cart', icon: ShoppingCart01Icon, label: 'Cart' },
+  { path: '/wishlist', icon: FavouriteIcon, label: 'Wishlist' },
+  { path: '/orders', icon: Package01Icon, label: 'Orders' },
+]
+
+const clubs = [
+  { id: 'quantum', name: 'Quantum Club', colorClass: 'bg-quantum-500' },
+  { id: 'elegance', name: 'Elegance Club', colorClass: 'bg-elegance-500' },
+  { id: 'nextstop', name: 'NextStop Club', colorClass: 'bg-nextstop-500' },
+]
+
+const isActive = (path: string) => {
+  if (path === '/') return route.path === '/'
+  return route.path.startsWith(path)
+}
+
+const handleNavClick = () => {
+  if (isMobile.value) {
+    layoutStore.closeLeftSidebar()
+  }
+}
+
+const navigateTo = (path: string) => {
+  router.push(path)
+  if (isMobile.value) {
+    layoutStore.closeLeftSidebar()
+  }
+}
 </script>

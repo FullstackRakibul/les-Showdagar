@@ -1,73 +1,76 @@
 <template>
+  <div class="min-h-screen bg-background text-foreground">
+    <!-- Mobile Overlay -->
+    <div v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"
+      class="fixed inset-0 bg-black/50 z-30 backdrop-blur-sm" @click="closeMobileSidebars" />
 
-  <div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-30" @click="closeMobileSidebars"
-      v-if="isMobile && (leftSidebarOpen || rightSidebarOpen)"></div>
+    <div class="flex h-screen overflow-hidden">
+      <!-- Left Sidebar -->
+      <Transition name="slide-left">
+        <aside v-if="leftSidebarOpen" class="z-40 flex-shrink-0"
+          :class="[isMobile ? 'fixed top-0 left-0 h-full w-72' : 'relative w-64']">
+          <LeftSidebar />
+        </aside>
+      </Transition>
 
-    <transition name="slide-left">
-      <div v-if="leftSidebarOpen" class="z-40 flex-shrink-0"
-        :class="[isMobile ? 'fixed top-0 left-0 h-full w-80' : 'relative w-64']">
-        <LeftSidebar />
-      </div>
-    </transition>
+      <!-- Main Content Area -->
+      <div class="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
+        <!-- Header -->
+        <header class="relative z-20 flex-shrink-0">
+          <AppHeader />
+        </header>
 
-    <div class="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
-
-      <div class="relative z-20 flex-shrink-0">
-
-        <AppHeader />
-      </div>
-      <main class="flex-1 overflow-hidden">
-        <div class="h-full overflow-y-auto" ref="scrollContainer">
-          <div class="p-4 sm:p-6">
+        <!-- Main Content -->
+        <main class="flex-1 overflow-hidden">
+          <div class="h-full overflow-y-auto" ref="scrollContainer">
             <NuxtPage />
+            <AppFooter />
           </div>
-          <AppFooter />
-        </div>
-      </main>
-    </div>
-
-
-    <transition name="slide-right">
-      <div v-if="rightSidebarOpen" class="z-40 flex-shrink-0"
-        :class="[isMobile ? 'fixed top-0 right-0 h-full w-80' : 'relative w-80']">
-        <RightSidebar />
+        </main>
       </div>
-    </transition>
+
+      <!-- Right Sidebar -->
+      <Transition name="slide-right">
+        <aside v-if="rightSidebarOpen" class="z-40 flex-shrink-0"
+          :class="[isMobile ? 'fixed top-0 right-0 h-full w-72' : 'relative w-80']">
+          <RightSidebar />
+        </aside>
+      </Transition>
+    </div>
   </div>
 </template>
 
-<script setup>
-import 'ant-design-vue/dist/reset.css';
-import { computed, onMounted, onUnmounted, ref } from "vue";
-import { useLayoutStore } from "@/stores/layout";
-import AppHeader from "@/components/AppHeader.vue";
-import LeftSidebar from "@/components/LeftSidebar.vue";
-import RightSidebar from "@/components/RightSidebar.vue";
-import { useNuxtApp } from '#app';
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from "vue"
+import { useLayoutStore } from "@/stores/layout"
+import AppHeader from "@/components/AppHeader.vue"
+import AppFooter from "@/components/AppFooter.vue"
+import LeftSidebar from "@/components/LeftSidebar.vue"
+import RightSidebar from "@/components/RightSidebar.vue"
+import { useNuxtApp } from '#app'
 
-const { $lenis, $Lenis } = useNuxtApp();
-const scrollContainer = ref(null);
+const { $lenis, $Lenis } = useNuxtApp()
+const scrollContainer = ref<HTMLElement | null>(null)
+const layoutStore = useLayoutStore()
 
-const layoutStore = useLayoutStore();
-
-const leftSidebarOpen = computed(() => layoutStore.leftSidebarOpen);
-const rightSidebarOpen = computed(() => layoutStore.rightSidebarOpen);
-const isMobile = computed(() => layoutStore.isMobile.value);
+const leftSidebarOpen = computed(() => layoutStore.leftSidebarOpen)
+const rightSidebarOpen = computed(() => layoutStore.rightSidebarOpen)
+const isMobile = computed(() => layoutStore.isMobile)
 
 const closeMobileSidebars = () => {
-  if (isMobile.value) layoutStore.closeBothSidebars();
-};
+  if (isMobile.value) layoutStore.closeBothSidebars()
+}
 
 onMounted(() => {
-  layoutStore.init();
+  layoutStore.init()
 
-  if (process.client && $Lenis && scrollContainer.value) {
+  // Initialize Lenis smooth scroll
+  if (import.meta.client && $Lenis && scrollContainer.value) {
     $lenis.value = new $Lenis({
       wrapper: scrollContainer.value,
-      content: scrollContainer.value.firstElementChild,
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      content: scrollContainer.value.firstElementChild ?? undefined,
+      duration: 1.0,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
@@ -75,126 +78,55 @@ onMounted(() => {
       touchMultiplier: 2,
     })
 
-    function raf(time) {
+    function raf(time: number) {
       $lenis.value?.raf(time)
       requestAnimationFrame(raf)
     }
 
     requestAnimationFrame(raf)
   }
-});
+})
 
 onUnmounted(() => {
-  layoutStore.destroy();
+  layoutStore.destroy()
   $lenis.value?.destroy()
-});
+})
 </script>
 
 <style>
-body {
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-/* Sidebar transitions */
+/* Sidebar Transitions */
 .slide-left-enter-active,
 .slide-left-leave-active {
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease-out;
 }
 
-.slide-left-enter-from {
-  transform: translateX(-100%);
-}
-
+.slide-left-enter-from,
 .slide-left-leave-to {
   transform: translateX(-100%);
 }
 
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease-out;
 }
 
-.slide-right-enter-from {
-  transform: translateX(100%);
-}
-
+.slide-right-enter-from,
 .slide-right-leave-to {
   transform: translateX(100%);
 }
 
+/* Page Transitions */
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.2s;
+  transition: opacity 0.15s ease;
 }
 
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-  filter: blur(1rem);
 }
 
-/* CSS Variables for theme colors */
-:root {
-  --color-primary: #3b82f6;
-  --color-primary-rgb: 59, 130, 246;
-  --color-primary-dark: #2563eb;
-  --font-size-base: 16px;
-  --layout-density: 1;
-}
-
-/* Tailwind CSS custom utilities */
-.bg-primary {
-  background-color: var(--color-primary);
-}
-
-.bg-primary-dark {
-  background-color: var(--color-primary-dark);
-}
-
-.text-primary {
-  color: var(--color-primary);
-}
-
-.border-primary {
-  border-color: var(--color-primary);
-}
-
-.ring-primary {
-  --tw-ring-color: var(--color-primary);
-}
-
-.focus\:ring-primary:focus {
-  --tw-ring-color: var(--color-primary);
-}
-
-/* Hover states */
-.hover\:bg-primary:hover {
-  background-color: var(--color-primary);
-}
-
-.hover\:bg-primary-dark:hover {
-  background-color: var(--color-primary-dark);
-}
-
-/* Smooth transitions for theme changes */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
-
-/* IMPORTANT: do not override .fixed on desktop (this broke modals/sidebars) */
-main {
-  pointer-events: auto;
-}
-
-main * {
-  pointer-events: auto;
-}
-
+/* Lenis Smooth Scroll */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -210,9 +142,5 @@ html.lenis body {
 
 .lenis.lenis-stopped {
   overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
 }
 </style>

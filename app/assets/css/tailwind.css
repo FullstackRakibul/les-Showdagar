@@ -1,3 +1,143 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* ============================================
+   RH Business Club - Design Tokens
+   ============================================ */
+
+@theme {
+  /* Quantum Club - Blue/Cyan (Tech) */
+  --color-quantum-50: oklch(0.97 0.02 220);
+  --color-quantum-100: oklch(0.93 0.04 220);
+  --color-quantum-200: oklch(0.85 0.08 220);
+  --color-quantum-300: oklch(0.75 0.12 220);
+  --color-quantum-400: oklch(0.65 0.16 220);
+  --color-quantum-500: oklch(0.55 0.18 220);
+  --color-quantum-600: oklch(0.48 0.16 220);
+  --color-quantum-700: oklch(0.40 0.14 220);
+  
+  /* Elegance Club - Purple/Pink (Fashion) */
+  --color-elegance-50: oklch(0.97 0.02 300);
+  --color-elegance-100: oklch(0.93 0.04 300);
+  --color-elegance-200: oklch(0.85 0.10 300);
+  --color-elegance-300: oklch(0.75 0.16 300);
+  --color-elegance-400: oklch(0.65 0.20 300);
+  --color-elegance-500: oklch(0.55 0.22 300);
+  --color-elegance-600: oklch(0.48 0.20 300);
+  --color-elegance-700: oklch(0.40 0.18 300);
+  
+  /* NextStop Club - Green/Emerald (Travel) */
+  --color-nextstop-50: oklch(0.97 0.02 160);
+  --color-nextstop-100: oklch(0.93 0.04 160);
+  --color-nextstop-200: oklch(0.85 0.10 160);
+  --color-nextstop-300: oklch(0.75 0.14 160);
+  --color-nextstop-400: oklch(0.65 0.18 160);
+  --color-nextstop-500: oklch(0.55 0.20 160);
+  --color-nextstop-600: oklch(0.48 0.18 160);
+  --color-nextstop-700: oklch(0.40 0.16 160);
+
+  /* Base Colors - Dark Mode First */
+  --color-background: oklch(0.12 0.01 260);
+  --color-foreground: oklch(0.98 0 0);
+  
+  --color-card: oklch(0.16 0.01 260);
+  --color-card-foreground: oklch(0.98 0 0);
+  
+  --color-popover: oklch(0.16 0.01 260);
+  --color-popover-foreground: oklch(0.98 0 0);
+  
+  --color-primary: oklch(0.98 0 0);
+  --color-primary-foreground: oklch(0.12 0.01 260);
+  
+  --color-secondary: oklch(0.22 0.01 260);
+  --color-secondary-foreground: oklch(0.98 0 0);
+  
+  --color-muted: oklch(0.22 0.01 260);
+  --color-muted-foreground: oklch(0.65 0.01 260);
+  
+  --color-accent: oklch(0.22 0.01 260);
+  --color-accent-foreground: oklch(0.98 0 0);
+  
+  --color-destructive: oklch(0.55 0.22 25);
+  --color-destructive-foreground: oklch(0.98 0 0);
+  
+  --color-border: oklch(0.25 0.01 260);
+  --color-input: oklch(0.25 0.01 260);
+  --color-ring: oklch(0.55 0.18 220);
+  
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   Scrollbar Styling (Minimal)
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+
+/* ============================================
+   Selection Styling
+   ============================================ */
+
+::selection {
+  background-color: var(--color-quantum-500);
+  color: white;
+}
+
+/* ============================================
+   Focus States
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Page Transitions
+   ============================================ */
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}

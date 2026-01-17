@@ -1,148 +1,106 @@
 <template>
-  <div
-    class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-all duration-300">
-    <!-- Added social media style header with user profile -->
-    <div class="flex items-center p-4 pb-2">
-      <img :src="creatorAvatar" :alt="creatorName"
-        class="w-10 h-10 rounded-full object-cover border-2 border-gray-200" />
-      <div class="ml-3 flex-1">
-        <h4 class="font-semibold text-gray-900 dark:text-white text-sm">{{ creatorName }}</h4>
-        <p class="text-xs text-gray-500 dark:text-gray-400">{{ creatorRole }}</p>
-      </div>
-      <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-        <MoreHorizontal class="w-5 h-5" />
-      </button>
-    </div>
-
-    <!-- Product image with video play overlay -->
-    <div class="relative cursor-pointer group" @click="openModal">
+  <Card class="group overflow-hidden bg-card border-border hover:border-muted-foreground/30 transition-colors">
+    <!-- Product Image -->
+    <div class="relative cursor-pointer" @click="openModal">
       <img :src="product.image" :alt="product.name" class="w-full aspect-square object-cover" />
-      <!-- Video play overlay -->
-      <div
-        class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div class="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
-            <Play class="w-8 h-8 text-gray-800 ml-1" />
-          </div>
-        </div>
+
+      <!-- Club Badge -->
+      <div class="absolute top-3 left-3">
+        <Badge :class="clubBadgeClass" class="text-xs">
+          {{ clubName }}
+        </Badge>
       </div>
 
-      <!-- Product badges -->
-      <div class="absolute top-3 left-3 flex flex-col space-y-1">
-        <span v-if="product.isNew"
-          class="bg-emerald-500 text-white text-xs px-2 py-1 rounded-full font-semibold shadow-sm">NEW</span>
-        <span v-if="product.isHot"
-          class="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold shadow-sm">🔥 HOT</span>
+      <!-- Quick Actions -->
+      <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+        <Button variant="secondary" size="icon" class="w-8 h-8 bg-card/90" @click.stop="toggleWishlist">
+          <HugeiconsIcon :icon="FavouriteIcon" :size="16" :class="{ 'text-red-500': isWishlisted }" />
+        </Button>
+      </div>
+
+      <!-- Stock Status -->
+      <div v-if="!product.inStock" class="absolute inset-0 bg-background/80 flex items-center justify-center">
+        <span class="text-sm font-medium text-muted-foreground">Out of Stock</span>
       </div>
     </div>
 
-    <!-- Social media style engagement buttons -->
-    <div class="p-4">
-      <div class="flex items-center justify-between mb-3">
-        <div class="flex items-center space-x-4">
-          <button @click="toggleLike"
-            class="flex items-center space-x-1 text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors"
-            :class="{ 'text-red-500': isLiked }">
-            <Heart class="w-6 h-6" :class="{ 'fill-current': isLiked }" />
-            <span class="text-sm font-medium">{{ likeCount }}</span>
-          </button>
-          <button
-            class="flex items-center space-x-1 text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-colors">
-            <MessageCircle class="w-6 h-6" />
-            <span class="text-sm font-medium">{{ product.reviews }}</span>
-          </button>
-          <button
-            class="flex items-center space-x-1 text-gray-600 dark:text-gray-400 hover:text-green-500 transition-colors">
-            <Share class="w-6 h-6" />
-          </button>
-        </div>
-        <button @click="toggleBookmark" class="text-gray-600 dark:text-gray-400 hover:text-yellow-500 transition-colors"
-          :class="{ 'text-yellow-500': isBookmarked }">
-          <Bookmark class="w-6 h-6" :class="{ 'fill-current': isBookmarked }" />
-        </button>
-      </div>
-
-      <!-- Product info -->
-      <div class="space-y-2">
-        <h3 class="font-semibold text-gray-900 dark:text-white text-sm line-clamp-2">
+    <!-- Content -->
+    <CardContent class="p-4 space-y-3">
+      <!-- Name & Rating -->
+      <div>
+        <h3 class="font-medium text-foreground text-sm line-clamp-2 leading-snug">
           {{ product.name }}
         </h3>
-
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-2">
-            <!-- <span class="text-lg font-bold text-gray-900 dark:text-white">৳{{ product.price }}</span>
-            <span v-if="product.originalPrice" class="text-sm text-gray-500 line-through">
-              ৳{{ product.originalPrice }}
-            </span> -->
-          </div>
-          <div class="flex items-center space-x-1">
-            <LucideStar class="w-4 h-4 text-yellow-400 fill-current" />
-            <span class="text-sm text-gray-600 dark:text-gray-400">{{ product.rating }}</span>
-          </div>
+        <div class="flex items-center gap-1 mt-1">
+          <HugeiconsIcon :icon="StarIcon" :size="14" class="text-yellow-500" />
+          <span class="text-xs text-muted-foreground">{{ product.rating }}</span>
+          <span class="text-xs text-muted-foreground">·</span>
+          <span class="text-xs text-muted-foreground">{{ product.reviews }} reviews</span>
         </div>
-
-        <!-- Social media style action button -->
-        <!-- <button @click="handleAddToCart" :disabled="!product.inStock"
-          class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 disabled:from-gray-300 disabled:to-gray-400 text-white py-2.5 px-4 rounded-xl transition-all duration-300 font-semibold text-sm flex items-center justify-center space-x-2 shadow-sm hover:shadow-md transform hover:scale-[1.02]">
-          <ShoppingBag class="w-4 h-4" />
-          <span>{{ product.inStock ? "Add to Cart" : "Out of Stock" }}</span>
-        </button> -->
       </div>
-    </div>
-  </div>
+
+      <!-- Price & Action -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-baseline gap-2">
+          <span class="text-lg font-semibold text-foreground">৳{{ product.price }}</span>
+          <span v-if="product.originalPrice" class="text-sm text-muted-foreground line-through">
+            ৳{{ product.originalPrice }}
+          </span>
+        </div>
+        <Button size="sm" variant="outline" :disabled="!product.inStock" @click.stop="handleAddToCart">
+          <HugeiconsIcon :icon="ShoppingCart01Icon" :size="16" />
+        </Button>
+      </div>
+    </CardContent>
+  </Card>
 </template>
 
-<script setup>
-import { ref, computed } from "vue";
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useProductStore, type Product } from '@/stores/products'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+
+import { HugeiconsIcon } from '@hugeicons/vue'
 import {
-  Heart,
-  MessageCircle,
-  Share,
-  Bookmark,
-  Star,
-  ShoppingBag,
-  Play,
-  MoreHorizontal
-} from "lucide-vue-next";
-import { useProductStore } from "@/stores/products";
+  FavouriteIcon,
+  StarIcon,
+  ShoppingCart01Icon,
+} from '@hugeicons/core-free-icons'
 
-const props = defineProps({
-  product: { type: Object, required: true }
-});
+const props = defineProps<{
+  product: Product
+}>()
 
-const productStore = useProductStore();
+const productStore = useProductStore()
+const isWishlisted = ref(false)
 
-// Social media interactions
-const isLiked = ref(false);
-const isBookmarked = ref(false);
-const likeCount = ref(Math.floor(Math.random() * 500) + 50);
+// Club mapping based on category
+const clubMapping: Record<string, { name: string; class: string }> = {
+  'Electronics': { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500 border-quantum-500/30' },
+  'Gaming': { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500 border-quantum-500/30' },
+  'Photography': { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500 border-quantum-500/30' },
+  'Sports': { name: 'Elegance', class: 'bg-elegance-500/20 text-elegance-500 border-elegance-500/30' },
+  'Fashion': { name: 'Elegance', class: 'bg-elegance-500/20 text-elegance-500 border-elegance-500/30' },
+  'default': { name: 'RH Club', class: 'bg-muted text-muted-foreground' },
+}
 
-// Creator info based on product category
-const creators = {
-  'Electronics': { name: 'Quantum Club', role: 'Tech Enthusiast', avatar: "@/assets/img/globalUse/RH-Business-Club-logo-trsns-black.png" },
-  'Sports': { name: 'Quantum Club', role: 'Athlete', avatar: 'https://img.freepik.com/free-vector/shopping-store-icon-isolated-illustration_18591-82228.jpg?semt=ais_hybrid&w=740&q=80' },
-  'Gaming': { name: 'Quantum Club', role: 'Pro Gamer', avatar: 'https://img.freepik.com/free-vector/shopping-store-icon-isolated-illustration_18591-82228.jpg?semt=ais_hybrid&w=740&q=80' },
-  'Photography': { name: 'Elegance Club', role: 'Photographer', avatar: 'https://img.freepik.com/free-vector/shopping-store-icon-isolated-illustration_18591-82228.jpg?semt=ais_hybrid&w=740&q=80' },
-  'default': { name: 'RH Business Club', role: 'Product Curator', avatar: 'https://img.freepik.com/free-vector/shopping-store-icon-isolated-illustration_18591-82228.jpg?semt=ais_hybrid&w=740&q=80' }
-};
+const clubInfo = computed(() => clubMapping[props.product.category] || clubMapping.default)
+const clubName = computed(() => clubInfo.value.name)
+const clubBadgeClass = computed(() => clubInfo.value.class)
 
-const creatorInfo = computed(() => creators[props.product.category] || creators.default);
+const openModal = () => {
+  productStore.openProductModal(props.product)
+}
 
-const creatorName = computed(() => creatorInfo.value.name);
-const creatorRole = computed(() => creatorInfo.value.role);
-const creatorAvatar = computed(() => creatorInfo.value.avatar);
+const handleAddToCart = () => {
+  productStore.addToCart(props.product)
+}
 
-const toggleLike = () => {
-  isLiked.value = !isLiked.value;
-  likeCount.value += isLiked.value ? 1 : -1;
-};
-
-const toggleBookmark = () => {
-  isBookmarked.value = !isBookmarked.value;
-};
-
-const openModal = () => productStore.openProductModal(props.product);
-const handleAddToCart = () => productStore.addToCart(props.product);
+const toggleWishlist = () => {
+  isWishlisted.value = !isWishlisted.value
+}
 </script>
 
 <style scoped>
