@@ -2,18 +2,14 @@
   <div class="min-h-screen">
     <!-- 1. Full-Screen Hero Banner -->
     <HeroBanner />
-
     <!-- 2. Clip Cart Section -->
     <div id="clip-section">
       <ClipCartSection />
     </div>
-
     <!-- 3. Business Clubs Section -->
     <BusinessClubsSection />
-
     <!-- 4. E-Commerce Product Section -->
     <FeaturedProducts />
-
     <!-- 5. Product Request Section -->
     <ProductRequestSection />
   </div>
