@@ -1,162 +1,96 @@
 <template>
-  <header class="bg-card border-b border-border sticky top-0 z-40">
-    <div class="px-4 sm:px-6">
-      <div class="flex items-center justify-between h-14 gap-4">
-
-        <!-- Left: Menu + Megamenu -->
-        <div class="flex items-center gap-2">
-          <!-- Mobile menu toggle -->
-          <Button variant="ghost" size="icon" class="lg:hidden" @click="layoutStore.toggleLeftSidebar">
-            <HugeiconsIcon :icon="Menu01Icon" :size="20" />
-          </Button>
-
-          <!-- Megamenu -->
-          <HeaderMegamenu />
-        </div>
-
-        <!-- Center: Logo -->
-        <div class="flex-1 flex justify-center">
+  <!-- Calcifer Minimalist Header -->
+  <header :class="[
+    'sticky top-0 z-40 transition-all duration-300',
+    layoutStore.headerScrolled 
+      ? 'bg-background/80 backdrop-blur-md border-b border-border/50' 
+      : 'bg-transparent border-b border-transparent'
+  ]">
+    <div class="px-6 sm:px-8 max-w-7xl mx-auto">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Left: Brand -->
+        <div class="flex items-center">
           <NuxtLink to="/" class="flex items-center opacity-90 hover:opacity-100 transition-opacity">
-            <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
-              class="h-8 sm:h-9 w-auto" />
+            <span class="text-2xl font-bold tracking-tight">Calcifer</span>
           </NuxtLink>
         </div>
 
+        <!-- Center: Navigation (hidden on mobile) -->
+        <nav class="hidden md:flex items-center gap-8">
+          <a href="#features" class="text-sm font-medium hover:text-foreground/70 transition-colors">Features</a>
+          <a href="#specs" class="text-sm font-medium hover:text-foreground/70 transition-colors">Specs</a>
+          <a href="#ecosystem" class="text-sm font-medium hover:text-foreground/70 transition-colors">Ecosystem</a>
+        </nav>
+
         <!-- Right: Actions -->
-        <div class="flex items-center gap-1">
-          <!-- Authenticated user actions -->
-          <template v-if="authStore.isLoggedIn">
-            <!-- Notifications -->
-            <NotificationDropdown />
+        <div class="flex items-center gap-4">
+          <!-- Cart -->
+          <CartDropdown />
 
-            <!-- Cart -->
-            <CartDropdown />
+          <!-- Pre-Order CTA -->
+          <Button @click="scrollToPreOrder" size="sm" class="hidden sm:inline-flex">
+            Pre-Order Now
+          </Button>
 
-            <!-- Profile Menu -->
-            <div class="relative" ref="profileDropdown">
-              <Button variant="ghost" size="sm" class="flex items-center gap-2 px-2"
-                @click="showProfileMenu = !showProfileMenu">
-                <div
-                  class="w-7 h-7 bg-quantum-500 rounded-full flex items-center justify-center text-white text-xs font-medium">
-                  {{ authStore.user?.initials || 'RH' }}
-                </div>
-                <HugeiconsIcon :icon="ArrowDown01Icon" :size="16"
-                  class="text-muted-foreground transition-transform hidden sm:block"
-                  :class="{ 'rotate-180': showProfileMenu }" />
-              </Button>
-
-              <!-- Profile Dropdown -->
-              <Transition name="dropdown">
-                <div v-if="showProfileMenu"
-                  class="absolute right-0 mt-2 w-64 bg-card rounded-lg border border-border shadow-lg py-1 z-50">
-                  <div class="px-4 py-3 border-b border-border">
-                    <div class="flex items-center gap-3">
-                      <div
-                        class="w-10 h-10 bg-quantum-500 rounded-full flex items-center justify-center text-white font-semibold">
-                        {{ authStore.user?.initials || 'RH' }}
-                      </div>
-                      <div class="min-w-0">
-                        <h3 class="font-medium text-foreground truncate">
-                          {{ authStore.user?.name || 'Guest User' }}
-                        </h3>
-                        <p class="text-sm text-muted-foreground truncate">
-                          {{ authStore.user?.email || 'guest@example.com' }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="py-1">
-                    <button @click="navigateTo('/settings')"
-                      class="w-full px-4 py-2 flex items-center gap-3 hover:bg-muted transition-colors text-foreground">
-                      <HugeiconsIcon :icon="UserIcon" :size="16" class="text-muted-foreground" />
-                      <span class="text-sm">Profile Settings</span>
-                    </button>
-                    <button @click="navigateTo('/orders')"
-                      class="w-full px-4 py-2 flex items-center gap-3 hover:bg-muted transition-colors text-foreground">
-                      <HugeiconsIcon :icon="Package01Icon" :size="16" class="text-muted-foreground" />
-                      <span class="text-sm">My Orders</span>
-                    </button>
-                    <button @click="handleLogout"
-                      class="w-full px-4 py-2 flex items-center gap-3 hover:bg-muted transition-colors text-red-400">
-                      <HugeiconsIcon :icon="Logout01Icon" :size="16" />
-                      <span class="text-sm">Logout</span>
-                    </button>
-                  </div>
-                </div>
-              </Transition>
-            </div>
-          </template>
-
-          <!-- Guest: Login button -->
-          <template v-else>
-            <Button variant="outline" size="sm" @click="navigateTo('/login')">
-              <HugeiconsIcon :icon="UserIcon" :size="16" class="mr-2" />
-              <span class="hidden sm:inline">Sign In</span>
-            </Button>
-          </template>
-
-          <!-- Right Sidebar Toggle -->
-          <Button variant="ghost" size="icon" class="hidden xl:flex"
-            :class="{ 'text-quantum-500': layoutStore.rightSidebarOpen }" @click="layoutStore.toggleRightSidebar">
-            <HugeiconsIcon :icon="SidebarRight01Icon" :size="20" />
+          <!-- Mobile menu toggle -->
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            class="md:hidden"
+            @click="layoutStore.toggleMobileMenu"
+          >
+            <HugeiconsIcon :icon="Menu01Icon" :size="20" />
           </Button>
         </div>
       </div>
     </div>
+
+    <!-- Mobile Menu -->
+    <Transition name="slide">
+      <div v-if="layoutStore.mobileMenuOpen" class="md:hidden border-t border-border/50">
+        <nav class="px-6 py-4 space-y-3">
+          <a href="#features" @click="layoutStore.closeMobileMenu" class="block text-sm font-medium hover:text-foreground/70">Features</a>
+          <a href="#specs" @click="layoutStore.closeMobileMenu" class="block text-sm font-medium hover:text-foreground/70">Specs</a>
+          <a href="#ecosystem" @click="layoutStore.closeMobileMenu" class="block text-sm font-medium hover:text-foreground/70">Ecosystem</a>
+          <Button @click="scrollToPreOrder; layoutStore.closeMobileMenu()" class="w-full mt-4">
+            Pre-Order Now
+          </Button>
+        </nav>
+      </div>
+    </Transition>
   </header>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, onUnmounted } from 'vue'
 import { useLayoutStore } from '@/stores/layout'
-import { useAuthStore } from '@/stores/auth'
 import { Button } from '@/components/ui/button'
-import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import CartDropdown from '@/components/CartDropdown.vue'
-import HeaderMegamenu from '@/components/header/HeaderMegamenu.vue'
-
-// HugeIcons
 import { HugeiconsIcon } from '@hugeicons/vue'
-import {
-  Menu01Icon,
-  UserIcon,
-  Logout01Icon,
-  ArrowDown01Icon,
-  SidebarRight01Icon,
-  Package01Icon,
-} from '@hugeicons/core-free-icons'
+import { Menu01Icon } from '@hugeicons/core-free-icons'
 
-const router = useRouter()
 const layoutStore = useLayoutStore()
-const authStore = useAuthStore()
 
-const showProfileMenu = ref(false)
-const profileDropdown = ref<HTMLElement | null>(null)
-
-const navigateTo = (path: string) => {
-  router.push(path)
-  showProfileMenu.value = false
-}
-
-const handleLogout = () => {
-  authStore.logout()
-  showProfileMenu.value = false
-  router.push('/products')
-}
-
-const handleClickOutside = (event: MouseEvent) => {
-  if (profileDropdown.value && !profileDropdown.value.contains(event.target as Node)) {
-    showProfileMenu.value = false
+const scrollToPreOrder = () => {
+  const element = document.getElementById('preorder-section')
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' })
   }
 }
 
+const handleScroll = () => {
+  layoutStore.updateHeaderScroll(window.scrollY)
+}
+
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
+  layoutStore.init()
+  window.addEventListener('scroll', handleScroll)
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
+  layoutStore.destroy()
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 

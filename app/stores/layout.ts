@@ -1,38 +1,21 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
+import { ref, computed } from "vue"
 
+/**
+ * Calcifer Layout Store
+ * Minimalist state management for a single-product experience
+ */
 export const useLayoutStore = defineStore("layout", () => {
-  const leftSidebarOpen = ref(false)
-  const rightSidebarOpen = ref(false)
   const isMobile = ref(false)
+  const mobileMenuOpen = ref(false)
+  const headerScrolled = ref(false)
 
-  function closeLeftSidebar() {
-    leftSidebarOpen.value = false
-  }
-  function closeRightSidebar() {
-    rightSidebarOpen.value = false
-  }
-  function closeBothSidebars() {
-    leftSidebarOpen.value = false
-    rightSidebarOpen.value = false
+  function closeMobileMenu() {
+    mobileMenuOpen.value = false
   }
 
-  function toggleLeftSidebar() {
-    if (isMobile.value) {
-      if (!leftSidebarOpen.value) rightSidebarOpen.value = false
-      leftSidebarOpen.value = !leftSidebarOpen.value
-    } else {
-      leftSidebarOpen.value = !leftSidebarOpen.value
-    }
-  }
-
-  function toggleRightSidebar() {
-    if (isMobile.value) {
-      if (!rightSidebarOpen.value) leftSidebarOpen.value = false
-      rightSidebarOpen.value = !rightSidebarOpen.value
-    } else {
-      rightSidebarOpen.value = !rightSidebarOpen.value
-    }
+  function toggleMobileMenu() {
+    mobileMenuOpen.value = !mobileMenuOpen.value
   }
 
   function checkMobile() {
@@ -41,20 +24,21 @@ export const useLayoutStore = defineStore("layout", () => {
       isMobile.value = window.innerWidth < 1024
 
       if (!wasMobile && isMobile.value) {
-        closeBothSidebars()
-      } else if (wasMobile && !isMobile.value) {
-        leftSidebarOpen.value = true
-        rightSidebarOpen.value = true
+        closeMobileMenu()
       }
     }
   }
 
+  function updateHeaderScroll(scrollPosition: number) {
+    headerScrolled.value = scrollPosition > 50
+  }
+
   let boundResize: any = null
+  
   function init() {
     if (typeof window === "undefined") return
     checkMobile()
-    leftSidebarOpen.value = false
-    rightSidebarOpen.value = false
+    mobileMenuOpen.value = false
     boundResize = () => checkMobile()
     window.addEventListener("resize", boundResize)
   }
@@ -66,17 +50,14 @@ export const useLayoutStore = defineStore("layout", () => {
     }
   }
 
-  // For SSR safety, components can call init() onMounted and destroy() onUnmounted.
   return {
-    leftSidebarOpen,
-    rightSidebarOpen,
     isMobile,
-    toggleLeftSidebar,
-    toggleRightSidebar,
-    closeLeftSidebar,
-    closeRightSidebar,
-    closeBothSidebars,
+    mobileMenuOpen,
+    headerScrolled,
+    closeMobileMenu,
+    toggleMobileMenu,
     checkMobile,
+    updateHeaderScroll,
     init,
     destroy,
   }

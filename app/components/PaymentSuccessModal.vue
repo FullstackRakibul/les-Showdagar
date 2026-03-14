@@ -1,99 +1,54 @@
 <template>
   <teleport to="body">
     <transition name="modal">
-      <div
-        v-if="checkoutStore.showSuccessModal"
-        class="fixed inset-0 z-[9999] overflow-y-auto"
-      >
+      <div v-if="showModal" class="fixed inset-0 z-[9999] overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen px-4 py-4">
-          <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+          <div class="fixed inset-0 bg-black/50 backdrop-blur-sm" @click="closeModal"></div>
 
-          <div
-            class="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-md w-full p-8 text-center"
-          >
-            <!-- Success Animation -->
+          <div class="relative bg-background rounded-2xl shadow-2xl max-w-md w-full p-12 text-center border border-border">
+            <!-- Success Icon -->
             <div class="mb-6">
-              <div
-                class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse"
-              >
-                <CheckCircle class="w-10 h-10 text-green-600" />
+              <div class="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <HugeiconsIcon :icon="CheckCircleIcon" :size="48" class="text-accent" />
               </div>
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Order Placed!
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400">
-                {{
-                  checkoutStore.currentOrder?.paymentInfo.method === "cash"
-                    ? "Cash on Delivery selected."
-                    : "Paymentsuccessful."
-                }}
-              </p>
+              <h2 class="text-4xl font-bold mb-3">Welcome to Calcifer</h2>
+              <p class="text-muted-foreground text-lg">Your pre-order is confirmed</p>
             </div>
 
             <!-- Order Details -->
-            <div
-              v-if="checkoutStore.currentOrder"
-              class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 mb-6 text-left"
-            >
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm text-gray-600 dark:text-gray-400">Order ID:</span>
-                <span class="font-mono text-sm font-medium">{{
-                  checkoutStore.currentOrder.id
-                }}</span>
-              </div>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm text-gray-600 dark:text-gray-400"
-                  >Total Amount:</span
-                >
-                <span class="font-semibold text-lg text-primary"
-                  >${{ checkoutStore.currentOrder.total.toFixed(2) }}</span
-                >
-              </div>
-              <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-600 dark:text-gray-400">Items:</span>
-                <span class="text-sm font-medium"
-                  >{{ checkoutStore.currentOrder.items.length }} item(s)</span
-                >
+            <div class="bg-muted/50 rounded-xl p-6 mb-6 text-left border border-border/50">
+              <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                  <span class="text-muted-foreground text-sm">Order Number</span>
+                  <span class="font-mono font-semibold">{{ orderNumber }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-muted-foreground text-sm">Total Amount</span>
+                  <span class="font-bold text-lg">${{ totalAmount.toFixed(2) }}</span>
+                </div>
+                <div class="border-t border-border pt-3">
+                  <p class="text-muted-foreground text-sm mb-1">Estimated Delivery</p>
+                  <p class="font-semibold">{{ estimatedDelivery }}</p>
+                </div>
               </div>
             </div>
 
-            <!-- Confirmation Message -->
-            <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
-              <div class="flex items-center justify-center mb-2">
-                <Mail class="w-5 h-5 text-blue-600 mr-2" />
-                <span class="text-sm font-medium text-blue-800 dark:text-blue-300"
-                  >Confirmation Sent</span
-                >
-              </div>
-              <p class="text-xs text-blue-600 dark:text-blue-400">
-                You will receive a confirmation with delivery details soon.
+            <!-- Ecosystem Message -->
+            <div class="mb-6 p-4 bg-accent/10 rounded-xl border border-accent/20">
+              <p class="text-sm text-foreground/80 leading-relaxed">
+                You're joining an exclusive ecosystem of audio enthusiasts. Get ready to experience sound like never before.
               </p>
             </div>
 
             <!-- Action Buttons -->
             <div class="space-y-3">
-              <button
-                @click="goToHome"
-                class="w-full bg-primary hover:bg-primary-dark text-white py-3 px-4 rounded-xl transition-colors font-semibold flex items-center justify-center space-x-2"
-              >
-                <ShoppingBag class="w-5 h-5" />
-                <span>Continue Shopping</span>
-              </button>
-
-              <button
-                @click="viewOrder"
-                class="w-full border-2 border-primary text-primary hover:bg-primary hover:text-white py-3 px-4 rounded-xl transition-colors font-semibold flex items-center justify-center space-x-2"
-              >
-                <Package class="w-5 h-5" />
-                <span>View Order Details</span>
-              </button>
-
-              <button
-                @click="checkoutStore.closeSuccessModal"
-                class="w-full text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 py-2 transition-colors"
-              >
+              <Button @click="goHome" class="w-full" size="lg">
+                <HugeiconsIcon :icon="HomeIcon" :size="20" class="mr-2" />
+                Back to Home
+              </Button>
+              <Button @click="closeModal" variant="outline" class="w-full" size="lg">
                 Close
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -102,48 +57,53 @@
   </teleport>
 </template>
 
-<script setup>
-import { useRouter } from "vue-router";
-import { CheckCircle, Mail, ShoppingBag, Package } from "lucide-vue-next";
-import { useCheckoutStore } from "@/stores/checkout";
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { Button } from '@/components/ui/button'
+import { HugeiconsIcon } from '@hugeicons/vue'
+import { CheckCircleIcon, HomeIcon } from '@hugeicons/core-free-icons'
 
-const router = useRouter();
-const checkoutStore = useCheckoutStore();
+const router = useRouter()
+const showModal = ref(false)
+const orderNumber = ref('')
+const totalAmount = ref(0)
+const estimatedDelivery = ref('')
 
-const goToHome = () => {
-  checkoutStore.closeSuccessModal();
-  router.push("/");
-};
+const closeModal = () => {
+  showModal.value = false
+}
 
-const viewOrder = () => {
-  checkoutStore.closeSuccessModal();
-  router.push("/orders");
-};
+const goHome = () => {
+  closeModal()
+  router.push('/')
+}
+
+const handleShowSuccess = (event: CustomEvent) => {
+  const { orderNumber: order, total, estimatedDelivery: delivery } = event.detail
+  orderNumber.value = order || Math.random().toString(36).substring(2, 11).toUpperCase()
+  totalAmount.value = total || 0
+  estimatedDelivery.value = delivery || 'Q2 2026'
+  showModal.value = true
+}
+
+onMounted(() => {
+  document.addEventListener('show-success-modal', handleShowSuccess as EventListener)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('show-success-modal', handleShowSuccess as EventListener)
+})
 </script>
 
 <style scoped>
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-.animate-pulse {
-  animation: pulse 2s infinite;
 }
 </style>
