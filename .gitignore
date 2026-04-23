@@ -8,17 +8,40 @@ dist
 
 # Node dependencies
 node_modules
+package-lock.json.lock
 
 # Logs
 logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Misc
+# IDEs and Editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS Files
 .DS_Store
-.fleet
-.idea
+Thumbs.db
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# Test results
+coverage/
+.nyc_output/
+
+# Docker
+.docker/
