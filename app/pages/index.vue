@@ -6,10 +6,10 @@
     <div id="clip-section">
       <ClipCartSection />
     </div>
-    <!-- 3. Business Clubs Section -->
-    <BusinessClubsSection />
-    <!-- 4. E-Commerce Product Section -->
+    <!-- 3. E-Commerce Product Section -->
     <FeaturedProducts />
+    <!-- 4. Business Clubs Section -->
+    <BusinessClubsSection />
     <!-- 5. Product Request Section -->
     <ProductRequestSection />
   </div>

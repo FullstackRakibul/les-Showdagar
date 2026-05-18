@@ -1,113 +1,110 @@
 <template>
-  <Card class="group overflow-hidden bg-card border-border hover:border-muted-foreground/30 transition-colors">
-    <!-- Product Image -->
+  <div class="group overflow-hidden bg-card border border-border hover:border-muted-foreground/30 transition-all rounded-2xl hover:shadow-sm">
+    <!-- Image -->
     <div class="relative cursor-pointer" @click="openModal">
       <img :src="product.image" :alt="product.name" class="w-full aspect-square object-cover" />
 
-      <!-- Club Badge -->
-      <div class="absolute top-3 left-3">
-        <Badge :class="clubBadgeClass" class="text-xs">
-          {{ clubName }}
-        </Badge>
+      <!-- Club badge -->
+      <div class="absolute top-2.5 left-2.5">
+        <span :class="['text-[10px] font-semibold px-2 py-0.5 rounded-full', clubBadgeClass]">{{ clubName }}</span>
       </div>
 
-      <!-- Quick Actions -->
-      <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-        <Button variant="secondary" size="icon" class="w-8 h-8 bg-card/90" @click.stop="toggleWishlist">
-          <HugeiconsIcon :icon="FavouriteIcon" :size="16" :class="{ 'text-red-500': isWishlisted }" />
-        </Button>
+      <!-- Wishlist -->
+      <div class="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button @click.stop="isWishlisted = !isWishlisted"
+          class="w-7 h-7 rounded-full bg-card/90 border border-border flex items-center justify-center hover:bg-card transition-colors">
+          <HugeiconsIcon :icon="FavouriteIcon" :size="14" :class="isWishlisted ? 'text-red-500' : 'text-muted-foreground'" />
+        </button>
       </div>
 
-      <!-- Stock Status -->
-      <div v-if="!product.inStock" class="absolute inset-0 bg-background/80 flex items-center justify-center">
-        <span class="text-sm font-medium text-muted-foreground">Out of Stock</span>
+      <!-- Out of stock overlay -->
+      <div v-if="!product.inStock" class="absolute inset-0 bg-background/70 flex items-center justify-center">
+        <span class="text-xs font-medium text-muted-foreground bg-card border border-border px-3 py-1 rounded-full">Out of Stock</span>
+      </div>
+
+      <!-- New / Hot badges -->
+      <div v-if="product.isNew || product.isHot" class="absolute bottom-2 left-2.5">
+        <span v-if="product.isNew" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-nextstop-500 text-white mr-1">NEW</span>
+        <span v-if="product.isHot" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-elegance-500 text-white">HOT</span>
       </div>
     </div>
 
     <!-- Content -->
-    <CardContent class="p-4 space-y-3">
-      <!-- Name & Rating -->
+    <div class="p-3 space-y-2">
       <div>
-        <h3 class="font-medium text-foreground text-sm line-clamp-2 leading-snug">
-          {{ product.name }}
-        </h3>
+        <h3 class="text-sm font-medium text-foreground line-clamp-2 leading-snug">{{ product.name }}</h3>
         <div class="flex items-center gap-1 mt-1">
-          <HugeiconsIcon :icon="StarIcon" :size="14" class="text-yellow-500" />
-          <span class="text-xs text-muted-foreground">{{ product.rating }}</span>
-          <span class="text-xs text-muted-foreground">·</span>
-          <span class="text-xs text-muted-foreground">{{ product.reviews }} reviews</span>
+          <HugeiconsIcon :icon="StarIcon" :size="12" class="text-yellow-500" />
+          <span class="text-[11px] text-muted-foreground">{{ product.rating }} · {{ product.reviews }}</span>
         </div>
       </div>
 
-      <!-- Price & Action -->
       <div class="flex items-center justify-between">
-        <div class="flex items-baseline gap-2">
-          <span class="text-lg font-semibold text-foreground">৳{{ product.price }}</span>
-          <span v-if="product.originalPrice" class="text-sm text-muted-foreground line-through">
-            ৳{{ product.originalPrice }}
-          </span>
+        <div class="flex items-baseline gap-1.5">
+          <span class="text-base font-semibold text-foreground">৳{{ product.price }}</span>
+          <span v-if="product.originalPrice" class="text-xs text-muted-foreground line-through">৳{{ product.originalPrice }}</span>
         </div>
-        <Button size="sm" variant="outline" :disabled="!product.inStock" @click.stop="handleAddToCart">
-          <HugeiconsIcon :icon="ShoppingCart01Icon" :size="16" />
-        </Button>
+
+        <!-- Clip button -->
+        <button ref="clipBtnRef" :disabled="!product.inStock || clipping"
+          @click.stop="handleClip"
+          :class="[
+            'w-8 h-8 rounded-xl flex items-center justify-center transition-all',
+            product.inStock
+              ? 'bg-primary text-primary-foreground hover:opacity-90 active:scale-90'
+              : 'bg-muted text-muted-foreground cursor-not-allowed',
+          ]">
+          <HugeiconsIcon :icon="ShoppingCart01Icon" :size="14" />
+        </button>
       </div>
-    </CardContent>
-  </Card>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useProductStore, type Product } from '@/stores/products'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-
+import { ref, computed } from 'vue'
+import { useProductStore } from '@/stores/products'
+import { useCartStore } from '@/stores/cart'
+import { useClipAnimation } from '@/composables/useClipAnimation'
+import type { Product } from '@/types/index'
 import { HugeiconsIcon } from '@hugeicons/vue'
-import {
-  FavouriteIcon,
-  StarIcon,
-  ShoppingCart01Icon,
-} from '@hugeicons/core-free-icons'
+import { FavouriteIcon, StarIcon, ShoppingCart01Icon } from '@hugeicons/core-free-icons'
 
-const props = defineProps<{
-  product: Product
-}>()
+const props = defineProps<{ product: Product }>()
 
 const productStore = useProductStore()
-const isWishlisted = ref(false)
+const cartStore = useCartStore()
+const { flyToCart } = useClipAnimation()
 
-// Club mapping based on category
+const isWishlisted = ref(false)
+const clipping = ref(false)
+const clipBtnRef = ref<HTMLElement | null>(null)
+
 const clubMapping: Record<string, { name: string; class: string }> = {
-  'Electronics': { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500 border-quantum-500/30' },
-  'Gaming': { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500 border-quantum-500/30' },
-  'Photography': { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500 border-quantum-500/30' },
-  'Sports': { name: 'Elegance', class: 'bg-elegance-500/20 text-elegance-500 border-elegance-500/30' },
-  'Fashion': { name: 'Elegance', class: 'bg-elegance-500/20 text-elegance-500 border-elegance-500/30' },
-  'default': { name: 'RH Club', class: 'bg-muted text-muted-foreground' },
+  Electronics: { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500' },
+  Gaming:      { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500' },
+  Photography: { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500' },
+  Audio:       { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500' },
+  Computers:   { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500' },
+  Accessories: { name: 'Quantum', class: 'bg-quantum-500/20 text-quantum-500' },
+  Sports:      { name: 'NextStop', class: 'bg-nextstop-500/20 text-nextstop-500' },
+  Footwear:    { name: 'Elegance', class: 'bg-elegance-500/20 text-elegance-500' },
+  Wearables:   { name: 'Elegance', class: 'bg-elegance-500/20 text-elegance-500' },
+  'Smart Home':{ name: 'NextStop', class: 'bg-nextstop-500/20 text-nextstop-500' },
+  default:     { name: 'RH Club', class: 'bg-muted text-muted-foreground' },
 }
 
-const clubInfo = computed(() => clubMapping[props.product.category] || clubMapping.default)
+const clubInfo = computed(() => clubMapping[props.product.category] ?? clubMapping.default)
 const clubName = computed(() => clubInfo.value.name)
 const clubBadgeClass = computed(() => clubInfo.value.class)
 
-const openModal = () => {
-  productStore.openProductModal(props.product)
-}
+function openModal() { productStore.openProductModal(props.product) }
 
-const handleAddToCart = () => {
-  productStore.addToCart(props.product)
-}
-
-const toggleWishlist = () => {
-  isWishlisted.value = !isWishlisted.value
+function handleClip() {
+  if (!props.product.inStock || clipping.value) return
+  cartStore.addItem(props.product)
+  if (clipBtnRef.value) flyToCart(clipBtnRef.value)
+  clipping.value = true
+  setTimeout(() => { clipping.value = false }, 1000)
 }
 </script>
-
-<style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>

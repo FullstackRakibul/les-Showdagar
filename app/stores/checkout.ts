@@ -1,57 +1,17 @@
-import { defineStore } from "pinia"
-import { ref } from "vue"
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import type { Order, ShippingInfo, PaymentInfo, CartItem } from '@/types/index'
 
-export interface ShippingInfo {
-  name: string
-  phone: string
-  street: string
-  thana: string
-  zillah: string
-  note?: string
-}
-
-export interface PaymentInfo {
-  method: "cash" | "card" | "paypal" | "apple"
-  cardNumber?: string
-  expiryDate?: string
-  cvv?: string
-  cardholderName?: string
-}
-
-export interface Order {
-  id: string
-  items: any[]
-  shippingInfo: ShippingInfo
-  paymentInfo: PaymentInfo
-  subtotal: number
-  shipping: number
-  tax: number
-  total: number
-  status: "pending" | "processing" | "completed" | "failed"
-  createdAt: Date
-}
-
-export const useCheckoutStore = defineStore("checkout", () => {
-  // State
+export const useCheckoutStore = defineStore('checkout', () => {
   const currentOrder = ref<Order | null>(null)
   const isProcessing = ref(false)
   const showSuccessModal = ref(false)
   const orders = ref<Order[]>([])
+  const paymentError = ref<string | null>(null)
 
-  const shippingInfo = ref<ShippingInfo>({
-    name: "",
-    phone: "",
-    street: "",
-    thana: "",
-    zillah: "",
-    note: "",
-  })
+  const shippingInfo = ref<ShippingInfo>({ name: '', phone: '', street: '', thana: '', zillah: '', note: '' })
+  const paymentInfo = ref<PaymentInfo>({ method: 'cash' })
 
-  const paymentInfo = ref<PaymentInfo>({
-    method: "cash", // default to cash on delivery
-  })
-
-  // Actions
   function updateShippingInfo(info: Partial<ShippingInfo>) {
     Object.assign(shippingInfo.value, info)
   }
@@ -60,58 +20,55 @@ export const useCheckoutStore = defineStore("checkout", () => {
     Object.assign(paymentInfo.value, info)
   }
 
+  async function createOrder(
+    cartItems: CartItem[],
+    totals: { subtotal: number; shipping: number; tax: number; total: number },
+  ): Promise<Order> {
+    const api = useApi()
+    const order = await api<Order>('/orders', {
+      method: 'POST',
+      body: {
+        items: cartItems,
+        shippingInfo: shippingInfo.value,
+        paymentMethod: paymentInfo.value.method,
+        ...totals,
+      },
+    })
+    return order
+  }
+
+  async function processPayment(orderId: string, paymentDetails?: Record<string, unknown>): Promise<void> {
+    const api = useApi()
+    await api(`/orders/${orderId}/pay`, { method: 'POST', body: paymentDetails ?? {} })
+  }
+
   async function processOrder(
-    cartItems: any[],
+    cartItems: CartItem[],
     totals: { subtotal: number; shipping: number; tax: number; total: number },
   ) {
     isProcessing.value = true
-
+    paymentError.value = null
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const order = await createOrder(cartItems, totals)
+      await processPayment(order.id, { method: paymentInfo.value.method, ...paymentInfo.value })
 
-      const order: Order = {
-        id: `ORD-${Date.now()}`,
-        items: [...cartItems],
-        shippingInfo: { ...shippingInfo.value },
-        paymentInfo: { ...paymentInfo.value },
-        subtotal: totals.subtotal,
-        shipping: totals.shipping,
-        tax: totals.tax,
-        total: totals.total,
-        status: "completed",
-        createdAt: new Date(),
-      }
-
-      orders.value.push(order)
-      currentOrder.value = order
+      const completedOrder: Order = { ...order, status: 'completed' }
+      orders.value.push(completedOrder)
+      currentOrder.value = completedOrder
       showSuccessModal.value = true
-
-      // Clear form data
       resetForm()
-
-      return order
-    } catch (error) {
-      console.error("Order processing failed:", error)
-      throw error
+      return completedOrder
+    } catch (e: any) {
+      paymentError.value = e?.data?.statusMessage ?? e?.message ?? 'Payment failed'
+      throw e
     } finally {
       isProcessing.value = false
     }
   }
 
   function resetForm() {
-    shippingInfo.value = {
-      name: "",
-      phone: "",
-      street: "",
-      thana: "",
-      zillah: "",
-      note: "",
-    }
-
-    paymentInfo.value = {
-      method: "cash",
-    }
+    shippingInfo.value = { name: '', phone: '', street: '', thana: '', zillah: '', note: '' }
+    paymentInfo.value = { method: 'cash' }
   }
 
   function closeSuccessModal() {
@@ -120,19 +77,7 @@ export const useCheckoutStore = defineStore("checkout", () => {
   }
 
   return {
-    // State
-    currentOrder,
-    isProcessing,
-    showSuccessModal,
-    orders,
-    shippingInfo,
-    paymentInfo,
-
-    // Actions
-    updateShippingInfo,
-    updatePaymentInfo,
-    processOrder,
-    resetForm,
-    closeSuccessModal,
+    currentOrder, isProcessing, showSuccessModal, orders, shippingInfo, paymentInfo, paymentError,
+    updateShippingInfo, updatePaymentInfo, createOrder, processPayment, processOrder, resetForm, closeSuccessModal,
   }
 })

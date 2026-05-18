@@ -7,7 +7,7 @@
           <a href="tel:+1234567890"
             class="flex items-center space-x-2 hover:text-gray-900 dark:hover:text-white transition-colors">
             <Phone class="w-4 h-4" />
-            <span>+1 234 567 890</span>
+            <span>+8801581 500 678</span>
           </a>
           <a href="mailto:support@rhbusinessclub.com"
             class="flex items-center space-x-2 hover:text-gray-900 dark:hover:text-white transition-colors">

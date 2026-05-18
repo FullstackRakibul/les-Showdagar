@@ -37,7 +37,6 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProductStore } from '@/stores/products'
-import { Button } from '@/components/ui/button'
 import ProductCard from '@/components/ProductCard.vue'
 
 import { HugeiconsIcon } from '@hugeicons/vue'

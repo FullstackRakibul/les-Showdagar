@@ -12,6 +12,12 @@
 
           <!-- Megamenu -->
           <HeaderMegamenu />
+
+          <!-- Browse link -->
+          <NuxtLink to="/browse"
+            class="hidden lg:inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-muted">
+            Browse
+          </NuxtLink>
         </div>
 
         <!-- Center: Logo -->
@@ -90,8 +96,7 @@
           <!-- Guest: Login button -->
           <template v-else>
             <Button variant="outline" size="sm" @click="navigateTo('/login')">
-              <HugeiconsIcon :icon="UserIcon" :size="16" class="mr-2" />
-              <span class="hidden sm:inline">Sign In</span>
+              <HugeiconsIcon :icon="UserIcon" :size="18" class="mr-2" />
             </Button>
           </template>
 
@@ -111,7 +116,6 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLayoutStore } from '@/stores/layout'
 import { useAuthStore } from '@/stores/auth'
-import { Button } from '@/components/ui/button'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import CartDropdown from '@/components/CartDropdown.vue'
 import HeaderMegamenu from '@/components/header/HeaderMegamenu.vue'

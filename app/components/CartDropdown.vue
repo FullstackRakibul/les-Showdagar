@@ -1,57 +1,57 @@
 <template>
   <div class="relative" ref="dropdownRef">
-    <Button variant="ghost" size="icon" class="relative" @click="toggleDropdown">
-      <HugeiconsIcon :icon="ShoppingCart01Icon" :size="20" />
-      <span v-if="cartCount > 0"
-        class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-quantum-500 rounded-full text-[10px] font-medium text-white flex items-center justify-center">
-        {{ cartCount > 9 ? '9+' : cartCount }}
+    <button class="relative p-2 rounded-lg hover:bg-muted transition-colors" data-cart-target @click="isOpen = !isOpen">
+      <HugeiconsIcon :icon="ShoppingCart01Icon" :size="20" class="text-foreground" />
+      <span v-if="cartStore.count > 0"
+        class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-quantum-500 rounded-full text-[10px] font-bold text-white flex items-center justify-center">
+        {{ cartStore.count > 9 ? '9+' : cartStore.count }}
       </span>
-    </Button>
+    </button>
 
-    <!-- Dropdown -->
     <Transition name="dropdown">
       <div v-if="isOpen"
-        class="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
-        <!-- Header -->
-        <div class="px-4 py-3 border-b border-border">
-          <h3 class="font-medium text-foreground">Cart ({{ cartCount }})</h3>
+        class="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
+        <div class="px-4 py-3 border-b border-border flex items-center justify-between">
+          <h3 class="text-sm font-semibold text-foreground">Cart ({{ cartStore.count }})</h3>
+          <button v-if="cartStore.items.length > 0" @click="cartStore.clearCart()"
+            class="text-[10px] text-muted-foreground hover:text-destructive transition-colors">Clear all</button>
         </div>
 
-        <!-- Items -->
-        <div class="max-h-80 overflow-y-auto">
-          <div v-if="cartItems.length === 0" class="py-8 text-center">
-            <HugeiconsIcon :icon="ShoppingCart01Icon" :size="40" class="text-muted-foreground/50 mx-auto mb-2" />
-            <p class="text-sm text-muted-foreground">Your cart is empty</p>
+        <div class="max-h-72 overflow-y-auto">
+          <div v-if="cartStore.items.length === 0" class="py-10 text-center">
+            <HugeiconsIcon :icon="ShoppingCart01Icon" :size="36" class="text-muted-foreground/40 mx-auto mb-2" />
+            <p class="text-xs text-muted-foreground">Your cart is empty</p>
           </div>
           <div v-else class="divide-y divide-border">
-            <div v-for="item in cartItems" :key="item.product.id" class="p-4 flex items-center gap-3">
-              <img :src="item.product.image" :alt="item.product.name" class="w-14 h-14 object-cover rounded-lg" />
+            <div v-for="item in cartStore.items" :key="`${item.productId}-${item.selectedColor}-${item.selectedSize}`"
+              class="p-3 flex items-center gap-3">
+              <img :src="item.productImage" :alt="item.productName" class="w-12 h-12 object-cover rounded-lg shrink-0" />
               <div class="min-w-0 flex-1">
-                <p class="text-sm text-foreground truncate">{{ item.product.name }}</p>
-                <p class="text-xs text-muted-foreground mt-0.5">
-                  ৳{{ item.product.price }} × {{ item.quantity }}
-                </p>
+                <p class="text-xs text-foreground line-clamp-1 font-medium">{{ item.productName }}</p>
+                <p class="text-xs text-muted-foreground mt-0.5">৳{{ item.price }} × {{ item.quantity }}</p>
               </div>
-              <button class="text-muted-foreground hover:text-red-500 transition-colors" @click="removeItem(item)">
-                <HugeiconsIcon :icon="Delete01Icon" :size="16" />
+              <button @click="cartStore.removeItem(item.productId, item.selectedColor, item.selectedSize)"
+                class="shrink-0 text-muted-foreground hover:text-destructive transition-colors">
+                <HugeiconsIcon :icon="Delete01Icon" :size="14" />
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Footer -->
-        <div v-if="cartItems.length > 0" class="p-4 border-t border-border space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-muted-foreground">Subtotal</span>
-            <span class="font-medium text-foreground">৳{{ cartTotal }}</span>
+        <div v-if="cartStore.items.length > 0" class="p-3 border-t border-border space-y-2.5">
+          <div class="flex justify-between text-sm">
+            <span class="text-muted-foreground">Subtotal</span>
+            <span class="font-semibold text-foreground">৳{{ cartStore.total.toFixed(2) }}</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
-            <Button variant="outline" size="sm" @click="goToCart">
+            <button @click="go('/cart')"
+              class="py-2 rounded-lg border border-border text-xs font-medium text-foreground hover:bg-muted transition-colors">
               View Cart
-            </Button>
-            <Button size="sm" @click="goToCheckout">
+            </button>
+            <button @click="go('/checkout')"
+              class="py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity">
               Checkout
-            </Button>
+            </button>
           </div>
         </div>
       </div>
@@ -60,69 +60,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useProductStore } from '@/stores/products'
-import { Button } from '@/components/ui/button'
-
+import { useCartStore } from '@/stores/cart'
 import { HugeiconsIcon } from '@hugeicons/vue'
-import {
-  ShoppingCart01Icon,
-  Delete01Icon,
-} from '@hugeicons/core-free-icons'
+import { ShoppingCart01Icon, Delete01Icon } from '@hugeicons/core-free-icons'
 
 const router = useRouter()
-const productStore = useProductStore()
-
+const cartStore = useCartStore()
 const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement | null>(null)
 
-const cartItems = computed(() => productStore.cart)
-const cartCount = computed(() => productStore.cartItemsCount)
-const cartTotal = computed(() => productStore.cartTotal)
+function go(path: string) { isOpen.value = false; router.push(path) }
 
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value
+function outside(e: MouseEvent) {
+  if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) isOpen.value = false
 }
 
-const removeItem = (item: any) => {
-  productStore.removeFromCart(item.product.id, item.selectedColor, item.selectedSize)
-}
-
-const goToCart = () => {
-  isOpen.value = false
-  router.push('/cart')
-}
-
-const goToCheckout = () => {
-  isOpen.value = false
-  router.push('/checkout')
-}
-
-const handleClickOutside = (event: MouseEvent) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
-    isOpen.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+onMounted(() => document.addEventListener('click', outside))
+onUnmounted(() => document.removeEventListener('click', outside))
 </script>
 
 <style scoped>
-.dropdown-enter-active,
-.dropdown-leave-active {
-  transition: all 0.15s ease;
-}
-
-.dropdown-enter-from,
-.dropdown-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
+.dropdown-enter-active, .dropdown-leave-active { transition: all 0.15s ease; }
+.dropdown-enter-from, .dropdown-leave-to { opacity: 0; transform: translateY(-6px); }
 </style>

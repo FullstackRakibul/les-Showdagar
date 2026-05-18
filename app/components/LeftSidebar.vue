@@ -57,8 +57,6 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useLayoutStore } from '@/stores/layout'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {

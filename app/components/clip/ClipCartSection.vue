@@ -4,18 +4,19 @@
       <!-- Animated Header -->
       <div class="section-header flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
         <div class="header-content">
-          <div class="flex items-center gap-3 mb-3">
+          <div class="flex  items-center gap-3 mb-3">
             <div class="icon-badge">
               <HugeiconsIcon :icon="Video01Icon" :size="20" class="text-primary" />
             </div>
-            <span class="text-xs font-semibold uppercase tracking-widest text-primary">Clip to Cart</span>
+            <div>
+              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
+                Discover & Clip to Cart<span class="text-gradient">Reels</span>
+              </h2>
+              <p class="text-muted-foreground max-w-md">
+                Watch, shop, and add to cart – all in one seamless experience
+              </p>
+            </div>
           </div>
-          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
-            Discover <span class="text-gradient">Reels</span>
-          </h2>
-          <p class="text-muted-foreground max-w-md">
-            Watch, shop, and add to cart – all in one seamless experience
-          </p>
         </div>
 
         <!-- Category Tabs -->
@@ -91,8 +92,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useClipCartStore } from '@/stores/clipCart'
+import { useCartStore } from '@/stores/cart'
 import { useProductStore } from '@/stores/products'
-import { Button } from '@/components/ui/button'
 import ClipCard from '@/components/clip/ClipCard.vue'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
@@ -111,6 +112,7 @@ import {
 
 const router = useRouter()
 const clipCartStore = useClipCartStore()
+const cartStore = useCartStore()
 const productStore = useProductStore()
 
 // Category tabs
@@ -163,7 +165,7 @@ const scrollRight = () => {
 const handleAddToCart = (clip: any) => {
   const product = productStore.products.find(p => p.id === clip.productId)
   if (product) {
-    productStore.addToCart(product)
+    cartStore.addItem(product)
     router.push('/cart')
   }
 }

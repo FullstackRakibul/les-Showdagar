@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 /* ============================================
-   RH Business Club - Design Tokens
+   RH Business Club - Fixed Design Tokens
+   Club colors + radii — baked in at build time
    ============================================ */
 
 @theme {
   /* Quantum Club - Blue/Cyan (Tech) */
-  --color-quantum-50: oklch(0.97 0.02 220);
+  --color-quantum-50:  oklch(0.97 0.02 220);
   --color-quantum-100: oklch(0.93 0.04 220);
   --color-quantum-200: oklch(0.85 0.08 220);
   --color-quantum-300: oklch(0.75 0.12 220);
@@ -14,9 +15,9 @@
   --color-quantum-500: oklch(0.55 0.18 220);
   --color-quantum-600: oklch(0.48 0.16 220);
   --color-quantum-700: oklch(0.40 0.14 220);
-  
+
   /* Elegance Club - Purple/Pink (Fashion) */
-  --color-elegance-50: oklch(0.97 0.02 300);
+  --color-elegance-50:  oklch(0.97 0.02 300);
   --color-elegance-100: oklch(0.93 0.04 300);
   --color-elegance-200: oklch(0.85 0.10 300);
   --color-elegance-300: oklch(0.75 0.16 300);
@@ -24,9 +25,9 @@
   --color-elegance-500: oklch(0.55 0.22 300);
   --color-elegance-600: oklch(0.48 0.20 300);
   --color-elegance-700: oklch(0.40 0.18 300);
-  
+
   /* NextStop Club - Green/Emerald (Travel) */
-  --color-nextstop-50: oklch(0.97 0.02 160);
+  --color-nextstop-50:  oklch(0.97 0.02 160);
   --color-nextstop-100: oklch(0.93 0.04 160);
   --color-nextstop-200: oklch(0.85 0.10 160);
   --color-nextstop-300: oklch(0.75 0.14 160);
@@ -35,41 +36,92 @@
   --color-nextstop-600: oklch(0.48 0.18 160);
   --color-nextstop-700: oklch(0.40 0.16 160);
 
-  /* Base Colors - Dark Mode First */
-  --color-background: oklch(0.12 0.01 260);
-  --color-foreground: oklch(0.98 0 0);
-  
-  --color-card: oklch(0.16 0.01 260);
-  --color-card-foreground: oklch(0.98 0 0);
-  
-  --color-popover: oklch(0.16 0.01 260);
-  --color-popover-foreground: oklch(0.98 0 0);
-  
-  --color-primary: oklch(0.98 0 0);
-  --color-primary-foreground: oklch(0.12 0.01 260);
-  
-  --color-secondary: oklch(0.22 0.01 260);
-  --color-secondary-foreground: oklch(0.98 0 0);
-  
-  --color-muted: oklch(0.22 0.01 260);
-  --color-muted-foreground: oklch(0.65 0.01 260);
-  
-  --color-accent: oklch(0.22 0.01 260);
-  --color-accent-foreground: oklch(0.98 0 0);
-  
-  --color-destructive: oklch(0.55 0.22 25);
-  --color-destructive-foreground: oklch(0.98 0 0);
-  
-  --color-border: oklch(0.25 0.01 260);
-  --color-input: oklch(0.25 0.01 260);
-  --color-ring: oklch(0.55 0.18 220);
-  
   /* Radii */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  --radius-sm:  0.25rem;
+  --radius-md:  0.5rem;
+  --radius-lg:  0.75rem;
+  --radius-xl:  1rem;
   --radius-2xl: 1.5rem;
+}
+
+/* ============================================
+   Dynamic Semantic Tokens
+   References runtime CSS vars — switches with light/dark
+   ============================================ */
+
+@theme inline {
+  --color-background:             var(--background);
+  --color-foreground:             var(--foreground);
+  --color-card:                   var(--card);
+  --color-card-foreground:        var(--card-foreground);
+  --color-popover:                var(--popover);
+  --color-popover-foreground:     var(--popover-foreground);
+  --color-primary:                var(--primary);
+  --color-primary-foreground:     var(--primary-foreground);
+  --color-secondary:              var(--secondary);
+  --color-secondary-foreground:   var(--secondary-foreground);
+  --color-muted:                  var(--muted);
+  --color-muted-foreground:       var(--muted-foreground);
+  --color-accent:                 var(--accent);
+  --color-accent-foreground:      var(--accent-foreground);
+  --color-destructive:            var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border:                 var(--border);
+  --color-input:                  var(--input);
+  --color-ring:                   var(--ring);
+}
+
+/* ============================================
+   Light Theme — DEFAULT (white, clean)
+   ============================================ */
+
+:root {
+  --background:             oklch(1 0 0);
+  --foreground:             oklch(0.14 0.01 260);
+  --card:                   oklch(0.98 0.005 260);
+  --card-foreground:        oklch(0.14 0.01 260);
+  --popover:                oklch(1 0 0);
+  --popover-foreground:     oklch(0.14 0.01 260);
+  --primary:                oklch(0.14 0.01 260);
+  --primary-foreground:     oklch(1 0 0);
+  --secondary:              oklch(0.95 0.005 260);
+  --secondary-foreground:   oklch(0.14 0.01 260);
+  --muted:                  oklch(0.95 0.005 260);
+  --muted-foreground:       oklch(0.50 0.01 260);
+  --accent:                 oklch(0.95 0.005 260);
+  --accent-foreground:      oklch(0.14 0.01 260);
+  --destructive:            oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border:                 oklch(0.88 0.005 260);
+  --input:                  oklch(0.88 0.005 260);
+  --ring:                   oklch(0.55 0.18 220);
+  --accent-hue:             220;
+}
+
+/* ============================================
+   Dark Theme — applied via .dark on <html>
+   ============================================ */
+
+.dark {
+  --background:             oklch(0.12 0.01 260);
+  --foreground:             oklch(0.98 0 0);
+  --card:                   oklch(0.16 0.01 260);
+  --card-foreground:        oklch(0.98 0 0);
+  --popover:                oklch(0.16 0.01 260);
+  --popover-foreground:     oklch(0.98 0 0);
+  --primary:                oklch(0.98 0 0);
+  --primary-foreground:     oklch(0.12 0.01 260);
+  --secondary:              oklch(0.22 0.01 260);
+  --secondary-foreground:   oklch(0.98 0 0);
+  --muted:                  oklch(0.22 0.01 260);
+  --muted-foreground:       oklch(0.65 0.01 260);
+  --accent:                 oklch(0.22 0.01 260);
+  --accent-foreground:      oklch(0.98 0 0);
+  --destructive:            oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border:                 oklch(0.25 0.01 260);
+  --input:                  oklch(0.25 0.01 260);
+  --ring:                   oklch(0.55 0.18 220);
 }
 
 /* ============================================
@@ -77,54 +129,37 @@
    ============================================ */
 
 * {
-  border-color: var(--color-border);
+  border-color: var(--border);
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================
-   Scrollbar Styling (Minimal)
+   Scrollbar
    ============================================ */
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted-foreground);
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
 
 /* ============================================
-   Selection Styling
+   Selection & Focus
    ============================================ */
 
 ::selection {
-  background-color: var(--color-quantum-500);
+  background-color: oklch(0.55 0.18 var(--accent-hue, 220));
   color: white;
 }
 
-/* ============================================
-   Focus States
-   ============================================ */
-
 :focus-visible {
-  outline: 2px solid var(--color-ring);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
@@ -140,4 +175,12 @@ body {
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
+}
+
+/* ============================================
+   Theme Transition (smooth color switching)
+   ============================================ */
+
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
 }

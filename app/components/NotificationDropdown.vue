@@ -58,7 +58,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { Button } from '@/components/ui/button'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {

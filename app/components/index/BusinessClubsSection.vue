@@ -184,8 +184,6 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {

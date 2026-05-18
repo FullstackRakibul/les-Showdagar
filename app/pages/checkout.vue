@@ -1,296 +1,112 @@
 <template>
-  <div class="max-w-6xl mx-auto px-4 py-8">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Checkout</h1>
-      <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-        <span>Cart</span>
-        <ChevronRight class="w-4 h-4" />
-        <span class="text-primary font-medium">Checkout</span>
-        <ChevronRight class="w-4 h-4" />
-        <span>Payment</span>
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-foreground">Checkout</h1>
+      <div class="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+        <NuxtLink to="/cart" class="hover:text-foreground transition-colors">Cart</NuxtLink>
+        <span>›</span>
+        <span class="font-medium text-foreground">Checkout</span>
+        <span>›</span>
+        <span>Confirmation</span>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Checkout Form -->
-      <div class="lg:col-span-2 space-y-8">
-        <!-- Shipping Information (Bangladesh format) -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
-          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-            Delivery Information
-          </h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Left: Form -->
+      <div class="lg:col-span-2">
+        <CheckoutForm />
 
-          <form @submit.prevent="handleSubmit" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
-                <input v-model="checkoutStore.shippingInfo.name" type="text" required
-                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Your full name" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone</label>
-                <input v-model="checkoutStore.shippingInfo.phone" type="tel" required
-                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="+8801XXXXXXXXX" />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="md:col-span-3">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Street</label>
-                <input v-model="checkoutStore.shippingInfo.street" type="text" required
-                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="House, Road, Area" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Thana</label>
-                <input v-model="checkoutStore.shippingInfo.thana" type="text" required
-                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="e.g. Dhanmondi" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Zillah (District)</label>
-                <input v-model="checkoutStore.shippingInfo.zillah" type="text" required
-                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="e.g. Dhaka" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Note (Optional)</label>
-                <input v-model="checkoutStore.shippingInfo.note" type="text"
-                  class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  placeholder="Any delivery instructions" />
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <!-- Payment Information -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
-          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-            Payment Method
-          </h2>
-
-          <div class="space-y-6">
-            <!-- Payment Method Selection -->
-            <div>
-              <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <label class="relative cursor-pointer">
-                  <input v-model="checkoutStore.paymentInfo.method" type="radio" value="cash" class="sr-only" />
-                  <div class="border-2 rounded-xl p-6 text-center transition-all duration-200" :class="
-                      checkoutStore.paymentInfo.method === 'cash'
-                        ? 'border-primary bg-primary/10 shadow-md'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
-                    ">
-                    <Wallet class="w-8 h-8 mx-auto mb-3" :class="
-                        checkoutStore.paymentInfo.method === 'cash'
-                          ? 'text-primary'
-                          : 'text-gray-400'
-                      " />
-                    <div class="font-semibold">Cash on Delivery</div>
-                  </div>
-                </label>
-
-                <label class="relative cursor-pointer">
-                  <input v-model="checkoutStore.paymentInfo.method" type="radio" value="card" class="sr-only" />
-                  <div class="border-2 rounded-xl p-6 text-center transition-all duration-200" :class="
-                      checkoutStore.paymentInfo.method === 'card'
-                        ? 'border-primary bg-primary/10 shadow-md'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
-                    ">
-                    <CreditCard class="w-8 h-8 mx-auto mb-3" :class="
-                        checkoutStore.paymentInfo.method === 'card'
-                          ? 'text-primary'
-                          : 'text-gray-400'
-                      " />
-                    <div class="font-semibold">Credit/Debit Card</div>
-                  </div>
-                </label>
-
-                <label class="relative cursor-pointer">
-                  <input v-model="checkoutStore.paymentInfo.method" type="radio" value="paypal" class="sr-only" />
-                  <div class="border-2 rounded-xl p-6 text-center transition-all duration-200" :class="
-                      checkoutStore.paymentInfo.method === 'paypal'
-                        ? 'border-primary bg-primary/10 shadow-md'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
-                    ">
-                    <Wallet class="w-8 h-8 mx-auto mb-3" :class="
-                        checkoutStore.paymentInfo.method === 'paypal'
-                          ? 'text-primary'
-                          : 'text-gray-400'
-                      " />
-                    <div class="font-semibold">PayPal</div>
-                  </div>
-                </label>
-
-                <label class="relative cursor-pointer">
-                  <input v-model="checkoutStore.paymentInfo.method" type="radio" value="apple" class="sr-only" />
-                  <div class="border-2 rounded-xl p-6 text-center transition-all duration-200" :class="
-                      checkoutStore.paymentInfo.method === 'apple'
-                        ? 'border-primary bg-primary/10 shadow-md'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
-                    ">
-                    <Smartphone class="w-8 h-8 mx-auto mb-3" :class="
-                        checkoutStore.paymentInfo.method === 'apple'
-                          ? 'text-primary'
-                          : 'text-gray-400'
-                      " />
-                    <div class="font-semibold">Apple Pay</div>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <!-- Credit Card Form -->
-            <div v-if="checkoutStore.paymentInfo.method === 'card' && false" class="space-y-6">
-              <!-- Hidden/Disabled in demo; keep for future integration -->
-              <div class="text-sm text-gray-500 dark:text-gray-400">
-                Card payments coming soon.
-              </div>
-            </div>
-          </div>
+        <!-- Error -->
+        <div v-if="checkoutStore.paymentError"
+          class="mt-4 p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-sm text-destructive">
+          {{ checkoutStore.paymentError }}
         </div>
       </div>
 
-      <!-- Order Summary -->
+      <!-- Right: Summary -->
       <div class="lg:col-span-1">
-        <div
-          class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 sticky top-24">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
-            Order Summary
-          </h2>
+        <div class="bg-card border border-border rounded-2xl p-5 sticky top-20 space-y-4">
+          <h2 class="font-semibold text-foreground">Order Summary</h2>
 
-          <div class="space-y-4 mb-6 max-h-64 overflow-y-auto">
-            <div v-for="item in productStore.cart"
-              :key="`${item.product.id}-${item.selectedColor}-${item.selectedSize}`"
-              class="flex items-center space-x-4 p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
-              <img :src="item.product.image" :alt="item.product.name" class="w-16 h-16 object-cover rounded-lg" />
-              <div class="flex-1 min-w-0">
-                <h4 class="font-medium text-gray-900 dark:text-white text-sm truncate">
-                  {{ item.product.name }}
-                </h4>
-                <div class="flex items-center space-x-1 mt-1">
-                  <span v-if="item.selectedColor" class="text-xs bg-white dark:bg-gray-600 px-2 py-1 rounded">{{
-                    item.selectedColor }}</span>
-                  <span v-if="item.selectedSize" class="text-xs bg-white dark:bg-gray-600 px-2 py-1 rounded">{{
-                    item.selectedSize }}</span>
-                </div>
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  Qty: {{ item.quantity }}
-                </p>
+          <!-- Items preview -->
+          <div class="max-h-52 overflow-y-auto space-y-3">
+            <div v-for="item in cartStore.items" :key="`${item.productId}-${item.selectedColor}`"
+              class="flex items-center gap-3">
+              <img :src="item.productImage" :alt="item.productName" class="w-12 h-12 object-cover rounded-lg shrink-0" />
+              <div class="min-w-0 flex-1">
+                <p class="text-xs font-medium text-foreground line-clamp-1">{{ item.productName }}</p>
+                <p class="text-xs text-muted-foreground">Qty: {{ item.quantity }}</p>
               </div>
-              <div class="text-right">
-                <p class="font-semibold text-gray-900 dark:text-white">
-                  ৳{{ (item.product.price * item.quantity).toFixed(2) }}
-                </p>
-              </div>
+              <span class="text-xs font-semibold text-foreground">৳{{ (item.price * item.quantity).toFixed(2) }}</span>
             </div>
           </div>
 
-          <!-- Order Totals -->
-          <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-3">
-            <div class="flex justify-between text-sm">
-              <span class="text-gray-600 dark:text-gray-400">Subtotal</span>
-              <span class="font-medium">৳{{ subtotal.toFixed(2) }}</span>
-            </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-gray-600 dark:text-gray-400">Shipping</span>
-              <span class="font-medium">৳{{ shipping.toFixed(2) }}</span>
-            </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-gray-600 dark:text-gray-400">Tax</span>
-              <span class="font-medium">৳{{ tax.toFixed(2) }}</span>
-            </div>
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
-              <div class="flex justify-between">
-                <span class="text-lg font-semibold text-gray-900 dark:text-white">Total</span>
-                <span class="text-xl font-bold text-gray-900 dark:text-white">৳{{ total.toFixed(2) }}</span>
-              </div>
-            </div>
+          <div class="border-t border-border pt-3 space-y-2 text-sm">
+            <div class="flex justify-between"><span class="text-muted-foreground">Subtotal</span><span>৳{{ subtotal.toFixed(2) }}</span></div>
+            <div class="flex justify-between"><span class="text-muted-foreground">Shipping</span><span>৳{{ shipping.toFixed(2) }}</span></div>
+            <div class="flex justify-between"><span class="text-muted-foreground">Tax</span><span>৳{{ tax.toFixed(2) }}</span></div>
+          </div>
+          <div class="border-t border-border pt-3 flex justify-between">
+            <span class="font-semibold text-foreground">Total</span>
+            <span class="text-lg font-bold text-foreground">৳{{ grandTotal.toFixed(2) }}</span>
           </div>
 
-          <!-- Place Order Button -->
-          <button @click="handleSubmit" :disabled="
-              checkoutStore.isProcessing || productStore.cart.length === 0 || !canSubmit
-            "
-            class="w-full mt-6 bg-primary hover:bg-primary-dark disabled:bg-gray-400 text-white py-4 px-6 rounded-xl transition-colors font-semibold text-lg flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl">
-            <Loader2 v-if="checkoutStore.isProcessing" class="w-5 h-5 animate-spin" />
-            <Lock v-else class="w-5 h-5" />
-            <span>{{ checkoutStore.isProcessing ? "Processing..." : submitLabel }}</span>
+          <!-- Place order -->
+          <button @click="handleSubmit" :disabled="checkoutStore.isProcessing || cartStore.items.length === 0 || !canSubmit"
+            class="w-full py-3 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+            <svg v-if="checkoutStore.isProcessing" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+            <svg v-else class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>{{ checkoutStore.isProcessing ? 'Processing…' : placeOrderLabel }}</span>
           </button>
 
-          <!-- Security Badge -->
-          <div class="mt-4 text-center">
-            <div class="flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">
-              <Shield class="w-4 h-4 text-green-500 mr-2" />
-              Secure SSL Encryption
-            </div>
-          </div>
+          <p class="text-center text-[10px] text-muted-foreground">🔒 Secured with SSL encryption</p>
         </div>
       </div>
     </div>
 
-    <!-- Success Modal -->
-    <PaymentSuccessModal />
+    <PaymentModal />
   </div>
 </template>
 
-<script setup>
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import {
-  ChevronRight,
-  CreditCard,
-  Wallet,
-  Smartphone,
-  Lock,
-  Shield,
-  Loader2,
-} from "lucide-vue-next";
-import { useProductStore } from "@/stores/products";
-import { useCheckoutStore } from "@/stores/checkout";
-import PaymentSuccessModal from "@/components/PaymentSuccessModal.vue";
+<script setup lang="ts">
+definePageMeta({ ssr: false })
 
-const router = useRouter();
-const productStore = useProductStore();
-const checkoutStore = useCheckoutStore();
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useCartStore } from '@/stores/cart'
+import { useCheckoutStore } from '@/stores/checkout'
 
-const subtotal = computed(() => productStore.cartTotal);
-const shipping = computed(() => (subtotal.value > 100 ? 0 : 9.99));
-const tax = computed(() => subtotal.value * 0.08);
-const total = computed(() => subtotal.value + shipping.value + tax.value);
+const router = useRouter()
+const cartStore = useCartStore()
+const checkoutStore = useCheckoutStore()
+
+if (import.meta.client && cartStore.items.length === 0) router.replace('/cart')
+
+const subtotal = computed(() => cartStore.total)
+const shipping = computed(() => subtotal.value > 1000 ? 0 : 99)
+const tax = computed(() => subtotal.value * 0.08)
+const grandTotal = computed(() => subtotal.value + shipping.value + tax.value)
 
 const canSubmit = computed(() => {
-  const s = checkoutStore.shippingInfo;
-  return !!(s.name && s.phone && s.street && s.thana && s.zillah);
-});
+  const s = checkoutStore.shippingInfo
+  return !!(s.name && s.phone && s.street && s.thana && s.zillah)
+})
 
-const submitLabel = computed(() => {
-  return checkoutStore.paymentInfo.method === "cash"
-    ? "Place Order (Cash on Delivery)"
-    : "Place Order";
-});
+const placeOrderLabel = computed(() => ({
+  cash:  'Place Order (Cash on Delivery)',
+  bkash: 'Place Order (bKash)',
+  card:  'Place Order (Card)',
+}[checkoutStore.paymentInfo.method]))
 
-const handleSubmit = async () => {
+async function handleSubmit() {
   try {
-    await checkoutStore.processOrder(productStore.cart, {
+    await checkoutStore.processOrder(cartStore.items, {
       subtotal: subtotal.value,
       shipping: shipping.value,
       tax: tax.value,
-      total: total.value,
-    });
-    productStore.clearCart();
-  } catch (error) {
-    console.error("Checkout failed:", error);
-  }
-};
-
-// Redirect if cart is empty
-const redirectIfCartIsEmpty = () => {
-  if (productStore.cart.length === 0) {
-    router.push("/");
-  }
-};
-
-redirectIfCartIsEmpty();
+      total: grandTotal.value,
+    })
+    cartStore.clearCart()
+  } catch {}
+}
 </script>

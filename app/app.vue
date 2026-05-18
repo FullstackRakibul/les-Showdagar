@@ -7,7 +7,7 @@
     <div class="flex h-screen overflow-hidden">
       <!-- Left Sidebar -->
       <Transition name="slide-left">
-        <aside v-if="leftSidebarOpen" class="z-40 flex-shrink-0"
+        <aside v-if="leftSidebarOpen" class="z-40 shrink-0"
           :class="[isMobile ? 'fixed top-0 left-0 h-full w-72' : 'relative w-64']">
           <LeftSidebar />
         </aside>
@@ -16,7 +16,7 @@
       <!-- Main Content Area -->
       <div class="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
         <!-- Header -->
-        <header class="relative z-20 flex-shrink-0">
+        <header class="relative z-20 shrink-0">
           <AppHeader />
         </header>
 
@@ -31,12 +31,15 @@
 
       <!-- Right Sidebar -->
       <Transition name="slide-right">
-        <aside v-if="rightSidebarOpen" class="z-40 flex-shrink-0"
+        <aside v-if="rightSidebarOpen" class="z-40 shrink-0"
           :class="[isMobile ? 'fixed top-0 right-0 h-full w-72' : 'relative w-80']">
           <RightSidebar />
         </aside>
       </Transition>
     </div>
+
+    <!-- Compact floating theme toggle -->
+    <ThemeToggleButton />
   </div>
 </template>
 

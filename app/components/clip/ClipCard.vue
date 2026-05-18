@@ -109,7 +109,6 @@ import { ref, computed, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useClipCartStore, type ClipProduct } from '@/stores/clipCart'
 import { useProductStore } from '@/stores/products'
-import { Button } from '@/components/ui/button'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
@@ -232,7 +231,7 @@ const handleCardClick = () => {
 const handleAddToCart = () => {
   const product = productStore.products.find(p => p.id === props.clip.productId)
   if (product) {
-    productStore.addToCart(product)
+    ;(productStore as any).addToCart(product)
     emit('add-to-cart', props.clip)
   }
 }

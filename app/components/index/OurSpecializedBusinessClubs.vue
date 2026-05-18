@@ -100,7 +100,7 @@ const openRequestModal = () => {
 }
 
 
-const navigateToCategory = (slug) => {
+const navigateToCategory = (slug: any) => {
   router.push(`/products`)
 }
 

@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  
+
   modules: [
     "@pinia/nuxt",
     "shadcn-nuxt",
@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     prefix: '',
     componentDir: '@/components/ui'
   },
-  
+
   css: [
     "@fortawesome/fontawesome-free/css/all.css",
     "~/assets/css/tailwind.css"
@@ -33,8 +33,14 @@ export default defineNuxtConfig({
         { name: "description", content: "Premium e-commerce platform with curated products" },
       ],
       htmlAttrs: {
-        class: 'dark'
+        class: ''
       }
+    },
+  },
+
+  runtimeConfig: {
+    public: {
+      apiBase: import.meta.env.NUXT_PUBLIC_API_BASE || '/api',
     },
   },
 

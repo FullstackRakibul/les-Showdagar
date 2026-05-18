@@ -64,9 +64,6 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
