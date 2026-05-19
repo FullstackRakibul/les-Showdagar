@@ -6,34 +6,32 @@
         <!-- Left: Menu + Megamenu -->
         <div class="flex items-center gap-2 shrink-0">
           <!-- Mobile menu toggle -->
-          <Button variant="ghost" size="icon" class="lg:hidden" @click="layoutStore.toggleLeftSidebar">
-            <HugeiconsIcon :icon="Menu01Icon" :size="20" />
+          <Button variant="ghost" size="icon" @click="layoutStore.toggleLeftSidebar">
+            <Transition name="icon-rotate" mode="out-in">
+              <HugeiconsIcon :key="layoutStore.leftSidebarOpen ? 'open' : 'closed'"
+                :icon="layoutStore.leftSidebarOpen ? MoveLeftIcon : MoveRightIcon" :size="20" />
+            </Transition>
           </Button>
-
-          <!-- Logo -->
-          <NuxtLink to="/" class="flex items-center opacity-90 hover:opacity-100 transition-opacity">
-            <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
-              class="h-8 sm:h-9 w-auto" />
-          </NuxtLink>
-
           <!-- Megamenu -->
           <HeaderMegamenu />
         </div>
 
-        <!-- Center: Search bar -->
-        <div class="flex-1 max-w-md mx-4">
+        <!-- Center: Search bar (hidden on home page) -->
+        <div v-if="!isHomePage" class="flex-1 max-w-md mx-4">
           <div class="relative">
             <HugeiconsIcon :icon="Search01Icon" :size="16"
               class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-            <input
-              v-model="searchQuery"
-              type="text"
-              placeholder="Search products..."
+            <input v-model="searchQuery" type="text" placeholder="Search products..."
               class="w-full h-9 pl-9 pr-4 rounded-lg bg-muted border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
-              @keydown.enter="handleSearch"
-            />
+              @keydown.enter="handleSearch" />
           </div>
         </div>
+
+        <NuxtLink v-if="isHomePage" to="/" class="flex items-center opacity-90 hover:opacity-100 transition-opacity">
+          <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
+            class="h-8 sm:h-8 w-auto" />
+        </NuxtLink>
+
 
         <!-- Right: Actions -->
         <div class="flex items-center gap-1">
@@ -108,9 +106,12 @@
           </template>
 
           <!-- Right Sidebar Toggle -->
-          <Button variant="ghost" size="icon" class="flex"
-            :class="{ 'text-quantum-500': layoutStore.rightSidebarOpen }" @click="layoutStore.toggleRightSidebar">
-            <HugeiconsIcon :icon="SidebarRight01Icon" :size="20" />
+
+          <Button variant="ghost" size="icon" @click="layoutStore.toggleRightSidebar">
+            <Transition name="icon-rotate" mode="out-in">
+              <HugeiconsIcon :key="layoutStore.rightSidebarOpen ? 'open' : 'closed'"
+                :icon="layoutStore.rightSidebarOpen ? MoveRightIcon : MoveLeftIcon" :size="20" />
+            </Transition>
           </Button>
         </div>
       </div>
@@ -119,8 +120,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useLayoutStore } from '@/stores/layout'
 import { useAuthStore } from '@/stores/auth'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
@@ -130,7 +131,9 @@ import HeaderMegamenu from '@/components/header/HeaderMegamenu.vue'
 // HugeIcons
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
-  Menu01Icon,
+  MoveRightIcon,
+  MoveLeftIcon,
+  Clubs02Icon,
   UserIcon,
   Logout01Icon,
   ArrowDown01Icon,
@@ -139,9 +142,12 @@ import {
   Search01Icon,
 } from '@hugeicons/core-free-icons'
 
+const route = useRoute()
 const router = useRouter()
 const layoutStore = useLayoutStore()
 const authStore = useAuthStore()
+
+const isHomePage = computed(() => route.path === '/')
 
 const showProfileMenu = ref(false)
 const profileDropdown = ref<HTMLElement | null>(null)
@@ -191,5 +197,20 @@ onUnmounted(() => {
 .dropdown-leave-to {
   opacity: 0;
   transform: translateY(-8px);
+}
+
+.icon-rotate-enter-active,
+.icon-rotate-leave-active {
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.icon-rotate-enter-from {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+
+.icon-rotate-leave-to {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
 }
 </style>

@@ -1,16 +1,16 @@
 <template>
   <div class="relative">
-    <Button variant="ghost" size="sm" class="flex items-center gap-2" @click="toggleMenu" ref="triggerRef">
-      <HugeiconsIcon :icon="Menu09Icon" :size="20" />
-      <span class="hidden sm:inline text-sm">Browse</span>
-      <HugeiconsIcon :icon="ArrowDown01Icon" :size="16" class="transition-transform"
-        :class="{ 'rotate-180': isOpen }" />
+    <Button variant="ghost" size="sm"
+      class="flex items-center gap-2 border border-border rounded-full px-3 py-1 bg-primnary-500/20 text-primary-500"
+      @click="toggleMenu" ref="triggerRef">
+      <HugeiconsIcon :icon="Clubs02Icon" :size="16" class="transition-transform " :class="{ 'rotate-180': isOpen }" />
+      <span class="hidden sm:block text-sm font-medium">Clubs</span>
     </Button>
 
     <!-- Megamenu Dropdown -->
     <Transition name="menu">
       <div v-if="isOpen"
-        class="absolute left-0 top-full mt-2 w-[600px] bg-card border border-border rounded-xl shadow-lg z-50"
+        class="absolute bg-white left-0 top-full mt-2 w-[600px] border border-border rounded-xl shadow-lg z-50"
         ref="menuRef">
         <div class="p-6">
           <div class="grid grid-cols-3 gap-6">
@@ -94,7 +94,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
-  Menu09Icon,
+  Clubs02Icon,
   ArrowDown01Icon,
   CpuIcon,
   DiamondIcon,

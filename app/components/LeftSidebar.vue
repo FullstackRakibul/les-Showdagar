@@ -1,12 +1,13 @@
 <template>
   <aside class="h-full bg-card border-r border-border flex flex-col">
     <!-- Header -->
-    <div class="p-4 border-b border-border">
-      <div class="flex items-center justify-between">
-        <h2 class="font-medium text-foreground">Navigation</h2>
-        <Button v-if="isMobile" variant="ghost" size="icon" @click="layoutStore.closeLeftSidebar">
-          <HugeiconsIcon :icon="Cancel01Icon" :size="20" />
-        </Button>
+    <div class="px-4 p-2 border-b border-border">
+      <p class="text-[8px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Your space</p>
+      <h2 class="mt-0.5 text-sm font-bold text-foreground tracking-wider leading-none">{{ currentPageLabel }}</h2>
+      <div class="mt-2.5 flex items-center gap-1">
+        <div class="h-0.5 w-5 rounded-full bg-quantum-500" />
+        <div class="h-0.5 w-2 rounded-full bg-muted-foreground/30" />
+        <div class="h-0.5 w-1 rounded-full bg-muted-foreground/20" />
       </div>
     </div>
 
@@ -26,7 +27,7 @@
       </ul>
 
       <!-- Clubs Section -->
-      <div class="mt-8">
+      <!-- <div class="mt-8">
         <h3 class="px-3 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
           Business Clubs
         </h3>
@@ -40,12 +41,12 @@
             </NuxtLink>
           </li>
         </ul>
-      </div>
+      </div> -->
     </nav>
 
     <!-- Footer -->
     <div class="p-4 border-t border-border">
-      <Button variant="outline" size="sm" class="w-full" @click="navigateTo('/settings')">
+      <Button variant="outline" size="sm" class="w-full flex items-center gap-2" @click="navigateTo('/settings')">
         <HugeiconsIcon :icon="Settings01Icon" :size="16" class="mr-2" />
         Settings
       </Button>
@@ -74,6 +75,24 @@ const router = useRouter()
 const layoutStore = useLayoutStore()
 
 const isMobile = computed(() => layoutStore.isMobile)
+
+const pageLabels: Record<string, string> = {
+  '/': 'Home',
+  '/products': 'Products',
+  '/shop': 'Shop',
+  '/cart': 'Cart',
+  '/wishlist': 'Wishlist',
+  '/orders': 'Orders',
+  '/settings': 'Settings',
+  '/messages': 'Messages',
+  '/notifications': 'Notifications',
+  '/about': 'About',
+}
+
+const currentPageLabel = computed(() => {
+  if (route.path.startsWith('/club')) return 'Club'
+  return pageLabels[route.path] ?? 'Explore'
+})
 
 const navItems = [
   { path: '/', icon: Home01Icon, label: 'Home' },
