@@ -4,28 +4,35 @@
       <div class="flex items-center justify-between h-14 gap-4">
 
         <!-- Left: Menu + Megamenu -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 shrink-0">
           <!-- Mobile menu toggle -->
           <Button variant="ghost" size="icon" class="lg:hidden" @click="layoutStore.toggleLeftSidebar">
             <HugeiconsIcon :icon="Menu01Icon" :size="20" />
           </Button>
 
-          <!-- Megamenu -->
-          <HeaderMegamenu />
-
-          <!-- Browse link -->
-          <NuxtLink to="/browse"
-            class="hidden lg:inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-muted">
-            Browse
-          </NuxtLink>
-        </div>
-
-        <!-- Center: Logo -->
-        <div class="flex-1 flex justify-center">
+          <!-- Logo -->
           <NuxtLink to="/" class="flex items-center opacity-90 hover:opacity-100 transition-opacity">
             <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
               class="h-8 sm:h-9 w-auto" />
           </NuxtLink>
+
+          <!-- Megamenu -->
+          <HeaderMegamenu />
+        </div>
+
+        <!-- Center: Search bar -->
+        <div class="flex-1 max-w-md mx-4">
+          <div class="relative">
+            <HugeiconsIcon :icon="Search01Icon" :size="16"
+              class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Search products..."
+              class="w-full h-9 pl-9 pr-4 rounded-lg bg-muted border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+              @keydown.enter="handleSearch"
+            />
+          </div>
         </div>
 
         <!-- Right: Actions -->
@@ -101,7 +108,7 @@
           </template>
 
           <!-- Right Sidebar Toggle -->
-          <Button variant="ghost" size="icon" class="hidden xl:flex"
+          <Button variant="ghost" size="icon" class="flex"
             :class="{ 'text-quantum-500': layoutStore.rightSidebarOpen }" @click="layoutStore.toggleRightSidebar">
             <HugeiconsIcon :icon="SidebarRight01Icon" :size="20" />
           </Button>
@@ -129,6 +136,7 @@ import {
   ArrowDown01Icon,
   SidebarRight01Icon,
   Package01Icon,
+  Search01Icon,
 } from '@hugeicons/core-free-icons'
 
 const router = useRouter()
@@ -137,6 +145,15 @@ const authStore = useAuthStore()
 
 const showProfileMenu = ref(false)
 const profileDropdown = ref<HTMLElement | null>(null)
+const searchQuery = ref('')
+
+const handleSearch = () => {
+  const q = searchQuery.value.trim()
+  if (q) {
+    router.push(`/products?search=${encodeURIComponent(q)}`)
+    searchQuery.value = ''
+  }
+}
 
 const navigateTo = (path: string) => {
   router.push(path)

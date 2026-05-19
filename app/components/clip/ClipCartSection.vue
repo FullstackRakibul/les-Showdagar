@@ -9,8 +9,10 @@
               <HugeiconsIcon :icon="Video01Icon" :size="20" class="text-primary" />
             </div>
             <div>
-              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
-                Discover & Clip to Cart<span class="text-gradient">Reels</span>
+              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2 flex items-center gap-2 flex-wrap">
+                <HugeiconsIcon :icon="Video01Icon" :size="28" class="text-primary shrink-0" />
+                Discover &amp; Clip to Cart
+                <span class="text-gradient">Reels</span>
               </h2>
               <p class="text-muted-foreground max-w-md">
                 Watch, shop, and add to cart – all in one seamless experience

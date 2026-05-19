@@ -32,7 +32,10 @@
     <!-- Content -->
     <div class="p-3 space-y-2">
       <div>
-        <h3 class="text-sm font-medium text-foreground line-clamp-2 leading-snug">{{ product.name }}</h3>
+        <NuxtLink :to="`/product/${product.slug}`"
+          class="text-sm font-medium text-foreground line-clamp-2 leading-snug hover:text-primary transition-colors">
+          {{ product.name }}
+        </NuxtLink>
         <div class="flex items-center gap-1 mt-1">
           <HugeiconsIcon :icon="StarIcon" :size="12" class="text-yellow-500" />
           <span class="text-[11px] text-muted-foreground">{{ product.rating }} · {{ product.reviews }}</span>

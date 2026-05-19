@@ -112,24 +112,26 @@
       </p>
 
       <!-- Animated Actions -->
-      <div class="actions-wrapper flex flex-col sm:flex-row gap-4 justify-center">
-        <Button size="lg"
-          class="btn-primary group relative overflow-hidden shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300"
+      <div class="actions-wrapper flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <!-- Primary CTA -->
+        <button
+          class="hero-btn-primary group relative inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl text-sm font-semibold text-white overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
           @click="scrollToClips">
-          <span class="relative z-10 flex items-center">
-            <HugeiconsIcon :icon="PlayIcon" :size="20" class="mr-2 group-hover:scale-110 transition-transform" />
-            Explore Now
-          </span>
-          <div class="btn-shimmer" />
-        </Button>
+          <span class="absolute inset-0 bg-linear-to-r from-quantum-500 via-elegance-500 to-nextstop-500 bg-size-[200%_100%] animate-gradient" />
+          <span class="absolute inset-0 bg-linear-to-r from-quantum-600 via-elegance-600 to-nextstop-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <HugeiconsIcon :icon="PlayIcon" :size="18" class="relative z-10 group-hover:scale-110 transition-transform duration-200" />
+          <span class="relative z-10 tracking-wide">Explore Now</span>
+          <div class="absolute inset-0 rounded-2xl shadow-[0_0_30px_rgba(0,120,255,0.35)] group-hover:shadow-[0_0_40px_rgba(0,120,255,0.55)] transition-shadow duration-300" />
+        </button>
 
-        <Button variant="outline" size="lg"
-          class="btn-secondary group backdrop-blur-sm bg-card/30 hover:bg-card/50 border-border/50 hover:border-quantum-500/50 transition-all duration-300"
+        <!-- Secondary CTA -->
+        <button
+          class="hero-btn-secondary group inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl text-sm font-semibold border border-border/60 bg-card/20 backdrop-blur-md text-foreground hover:bg-card/50 hover:border-quantum-500/60 transition-all duration-300 hover:scale-105 active:scale-95"
           @click="navigateToProducts">
-          <span class="group-hover:tracking-wide transition-all duration-300">Browse Products</span>
+          <span>Browse Products</span>
           <HugeiconsIcon :icon="ArrowRight01Icon" :size="16"
-            class="ml-2 group-hover:translate-x-1 transition-transform" />
-        </Button>
+            class="group-hover:translate-x-1 transition-transform duration-200" />
+        </button>
       </div>
 
       <!-- Animated Stats -->
