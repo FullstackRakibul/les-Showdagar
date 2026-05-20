@@ -5,11 +5,9 @@
       <div class="section-header flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
         <div class="header-content">
           <div class="flex  items-center gap-3 mb-3">
-            <div class="icon-badge">
-              <HugeiconsIcon :icon="Video01Icon" :size="20" class="text-primary" />
-            </div>
             <div>
-              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2 flex items-center gap-2 flex-wrap">
+              <h2
+                class="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2 flex items-center gap-2 flex-wrap">
                 <HugeiconsIcon :icon="Video01Icon" :size="28" class="text-primary shrink-0" />
                 Discover &amp; Clip to Cart
                 <span class="text-gradient">Reels</span>

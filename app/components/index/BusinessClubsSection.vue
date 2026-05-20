@@ -1,351 +1,185 @@
 <template>
-  <section class="clubs-section py-20 bg-card/50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl font-semibold text-foreground mb-3">
-          Our Specialized Business Clubs
+  <section class="py-20 sm:py-24 bg-background overflow-x-clip">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+      <!-- Section header -->
+      <div
+        ref="headerEl"
+        class="header-reveal text-center mb-14"
+        :class="{ 'is-visible': headerVisible }"
+      >
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="h-px w-8 bg-border" />
+          <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            Business Ecosystem
+          </p>
+          <div class="h-px w-8 bg-border" />
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-foreground tracking-tight mb-4 text-balance">
+          Three Specialized Clubs.<br class="hidden sm:block" />
+          One Unified Platform.
         </h2>
-        <p class="text-muted-foreground max-w-xl mx-auto">
-          Three distinct subsidiaries, one unified platform
+        <p class="text-muted-foreground max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
+          Each club carries its own identity, expertise, and curated product ecosystem —
+          united under the RH Business Club umbrella.
         </p>
       </div>
 
-      <!-- Clubs Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Quantum Club -->
-        <div class="club-card club-card--quantum group">
-          <Card
-            class="relative overflow-hidden border-border h-full transition-all duration-500 ease-out hover:border-quantum-500/60 hover:shadow-2xl hover:shadow-quantum-500/20">
-            <!-- Animated Background Decorations -->
-            <div
-              class="absolute top-0 right-0 w-32 h-32 bg-quantum-500/10 rounded-bl-full transition-all duration-500 group-hover:w-40 group-hover:h-40 group-hover:bg-quantum-500/20" />
-            <div
-              class="absolute -bottom-10 -left-10 w-24 h-24 bg-quantum-500/5 rounded-full transition-all duration-700 group-hover:w-32 group-hover:h-32 group-hover:bg-quantum-500/10" />
-
-            <!-- Gradient Overlay on Hover -->
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-quantum-500/0 via-transparent to-quantum-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <CardContent class="p-8 relative z-10">
-              <!-- Animated Icon Container -->
-              <div
-                class="icon-wrapper w-14 h-14 bg-quantum-500/20 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-quantum-500/30 group-hover:shadow-lg group-hover:shadow-quantum-500/25">
-                <HugeiconsIcon :icon="CpuIcon" :size="28"
-                  class="text-quantum-500 transition-all duration-300 group-hover:scale-110" />
-              </div>
-
-              <!-- Title with Slide Effect -->
-              <h3
-                class="text-xl font-semibold text-foreground mb-2 transition-all duration-300 group-hover:translate-x-1">
-                Quantum Club</h3>
-
-              <!-- Subtitle with Color Pulse -->
-              <p
-                class="text-sm text-quantum-500 font-medium mb-4 uppercase tracking-wide transition-all duration-300 group-hover:tracking-wider">
-                Tech-Inspired Quality Products
-              </p>
-
-              <!-- Description with Fade -->
-              <p
-                class="text-muted-foreground text-sm mb-6 leading-relaxed transition-all duration-300 group-hover:text-foreground/80">
-                Latest high-quality and innovative technology goods, gadgets, and smart solutions.
-              </p>
-
-              <!-- Animated Button -->
-              <Button variant="ghost"
-                class="btn-explore text-quantum-500 hover:text-quantum-400 p-0 transition-all duration-300 group-hover:translate-x-2"
-                @click="navigateToClub('quantum')">
-                Explore Tech
-                <HugeiconsIcon :icon="ArrowRight01Icon" :size="16"
-                  class="ml-2 transition-all duration-300 group-hover:translate-x-1" />
-              </Button>
-            </CardContent>
-
-            <!-- Bottom Accent Line -->
-            <div
-              class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-quantum-500 to-quantum-400 w-0 group-hover:w-full transition-all duration-500 ease-out" />
-          </Card>
-        </div>
-
-        <!-- Elegance Club -->
-        <div class="club-card club-card--elegance group">
-          <Card
-            class="relative overflow-hidden border-border h-full transition-all duration-500 ease-out hover:border-elegance-500/60 hover:shadow-2xl hover:shadow-elegance-500/20">
-            <!-- Animated Background Decorations -->
-            <div
-              class="absolute top-0 right-0 w-32 h-32 bg-elegance-500/10 rounded-bl-full transition-all duration-500 group-hover:w-40 group-hover:h-40 group-hover:bg-elegance-500/20" />
-            <div
-              class="absolute -bottom-10 -left-10 w-24 h-24 bg-elegance-500/5 rounded-full transition-all duration-700 group-hover:w-32 group-hover:h-32 group-hover:bg-elegance-500/10" />
-
-            <!-- Gradient Overlay on Hover -->
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-elegance-500/0 via-transparent to-elegance-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <CardContent class="p-8 relative z-10">
-              <!-- Animated Icon Container -->
-              <div
-                class="icon-wrapper w-14 h-14 bg-elegance-500/20 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-elegance-500/30 group-hover:shadow-lg group-hover:shadow-elegance-500/25">
-                <HugeiconsIcon :icon="DiamondIcon" :size="28"
-                  class="text-elegance-500 transition-all duration-300 group-hover:scale-110" />
-              </div>
-
-              <!-- Title with Slide Effect -->
-              <h3
-                class="text-xl font-semibold text-foreground mb-2 transition-all duration-300 group-hover:translate-x-1">
-                Elegance Club</h3>
-
-              <!-- Subtitle with Color Pulse -->
-              <p
-                class="text-sm text-elegance-500 font-medium mb-4 uppercase tracking-wide transition-all duration-300 group-hover:tracking-wider">
-                Premium Fashion & Lifestyle
-              </p>
-
-              <!-- Description with Fade -->
-              <p
-                class="text-muted-foreground text-sm mb-6 leading-relaxed transition-all duration-300 group-hover:text-foreground/80">
-                Curated premium and designer fashion, accessories, and luxury lifestyle items.
-              </p>
-
-              <!-- Animated Button -->
-              <Button variant="ghost"
-                class="btn-explore text-elegance-500 hover:text-elegance-400 p-0 transition-all duration-300 group-hover:translate-x-2"
-                @click="navigateToClub('elegance')">
-                Explore Fashion
-                <HugeiconsIcon :icon="ArrowRight01Icon" :size="16"
-                  class="ml-2 transition-all duration-300 group-hover:translate-x-1" />
-              </Button>
-            </CardContent>
-
-            <!-- Bottom Accent Line -->
-            <div
-              class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-elegance-500 to-elegance-400 w-0 group-hover:w-full transition-all duration-500 ease-out" />
-          </Card>
-        </div>
-
-        <!-- NextStop Club -->
-        <div class="club-card club-card--nextstop group">
-          <Card
-            class="relative overflow-hidden border-border h-full transition-all duration-500 ease-out hover:border-nextstop-500/60 hover:shadow-2xl hover:shadow-nextstop-500/20">
-            <!-- Animated Background Decorations -->
-            <div
-              class="absolute top-0 right-0 w-32 h-32 bg-nextstop-500/10 rounded-bl-full transition-all duration-500 group-hover:w-40 group-hover:h-40 group-hover:bg-nextstop-500/20" />
-            <div
-              class="absolute -bottom-10 -left-10 w-24 h-24 bg-nextstop-500/5 rounded-full transition-all duration-700 group-hover:w-32 group-hover:h-32 group-hover:bg-nextstop-500/10" />
-
-            <!-- Gradient Overlay on Hover -->
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-nextstop-500/0 via-transparent to-nextstop-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <CardContent class="p-8 relative z-10">
-              <!-- Animated Icon Container -->
-              <div
-                class="icon-wrapper w-14 h-14 bg-nextstop-500/20 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-nextstop-500/30 group-hover:shadow-lg group-hover:shadow-nextstop-500/25">
-                <HugeiconsIcon :icon="Airplane01Icon" :size="28"
-                  class="text-nextstop-500 transition-all duration-300 group-hover:scale-110" />
-              </div>
-
-              <!-- Title with Slide Effect -->
-              <h3
-                class="text-xl font-semibold text-foreground mb-2 transition-all duration-300 group-hover:translate-x-1">
-                NextStop Club</h3>
-
-              <!-- Subtitle with Color Pulse -->
-              <p
-                class="text-sm text-nextstop-500 font-medium mb-4 uppercase tracking-wide transition-all duration-300 group-hover:tracking-wider">
-                Travel & Visa Services
-              </p>
-
-              <!-- Description with Fade -->
-              <p
-                class="text-muted-foreground text-sm mb-6 leading-relaxed transition-all duration-300 group-hover:text-foreground/80">
-                Comprehensive global travel, logistics, and visa/immigration consultation.
-              </p>
-
-              <!-- Animated Button -->
-              <Button variant="ghost"
-                class="btn-explore text-nextstop-500 hover:text-nextstop-400 p-0 transition-all duration-300 group-hover:translate-x-2"
-                @click="navigateToClub('nextstop')">
-                Get Consultation
-                <HugeiconsIcon :icon="ArrowRight01Icon" :size="16"
-                  class="ml-2 transition-all duration-300 group-hover:translate-x-1" />
-              </Button>
-            </CardContent>
-
-            <!-- Bottom Accent Line -->
-            <div
-              class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-nextstop-500 to-nextstop-400 w-0 group-hover:w-full transition-all duration-500 ease-out" />
-          </Card>
-        </div>
+      <!-- Cards grid / mobile carousel -->
+      <div class="clubs-grid">
+        <ClubCard
+          v-for="(club, i) in clubs"
+          :key="club.ctaRoute"
+          v-bind="club"
+          :animation-delay="i * 130"
+          @navigate="router.push"
+        />
       </div>
+
+      <!-- Mobile swipe hint (auto-fades) -->
+      <p class="swipe-hint" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 5l7 7-7 7" />
+        </svg>
+        Swipe to explore
+      </p>
+
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
 import { HugeiconsIcon } from '@hugeicons/vue'
-import {
-  CpuIcon,
-  DiamondIcon,
-  Airplane01Icon,
-  ArrowRight01Icon,
-} from '@hugeicons/core-free-icons'
+import { CpuIcon, DiamondIcon, Airplane01Icon } from '@hugeicons/core-free-icons'
+import ClubCard from '@/components/index/ClubCard.vue'
+import { useScrollReveal } from '@/composables/useScrollReveal'
 
 const router = useRouter()
 
-const navigateToClub = (club: string) => {
-  router.push(`/products?club=${club}`)
-}
+const headerEl = ref<HTMLElement | null>(null)
+const { isVisible: headerVisible } = useScrollReveal(headerEl, 0.2)
+
+const clubs = [
+  {
+    title: 'Quantum Club',
+    subtitle: 'Tech-Inspired Quality',
+    tagline: '#TechRedefined',
+    description:
+      'Latest high-quality innovative technology goods, gadgets, and smart solutions built for the modern professional.',
+    icon: CpuIcon,
+    colorPrimary: 'oklch(0.55 0.18 220)',
+    metrics: ['500+ Products', '120+ Brands', 'AI & IoT'],
+    ctaText: 'Explore Tech',
+    ctaRoute: '/products?club=quantum',
+  },
+  {
+    title: 'Elegance Club',
+    subtitle: 'Premium Fashion & Lifestyle',
+    tagline: '#WearYourStory',
+    description:
+      'Curated premium designer fashion, accessories, and luxury lifestyle items for the discerning taste.',
+    icon: DiamondIcon,
+    colorPrimary: 'oklch(0.55 0.22 300)',
+    metrics: ['200+ Brands', 'Luxury Picks', 'Seasonal Drops'],
+    ctaText: 'Explore Fashion',
+    ctaRoute: '/products?club=elegance',
+  },
+  {
+    title: 'NextStop Club',
+    subtitle: 'Travel & Visa Services',
+    tagline: '#MoveFreely',
+    description:
+      'Comprehensive global travel solutions, logistics, and immigration consultation for seamless journeys.',
+    icon: Airplane01Icon,
+    colorPrimary: 'oklch(0.55 0.20 160)',
+    metrics: ['50+ Destinations', 'Visa Support', '24/7 Help'],
+    ctaText: 'Get Consultation',
+    ctaRoute: '/products?club=nextstop',
+  },
+]
 </script>
 
 <style scoped>
-/* Card Container with 3D Transform */
-.club-card {
-  perspective: 1000px;
-  transform-style: preserve-3d;
+/* Desktop: 3-column grid */
+.clubs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
 }
 
-.club-card :deep(.card) {
-  transform: translateY(0) rotateX(0);
-  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-    box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.club-card:hover :deep(.card) {
-  transform: translateY(-8px) rotateX(2deg);
-}
-
-/* Icon Pulse Animation */
-.club-card:hover .icon-wrapper {
-  animation: iconPulse 2s ease-in-out infinite;
-}
-
-@keyframes iconPulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 currentColor;
+/* Tablet: 2-col + third card centered */
+@media (max-width: 1023px) and (min-width: 640px) {
+  .clubs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
-
-  50% {
-    box-shadow: 0 0 20px 4px currentColor;
+  .clubs-grid > :last-child {
+    grid-column: 1 / -1;
+    max-width: 420px;
+    margin-inline: auto;
+    width: 100%;
   }
 }
 
-/* Quantum specific pulse color */
-.club-card--quantum:hover .icon-wrapper {
-  animation: quantumPulse 2s ease-in-out infinite;
-}
-
-@keyframes quantumPulse {
-
-  0%,
-  100% {
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+/* Mobile: horizontal snap carousel */
+@media (max-width: 639px) {
+  .clubs-grid {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem 1rem 1.25rem;
+    margin-inline: -1rem;
+    scrollbar-width: none;
   }
-
-  50% {
-    box-shadow: 0 4px 25px rgba(59, 130, 246, 0.5);
-  }
-}
-
-/* Elegance specific pulse color */
-.club-card--elegance:hover .icon-wrapper {
-  animation: elegancePulse 2s ease-in-out infinite;
-}
-
-@keyframes elegancePulse {
-
-  0%,
-  100% {
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
-  }
-
-  50% {
-    box-shadow: 0 4px 25px rgba(168, 85, 247, 0.5);
+  .clubs-grid::-webkit-scrollbar { display: none; }
+  .clubs-grid > * {
+    flex: 0 0 84%;
+    scroll-snap-align: center;
   }
 }
 
-/* NextStop specific pulse color */
-.club-card--nextstop:hover .icon-wrapper {
-  animation: nextstopPulse 2s ease-in-out infinite;
+/* Swipe hint — mobile only, auto-fades */
+.swipe-hint {
+  display: none;
 }
-
-@keyframes nextstopPulse {
-
-  0%,
-  100% {
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
-  }
-
-  50% {
-    box-shadow: 0 4px 25px rgba(16, 185, 129, 0.5);
-  }
-}
-
-/* Staggered entrance animation */
-.club-card {
-  opacity: 0;
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.club-card:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.club-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.club-card:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-@keyframes fadeInUp {
-  from {
+@media (max-width: 639px) {
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
     opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    animation: fade-hint 3.5s ease-in-out 0.8s forwards;
   }
 }
-
-/* Button arrow bounce on hover */
-.club-card:hover .btn-explore :deep(svg:last-child) {
-  animation: arrowBounce 1s ease-in-out infinite;
+@keyframes fade-hint {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
 }
 
-@keyframes arrowBounce {
-
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  50% {
-    transform: translateX(4px);
-  }
+/* Header scroll reveal */
+.header-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.header-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Smooth scroll reveal for section */
-.clubs-section {
-  overflow: hidden;
-}
-
-/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-
-  .club-card,
-  .club-card:hover :deep(.card),
-  .icon-wrapper,
-  .btn-explore {
-    animation: none !important;
-    transition: none !important;
-  }
+  .header-reveal { transition: none; opacity: 1; transform: none; }
+  .swipe-hint { animation: none; opacity: 1; }
 }
 </style>

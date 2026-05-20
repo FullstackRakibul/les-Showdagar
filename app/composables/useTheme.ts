@@ -4,7 +4,14 @@ const PERSIST_KEY = 'rh-theme'
 
 // Singleton state — shared across all composable calls
 const isDark = ref(false)
-const accentHue = ref(220) // 220=quantum 300=elegance 160=nextstop
+const accentHue = ref<number>(220)
+
+// Per-club chroma values so --ring/--primary are accurate
+const CLUBS: Record<number, string> = {
+  220: 'oklch(0.55 0.18 220)',
+  300: 'oklch(0.55 0.22 300)',
+  160: 'oklch(0.55 0.20 160)',
+}
 
 function applyDark() {
   if (typeof document === 'undefined') return
@@ -13,10 +20,20 @@ function applyDark() {
 
 function applyAccent() {
   if (typeof document === 'undefined') return
-  const c = accentHue.value
   const root = document.documentElement
-  root.style.setProperty('--ring', `oklch(0.55 0.18 ${c})`)
-  root.style.setProperty('--accent-hue', String(c))
+  const color = CLUBS[accentHue.value]
+
+  if (color) {
+    // Override --primary and --ring with the chosen club color
+    root.style.setProperty('--primary', color)
+    root.style.setProperty('--primary-foreground', 'oklch(0.98 0 0)')
+    root.style.setProperty('--ring', color)
+  } else {
+    // Unknown hue — remove overrides and let CSS handle it
+    root.style.removeProperty('--primary')
+    root.style.removeProperty('--primary-foreground')
+    root.style.removeProperty('--ring')
+  }
 }
 
 function persist() {
@@ -37,15 +54,15 @@ export function useTheme() {
     persist()
   }
 
-  function setAccent(hue: 220 | 300 | 160 | number) {
+  function setAccent(hue: number) {
     accentHue.value = hue
     applyAccent()
     persist()
   }
 
-  // Call in onMounted() — restores persisted preference and applies classes
+  // Call in onMounted() — restores persisted preference and applies all CSS vars
   function load() {
-    if (typeof localStorage === 'undefined') return
+    if (!import.meta.client) return
     try {
       const raw = localStorage.getItem(PERSIST_KEY)
       if (raw) {

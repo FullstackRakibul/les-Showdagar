@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2">
+  <div v-if="!layoutStore.leftSidebarOpen" class="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2">
     <!-- Mini Panel -->
     <Transition
       enter-active-class="transition-all duration-200 ease-out"
@@ -104,8 +104,10 @@
 import { ref, onMounted } from 'vue'
 import { Sun, Moon, Palette, X } from 'lucide-vue-next'
 import { useTheme } from '@/composables/useTheme'
+import { useLayoutStore } from '@/stores/layout'
 
 const { isDark, accentHue, setDark, setAccent, load } = useTheme()
+const layoutStore = useLayoutStore()
 const open = ref(false)
 
 const clubs = [

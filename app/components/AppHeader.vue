@@ -51,9 +51,9 @@
                   class="w-7 h-7 bg-quantum-500 rounded-full flex items-center justify-center text-white text-xs font-medium">
                   {{ authStore.user?.initials || 'RH' }}
                 </div>
-                <HugeiconsIcon :icon="ArrowDown01Icon" :size="16"
+                <!-- <HugeiconsIcon :icon="ArrowDown01Icon" :size="16"
                   class="text-muted-foreground transition-transform hidden sm:block"
-                  :class="{ 'rotate-180': showProfileMenu }" />
+                  :class="{ 'rotate-180': showProfileMenu }" /> -->
               </Button>
 
               <!-- Profile Dropdown -->

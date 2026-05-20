@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen">
-    <!-- 1. Full-Screen Hero Banner -->
-    <HeroBanner />
+    <!-- 1. Full-Screen Hero Search -->
+    <HeroSearch />
     <!-- 2. Clip Cart Section -->
     <div id="clip-section">
       <ClipCartSection />
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import HeroBanner from '@/components/index/HeroBanner.vue'
+import HeroSearch from '@/components/index/HeroSearch.vue'
 import ClipCartSection from '@/components/clip/ClipCartSection.vue'
 import BusinessClubsSection from '@/components/index/BusinessClubsSection.vue'
 import FeaturedProducts from '@/components/index/FeaturedProducts.vue'
