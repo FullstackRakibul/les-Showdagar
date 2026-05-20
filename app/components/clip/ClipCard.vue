@@ -4,24 +4,17 @@
 
     <!-- Video/Poster Container -->
     <div class="media-container">
-      <!-- Poster Image -->
       <img v-show="!isPlaying" :src="clip.posterUrl" :alt="clip.title" class="poster-image" loading="lazy" />
-
-      <!-- Video Element -->
       <video v-show="isPlaying" ref="videoRef" :src="clip.videoUrl" :poster="clip.posterUrl" class="video-element"
         :muted="isMuted" loop playsinline @timeupdate="updateProgress" @loadedmetadata="onVideoLoaded" />
-
-      <!-- Video Progress Bar -->
       <div v-if="isPlaying" class="progress-container">
         <div class="progress-bar" :style="{ width: `${progress}%` }" />
       </div>
     </div>
 
-    <!-- Gradient Overlays -->
     <div class="gradient-overlay gradient-overlay--top" />
     <div class="gradient-overlay gradient-overlay--bottom" />
 
-    <!-- Play Button (Centered) -->
     <Transition name="fade">
       <div v-if="!isPlaying" class="play-button-container">
         <div class="play-button">
@@ -31,44 +24,35 @@
       </div>
     </Transition>
 
-    <!-- Club Badge -->
     <div class="club-badge" :class="clubBadgeClass">
       <HugeiconsIcon :icon="clubIcon" :size="12" />
       <span>{{ clubName }}</span>
     </div>
 
-    <!-- Duration Badge -->
     <div class="duration-badge">
       <HugeiconsIcon :icon="Video01Icon" :size="12" />
       <span>{{ formattedDuration }}</span>
     </div>
 
-    <!-- Mute Toggle -->
     <Transition name="fade">
       <button v-if="isPlaying" class="mute-toggle" @click.stop="toggleMute">
         <HugeiconsIcon :icon="isMuted ? VolumeMute01Icon : VolumeHighIcon" :size="16" />
       </button>
     </Transition>
 
-    <!-- Action Sidebar -->
     <div class="action-sidebar">
-      <!-- Like Button -->
       <button class="action-btn" :class="{ 'action-btn--liked': isLiked }" @click.stop="handleLike">
         <div class="action-icon-wrapper">
           <HugeiconsIcon :icon="FavouriteIcon" :size="20" />
         </div>
         <span class="action-count">{{ formatCount(234) }}</span>
       </button>
-
-      <!-- Share Button -->
       <button class="action-btn" @click.stop="handleShare">
         <div class="action-icon-wrapper">
           <HugeiconsIcon :icon="Share08Icon" :size="20" />
         </div>
         <span class="action-count">Share</span>
       </button>
-
-      <!-- Add to Cart Button -->
       <button class="action-btn action-btn--cart" @click.stop="handleAddToCart">
         <div class="action-icon-wrapper action-icon-wrapper--cart">
           <HugeiconsIcon :icon="ShoppingCart01Icon" :size="20" />
@@ -77,17 +61,14 @@
       </button>
     </div>
 
-    <!-- Product Info Bar -->
     <div class="product-info">
       <h3 class="product-title">{{ clip.title }}</h3>
-
       <div class="product-pricing">
         <div class="price-group">
           <span class="current-price">৳{{ clip.price }}</span>
           <span v-if="clip.originalPrice" class="original-price">৳{{ clip.originalPrice }}</span>
           <span v-if="discountPercent" class="discount-badge">-{{ discountPercent }}%</span>
         </div>
-
         <Button size="sm" class="buy-now-btn group" @click.stop="handleBuyNow">
           <span>Buy Now</span>
           <HugeiconsIcon :icon="ArrowRight01Icon" :size="14"
@@ -96,7 +77,6 @@
       </div>
     </div>
 
-    <!-- Views Counter -->
     <div class="views-counter" v-if="isPlaying">
       <HugeiconsIcon :icon="ViewIcon" :size="14" />
       <span>{{ formatCount(1234) }} views</span>
@@ -141,7 +121,6 @@ const router = useRouter()
 const clipCartStore = useClipCartStore()
 const productStore = useProductStore()
 
-// Refs
 const videoRef = ref<HTMLVideoElement | null>(null)
 const isPlaying = ref(false)
 const isHovered = ref(false)
@@ -150,7 +129,6 @@ const isLiked = ref(false)
 const progress = ref(0)
 const videoDuration = ref(0)
 
-// Club information
 const clubInfo: Record<string, { name: string; class: string; icon: any }> = {
   quantum: { name: 'Tech', class: 'club-badge--quantum', icon: CpuIcon },
   elegance: { name: 'Fashion', class: 'club-badge--elegance', icon: DiamondIcon },
@@ -161,13 +139,11 @@ const clubName = computed(() => clubInfo[props.clip.club]?.name || 'Shop')
 const clubBadgeClass = computed(() => clubInfo[props.clip.club]?.class || '')
 const clubIcon = computed(() => clubInfo[props.clip.club]?.icon || CpuIcon)
 
-// Discount calculation
 const discountPercent = computed(() => {
   if (!props.clip.originalPrice) return 0
   return Math.round((1 - props.clip.price / props.clip.originalPrice) * 100)
 })
 
-// Format duration
 const formattedDuration = computed(() => {
   const duration = props.clip.duration || 30
   const mins = Math.floor(duration / 60)
@@ -175,39 +151,29 @@ const formattedDuration = computed(() => {
   return mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `0:${secs.toString().padStart(2, '0')}`
 })
 
-// Format count (1234 -> 1.2K)
 const formatCount = (count: number): string => {
   if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`
   if (count >= 1000) return `${(count / 1000).toFixed(1)}K`
   return count.toString()
 }
 
-// Video progress update
 const updateProgress = () => {
   if (!videoRef.value) return
   const { currentTime, duration } = videoRef.value
-  if (duration) {
-    progress.value = (currentTime / duration) * 100
-  }
+  if (duration) progress.value = (currentTime / duration) * 100
 }
 
 const onVideoLoaded = () => {
-  if (videoRef.value) {
-    videoDuration.value = videoRef.value.duration
-  }
+  if (videoRef.value) videoDuration.value = videoRef.value.duration
 }
 
-// Mouse handlers
 const handleMouseEnter = () => {
   isHovered.value = true
   clipCartStore.trackView(props.clip.id)
-
   setTimeout(() => {
     if (isHovered.value) {
       isPlaying.value = true
-      setTimeout(() => {
-        videoRef.value?.play()
-      }, 100)
+      setTimeout(() => { videoRef.value?.play() }, 100)
     }
   }, 400)
 }
@@ -217,12 +183,9 @@ const handleMouseLeave = () => {
   isPlaying.value = false
   progress.value = 0
   videoRef.value?.pause()
-  if (videoRef.value) {
-    videoRef.value.currentTime = 0
-  }
+  if (videoRef.value) videoRef.value.currentTime = 0
 }
 
-// Action handlers
 const handleCardClick = () => {
   clipCartStore.trackClick(props.clip.id)
   router.push(`/products?id=${props.clip.productId}`)
@@ -241,9 +204,7 @@ const handleBuyNow = () => {
   router.push('/cart')
 }
 
-const handleLike = () => {
-  isLiked.value = !isLiked.value
-}
+const handleLike = () => { isLiked.value = !isLiked.value }
 
 const handleShare = async () => {
   try {
@@ -253,16 +214,12 @@ const handleShare = async () => {
       url: window.location.origin + `/products?id=${props.clip.productId}`
     })
   } catch {
-    // Fallback: copy to clipboard
     navigator.clipboard.writeText(window.location.origin + `/products?id=${props.clip.productId}`)
   }
 }
 
-const toggleMute = () => {
-  isMuted.value = !isMuted.value
-}
+const toggleMute = () => { isMuted.value = !isMuted.value }
 
-// Watch for playing state
 watch(isPlaying, (playing) => {
   if (!playing && videoRef.value) {
     videoRef.value.pause()
@@ -270,20 +227,17 @@ watch(isPlaying, (playing) => {
   }
 })
 
-onUnmounted(() => {
-  videoRef.value?.pause()
-})
+onUnmounted(() => { videoRef.value?.pause() })
 </script>
 
 <style scoped>
-/* Base Card Styles */
 .clip-card {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
+  background: var(--card);
+  border: 1px solid var(--border);
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   transform: translateZ(0);
 }
@@ -296,20 +250,18 @@ onUnmounted(() => {
   aspect-ratio: 16/9;
 }
 
-/* Hover Effects */
 .clip-card:hover {
-  border-color: hsl(var(--primary) / 0.4);
+  border-color: color-mix(in oklch, var(--primary) 40%, transparent);
   box-shadow:
-    0 20px 40px -12px hsl(var(--foreground) / 0.15),
-    0 0 0 1px hsl(var(--primary) / 0.1);
+    0 20px 40px -12px color-mix(in oklch, var(--foreground) 15%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--primary) 10%, transparent);
   transform: translateY(-4px) scale(1.02);
 }
 
 .clip-card--playing {
-  border-color: hsl(var(--primary) / 0.6);
+  border-color: color-mix(in oklch, var(--primary) 60%, transparent);
 }
 
-/* Media Container */
 .media-container {
   position: absolute;
   inset: 0;
@@ -328,25 +280,23 @@ onUnmounted(() => {
   transform: scale(1.05);
 }
 
-/* Progress Bar */
 .progress-container {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: hsl(var(--foreground) / 0.2);
+  background: color-mix(in oklch, var(--foreground) 20%, transparent);
   z-index: 30;
 }
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  background: linear-gradient(90deg, var(--primary), color-mix(in oklch, var(--primary) 80%, transparent));
   transition: width 0.1s linear;
   border-radius: 0 2px 2px 0;
 }
 
-/* Gradient Overlays */
 .gradient-overlay {
   position: absolute;
   left: 0;
@@ -367,7 +317,6 @@ onUnmounted(() => {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
 }
 
-/* Play Button */
 .play-button-container {
   position: absolute;
   inset: 0;
@@ -390,7 +339,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: hsl(var(--primary) / 0.9);
+  background: color-mix(in oklch, var(--primary) 90%, transparent);
   backdrop-filter: blur(10px);
   border-radius: 50%;
   transition: all 0.3s ease;
@@ -398,25 +347,22 @@ onUnmounted(() => {
 
 .play-button:hover {
   transform: scale(1.1);
-  background: hsl(var(--primary));
+  background: var(--primary);
 }
 
 .play-button-ring {
   position: absolute;
   inset: -4px;
-  border: 2px solid hsl(var(--primary) / 0.4);
+  border: 2px solid color-mix(in oklch, var(--primary) 40%, transparent);
   border-radius: 50%;
   animation: ringPulse 2s ease-in-out infinite;
 }
 
 @keyframes ringPulse {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: scale(1);
     opacity: 1;
   }
-
   50% {
     transform: scale(1.15);
     opacity: 0;
@@ -428,7 +374,6 @@ onUnmounted(() => {
   margin-left: 2px;
 }
 
-/* Club Badge */
 .club-badge {
   position: absolute;
   top: 12px;
@@ -447,25 +392,27 @@ onUnmounted(() => {
   transition: all 0.3s ease;
 }
 
+/* quantum — oklch(0.55 0.18 220) blue */
 .club-badge--quantum {
-  background: rgba(59, 130, 246, 0.2);
-  color: rgb(147, 197, 253);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: color-mix(in oklch, oklch(0.55 0.18 220) 20%, transparent);
+  color: oklch(0.80 0.12 220);
+  border: 1px solid color-mix(in oklch, oklch(0.55 0.18 220) 30%, transparent);
 }
 
+/* elegance — oklch(0.55 0.22 300) purple */
 .club-badge--elegance {
-  background: rgba(168, 85, 247, 0.2);
-  color: rgb(216, 180, 254);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: color-mix(in oklch, oklch(0.55 0.22 300) 20%, transparent);
+  color: oklch(0.80 0.14 300);
+  border: 1px solid color-mix(in oklch, oklch(0.55 0.22 300) 30%, transparent);
 }
 
+/* nextstop — oklch(0.55 0.20 160) green */
 .club-badge--nextstop {
-  background: rgba(16, 185, 129, 0.2);
-  color: rgb(110, 231, 183);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: color-mix(in oklch, oklch(0.55 0.20 160) 20%, transparent);
+  color: oklch(0.80 0.13 160);
+  border: 1px solid color-mix(in oklch, oklch(0.55 0.20 160) 30%, transparent);
 }
 
-/* Duration Badge */
 .duration-badge {
   position: absolute;
   top: 12px;
@@ -483,7 +430,6 @@ onUnmounted(() => {
   font-weight: 500;
 }
 
-/* Mute Toggle */
 .mute-toggle {
   position: absolute;
   top: 50px;
@@ -508,7 +454,6 @@ onUnmounted(() => {
   transform: scale(1.1);
 }
 
-/* Action Sidebar */
 .action-sidebar {
   position: absolute;
   right: 10px;
@@ -561,15 +506,15 @@ onUnmounted(() => {
 
 .action-btn--liked .action-icon-wrapper {
   background: rgba(239, 68, 68, 0.2);
-  color: rgb(248, 113, 113);
+  color: oklch(0.70 0.22 25);
 }
 
 .action-btn--cart .action-icon-wrapper--cart {
-  background: hsl(var(--primary) / 0.3);
+  background: color-mix(in oklch, var(--primary) 30%, transparent);
 }
 
 .action-btn--cart:hover .action-icon-wrapper--cart {
-  background: hsl(var(--primary));
+  background: var(--primary);
 }
 
 .action-count {
@@ -578,7 +523,6 @@ onUnmounted(() => {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Product Info */
 .product-info {
   position: absolute;
   bottom: 0;
@@ -602,7 +546,7 @@ onUnmounted(() => {
 }
 
 .clip-card:hover .product-title {
-  color: hsl(var(--primary));
+  color: var(--primary);
 }
 
 .product-pricing {
@@ -634,16 +578,16 @@ onUnmounted(() => {
 .discount-badge {
   font-size: 10px;
   font-weight: 600;
-  color: rgb(248, 113, 113);
-  background: rgba(239, 68, 68, 0.2);
+  color: oklch(0.70 0.22 25);
+  background: color-mix(in oklch, oklch(0.55 0.22 25) 20%, transparent);
   padding: 2px 6px;
   border-radius: 4px;
 }
 
 .buy-now-btn {
   flex-shrink: 0;
-  background: hsl(var(--primary));
-  color: white;
+  background: var(--primary);
+  color: var(--primary-foreground);
   border: none;
   font-size: 12px;
   font-weight: 600;
@@ -660,14 +604,13 @@ onUnmounted(() => {
 }
 
 .buy-now-btn:hover {
-  background: hsl(var(--primary) / 0.9);
+  background: color-mix(in oklch, var(--primary) 90%, transparent);
 }
 
 .buy-arrow {
   margin-left: 4px;
 }
 
-/* Views Counter */
 .views-counter {
   position: absolute;
   bottom: 100px;
@@ -684,7 +627,6 @@ onUnmounted(() => {
   font-size: 11px;
 }
 
-/* Fade Transition */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -695,9 +637,7 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-
   .clip-card,
   .play-button,
   .action-sidebar,

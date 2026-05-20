@@ -144,6 +144,13 @@ export const useClipCartStore = defineStore('clipCart', () => {
     return clips.value.find(clip => clip.id === clipId)
   }
 
+  async function fetchAllClips(): Promise<void> {
+    if (isLoading.value) return
+    isLoading.value = true
+    await new Promise(resolve => setTimeout(resolve, 600))
+    isLoading.value = false
+  }
+
   return {
     // State
     clips,
@@ -161,5 +168,6 @@ export const useClipCartStore = defineStore('clipCart', () => {
     trackClick,
     trackOrder,
     getClipById,
+    fetchAllClips,
   }
 })

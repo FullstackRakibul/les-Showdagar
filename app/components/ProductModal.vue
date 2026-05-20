@@ -2,7 +2,7 @@
   <teleport to="body">
     <transition name="modal">
       <div v-if="productStore.showProductModal && productStore.selectedProduct"
-        class="fixed inset-0 z-[9999] overflow-y-auto transition duration-300">
+        class="fixed inset-0 z-90 overflow-y-auto transition duration-300">
         <div class="flex items-center justify-center min-h-screen px-4 py-8">
           <div class="fixed inset-0 bg-black bg-opacity-50" @click="productStore.closeProductModal"></div>
 
@@ -121,7 +121,7 @@
                 <!-- Social media style action buttons -->
                 <div class="flex space-x-3 mb-6">
                   <button @click="handleAddToCart" :disabled="!product.inStock"
-                    class="flex-1 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 disabled:from-gray-300 disabled:to-gray-400 text-white py-4 px-6 rounded-xl transition-all duration-300 font-bold text-lg flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                    class="flex-1 bg-linear-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 disabled:from-gray-300 disabled:to-gray-400 text-white py-4 px-6 rounded-xl transition-all duration-300 font-bold text-lg flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
                     <LucideShoppingCart class="w-5 h-5" />
                     <span>Add to Cart</span>
                   </button>
