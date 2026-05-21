@@ -70,9 +70,11 @@
           <span v-if="discountPercent" class="discount-badge">-{{ discountPercent }}%</span>
         </div>
         <Button size="sm" class="buy-now-btn group" @click.stop="handleBuyNow">
-          <span>Buy Now</span>
-          <HugeiconsIcon :icon="ArrowRight01Icon" :size="14"
-            class="buy-arrow group-hover:translate-x-0.5 transition-transform" />
+          <div class="flex flex-row items-center justify-around w-full gap-1">
+            <span>Buy Now</span>
+            <HugeiconsIcon :icon="ArrowRight01Icon" :size="14"
+              class="buy-arrow group-hover:translate-x-0.5 transition-transform" />
+          </div>
         </Button>
       </div>
     </div>
@@ -194,7 +196,7 @@ const handleCardClick = () => {
 const handleAddToCart = () => {
   const product = productStore.products.find(p => p.id === props.clip.productId)
   if (product) {
-    ;(productStore as any).addToCart(product)
+    ; (productStore as any).addToCart(product)
     emit('add-to-cart', props.clip)
   }
 }
@@ -359,10 +361,13 @@ onUnmounted(() => { videoRef.value?.pause() })
 }
 
 @keyframes ringPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.15);
     opacity: 0;
@@ -530,6 +535,7 @@ onUnmounted(() => { videoRef.value?.pause() })
   right: 0;
   z-index: 20;
   padding: 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
 }
 
 .product-title {
@@ -586,16 +592,18 @@ onUnmounted(() => { videoRef.value?.pause() })
 
 .buy-now-btn {
   flex-shrink: 0;
+  flex-direction: row;
   background: var(--primary);
   color: var(--primary-foreground);
   border: none;
   font-size: 12px;
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 6px 10px;
   height: auto;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.3s ease;
+  border-radius: 6px 12px 6px 12px;
 }
 
 .clip-card:hover .buy-now-btn {
@@ -638,6 +646,7 @@ onUnmounted(() => { videoRef.value?.pause() })
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .clip-card,
   .play-button,
   .action-sidebar,

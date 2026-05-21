@@ -94,7 +94,7 @@ const allClips = computed(() => {
   if (clipStore.featuredClips?.length) return clipStore.featuredClips
   // Fallback mock data
   return [
-    { id: '1', productId: 1, videoUrl: '/video/clip-electronics.mp4', posterUrl: '/images/poster1.jpg', title: 'Wireless Headphones', price: 99.99, club: 'quantum', duration: 30, featured: true },
+    { id: '1', productId: 1, videoUrl: '/video/clip-electronics.mp4', posterUrl: '/images/poster1.jpg', title: 'Wireless Headphones', description: '', price: 99.99, club: 'quantum' as const, duration: 30, featured: true },
     // ... more fallback items
   ]
 })

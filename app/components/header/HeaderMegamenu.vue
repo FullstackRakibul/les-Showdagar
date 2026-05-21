@@ -1,28 +1,27 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full sm:w-auto">
     <Button variant="ghost" size="sm"
-      class="flex items-center gap-2 border border-border rounded-full px-3 py-1 bg-primnary-500/20 text-primary-500"
+      class="flex items-center gap-2 border border-border rounded-full px-3 py-1 bg-primary/10 text-primary"
       @click="toggleMenu" ref="triggerRef">
-      <HugeiconsIcon :icon="Clubs02Icon" :size="16" class="transition-transform " :class="{ 'rotate-180': isOpen }" />
+      <HugeiconsIcon :icon="Clubs02Icon" :size="16" class="transition-transform" :class="{ 'rotate-180': isOpen }" />
       <span class="hidden sm:block text-sm font-medium">Clubs</span>
     </Button>
 
-    <!-- Megamenu Dropdown -->
     <Transition name="menu">
       <div v-if="isOpen"
-        class="absolute bg-white left-0 top-full mt-2 w-[600px] border border-border rounded-xl shadow-lg z-50"
+        class="absolute left-0 top-full mt-2 z-50 w-[min(600px,calc(100vw-24px))] bg-card border border-border rounded-xl shadow-lg max-h-[80vh] overflow-y-auto"
         ref="menuRef">
-        <div class="p-6">
-          <div class="grid grid-cols-3 gap-6">
+        <div class="p-4 sm:p-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-0 sm:gap-6 divide-y sm:divide-y-0 divide-border">
             <!-- Quantum Club -->
-            <div>
-              <div class="flex items-center gap-2 mb-4">
-                <div class="w-8 h-8 bg-quantum-500/20 rounded-lg flex items-center justify-center">
+            <div class="py-4 sm:py-0">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 bg-quantum-500/20 rounded-lg flex items-center justify-center">
                   <HugeiconsIcon :icon="CpuIcon" :size="16" class="text-quantum-500" />
                 </div>
-                <h3 class="font-medium text-foreground">Quantum</h3>
+                <h3 class="font-semibold text-foreground text-sm">Quantum</h3>
               </div>
-              <ul class="space-y-2">
+              <ul class="space-y-1 pl-9 sm:pl-0">
                 <li v-for="cat in quantumCategories" :key="cat.slug">
                   <NuxtLink :to="`/products?category=${cat.slug}`"
                     class="text-sm text-muted-foreground hover:text-foreground transition-colors block py-1"
@@ -34,14 +33,14 @@
             </div>
 
             <!-- Elegance Club -->
-            <div>
-              <div class="flex items-center gap-2 mb-4">
-                <div class="w-8 h-8 bg-elegance-500/20 rounded-lg flex items-center justify-center">
+            <div class="py-4 sm:py-0">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 bg-elegance-500/20 rounded-lg flex items-center justify-center">
                   <HugeiconsIcon :icon="DiamondIcon" :size="16" class="text-elegance-500" />
                 </div>
-                <h3 class="font-medium text-foreground">Elegance</h3>
+                <h3 class="font-semibold text-foreground text-sm">Elegance</h3>
               </div>
-              <ul class="space-y-2">
+              <ul class="space-y-1 pl-9 sm:pl-0">
                 <li v-for="cat in eleganceCategories" :key="cat.slug">
                   <NuxtLink :to="`/products?category=${cat.slug}`"
                     class="text-sm text-muted-foreground hover:text-foreground transition-colors block py-1"
@@ -53,14 +52,14 @@
             </div>
 
             <!-- NextStop Club -->
-            <div>
-              <div class="flex items-center gap-2 mb-4">
-                <div class="w-8 h-8 bg-nextstop-500/20 rounded-lg flex items-center justify-center">
+            <div class="py-4 sm:py-0">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 bg-nextstop-500/20 rounded-lg flex items-center justify-center">
                   <HugeiconsIcon :icon="Airplane01Icon" :size="16" class="text-nextstop-500" />
                 </div>
-                <h3 class="font-medium text-foreground">NextStop</h3>
+                <h3 class="font-semibold text-foreground text-sm">NextStop</h3>
               </div>
-              <ul class="space-y-2">
+              <ul class="space-y-1 pl-9 sm:pl-0">
                 <li v-for="cat in nextstopCategories" :key="cat.slug">
                   <NuxtLink :to="`/products?category=${cat.slug}`"
                     class="text-sm text-muted-foreground hover:text-foreground transition-colors block py-1"
@@ -72,16 +71,15 @@
             </div>
           </div>
 
-          <!-- Footer -->
-          <div class="mt-6 pt-4 border-t border-border flex items-center justify-between">
-            <NuxtLink to="/products" class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          <div class="mt-4 pt-3 border-t border-border flex items-center justify-between">
+            <NuxtLink to="/products"
+              class="text-sm text-muted-foreground hover:text-foreground transition-colors"
               @click="closeMenu">
               View All Products
             </NuxtLink>
-            <Button variant="outline" size="sm" @click="closeMenu">
-              <HugeiconsIcon :icon="Search01Icon" :size="16" class="mr-2" />
-              Search
-            </Button>
+            <button class="text-sm text-muted-foreground hover:text-foreground sm:hidden" @click="closeMenu">
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -95,11 +93,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
   Clubs02Icon,
-  ArrowDown01Icon,
   CpuIcon,
   DiamondIcon,
   Airplane01Icon,
-  Search01Icon,
 } from '@hugeicons/core-free-icons'
 
 const isOpen = ref(false)
@@ -127,13 +123,8 @@ const nextstopCategories = [
   { name: 'Immigration', slug: 'immigration' },
 ]
 
-const toggleMenu = () => {
-  isOpen.value = !isOpen.value
-}
-
-const closeMenu = () => {
-  isOpen.value = false
-}
+const toggleMenu = () => { isOpen.value = !isOpen.value }
+const closeMenu = () => { isOpen.value = false }
 
 const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as Node
@@ -145,13 +136,8 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 }
 
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+onMounted(() => { document.addEventListener('click', handleClickOutside) })
+onUnmounted(() => { document.removeEventListener('click', handleClickOutside) })
 </script>
 
 <style scoped>
