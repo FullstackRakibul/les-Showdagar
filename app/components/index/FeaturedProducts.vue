@@ -37,7 +37,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProductStore } from '@/stores/products'
-import ProductCard from '@/components/ProductCard.vue'
+import ProductCard from '@/components/product/ProductCard.vue'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons'

@@ -67,8 +67,6 @@
       </div>
     </div>
 
-    <!-- Product Modal -->
-    <ProductModal />
   </div>
 </template>
 
@@ -76,7 +74,6 @@
 import { ref } from 'vue'
 import { Heart, ArrowLeft, ShoppingCart, Eye, Star } from 'lucide-vue-next'
 import { useProductStore } from '@/stores/products'
-import ProductModal from '@/components/ProductModal.vue'
 
 const productStore = useProductStore()
 

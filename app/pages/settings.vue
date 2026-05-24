@@ -8,7 +8,6 @@
     </div>
 
     <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6">
-
       <!-- Page Header -->
       <header class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
@@ -23,12 +22,8 @@
 
         <!-- Current theme status pill -->
         <div
-          class="inline-flex items-center gap-2 self-start sm:self-end px-3 py-1.5 rounded-full border border-border/60 bg-card/80 backdrop-blur-sm text-xs"
-        >
-          <span
-            class="w-2.5 h-2.5 rounded-full border border-border"
-            :style="{ backgroundColor: activeClub.color }"
-          />
+          class="inline-flex items-center gap-2 self-start sm:self-end px-3 py-1.5 rounded-full border border-border/60 bg-card/80 backdrop-blur-sm text-xs">
+          <span class="w-2.5 h-2.5 rounded-full border border-border" :style="{ backgroundColor: activeClub.color }" />
           <span class="font-medium text-foreground">
             {{ isDark ? 'Dark' : 'Light' }} · {{ activeClub.label }}
           </span>
@@ -41,20 +36,13 @@
         <!-- Navigation -->
         <nav class="lg:col-span-1">
           <!-- Mobile: horizontal scrollable row -->
-          <div
-            class="flex lg:hidden gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1 snap-x snap-mandatory"
-          >
-            <button
-              v-for="section in sections"
-              :key="section.key"
-              @click="activeSection = section.key"
-              :class="[
-                'snap-start flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border whitespace-nowrap transition-colors',
-                activeSection === section.key
-                  ? 'bg-primary text-primary-foreground border-transparent'
-                  : 'bg-card/70 text-muted-foreground border-border/60 hover:text-foreground hover:bg-card'
-              ]"
-            >
+          <div class="flex lg:hidden gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1 snap-x snap-mandatory">
+            <button v-for="section in sections" :key="section.key" @click="activeSection = section.key" :class="[
+              'snap-start flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border whitespace-nowrap transition-colors',
+              activeSection === section.key
+                ? 'bg-primary text-primary-foreground border-transparent'
+                : 'bg-card/70 text-muted-foreground border-border/60 hover:text-foreground hover:bg-card'
+            ]">
               <component :is="section.icon" class="w-4 h-4" />
               {{ section.label }}
             </button>
@@ -62,19 +50,13 @@
 
           <!-- Desktop: vertical list -->
           <div
-            class="hidden lg:flex flex-col gap-1 bg-card/80 backdrop-blur-sm border border-border/60 rounded-2xl p-2 sticky top-6"
-          >
-            <button
-              v-for="section in sections"
-              :key="section.key"
-              @click="activeSection = section.key"
-              :class="[
-                'w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left text-sm font-medium transition-colors',
-                activeSection === section.key
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-              ]"
-            >
+            class="hidden lg:flex flex-col gap-1 bg-card/80 backdrop-blur-sm border border-border/60 rounded-2xl p-2 sticky top-6">
+            <button v-for="section in sections" :key="section.key" @click="activeSection = section.key" :class="[
+              'w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left text-sm font-medium transition-colors',
+              activeSection === section.key
+                ? 'bg-primary text-primary-foreground'
+                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+            ]">
               <component :is="section.icon" class="w-4 h-4" />
               {{ section.label }}
             </button>
@@ -94,8 +76,7 @@
             <div class="space-y-6">
               <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <div
-                  class="w-20 h-20 rounded-full flex items-center justify-center bg-primary text-primary-foreground font-bold text-2xl shrink-0"
-                >
+                  class="w-20 h-20 rounded-full flex items-center justify-center bg-primary text-primary-foreground font-bold text-2xl shrink-0">
                   {{ profileInitials }}
                 </div>
                 <div>
@@ -125,12 +106,7 @@
 
               <div>
                 <label class="field-label">Bio</label>
-                <textarea
-                  v-model="profileDraft.bio"
-                  rows="4"
-                  class="field"
-                  placeholder="Tell us about yourself..."
-                />
+                <textarea v-model="profileDraft.bio" rows="4" class="field" placeholder="Tell us about yourself..." />
               </div>
 
               <div class="panel__actions">
@@ -190,8 +166,7 @@
                     Once you delete your account, there is no going back. Please be certain.
                   </p>
                   <button
-                    class="px-4 py-2 rounded-lg bg-destructive text-destructive-foreground font-medium text-sm hover:opacity-90 transition-opacity"
-                  >
+                    class="px-4 py-2 rounded-lg bg-destructive text-destructive-foreground font-medium text-sm hover:opacity-90 transition-opacity">
                     Delete Account
                   </button>
                 </div>
@@ -210,22 +185,15 @@
               <div v-for="cat in notificationCategories" :key="cat.key">
                 <h3 class="subsection-title">{{ cat.title }}</h3>
                 <div class="space-y-3">
-                  <div
-                    v-for="item in cat.items"
-                    :key="item.key"
-                    class="row-card"
-                  >
+                  <div v-for="item in cat.items" :key="item.key" class="row-card">
                     <div>
                       <p class="row-card__title">{{ item.title }}</p>
                       <p class="row-card__desc">{{ item.description }}</p>
                     </div>
                     <label class="switch">
-                      <input
-                        type="checkbox"
-                        :checked="notificationsDraft[item.key]"
+                      <input type="checkbox" :checked="notificationsDraft[item.key]"
                         @change="notificationsDraft[item.key] = ($event.target as HTMLInputElement).checked"
-                        class="sr-only peer"
-                      />
+                        class="sr-only peer" />
                       <span class="switch__track" />
                     </label>
                   </div>
@@ -314,26 +282,20 @@
               <div>
                 <h3 class="subsection-title">Mode</h3>
                 <div class="grid grid-cols-2 gap-3 max-w-md">
-                  <button
-                    @click="setDark(false)"
-                    :class="[
-                      'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium border transition-colors',
-                      !isDark
-                        ? 'bg-primary text-primary-foreground border-transparent'
-                        : 'bg-muted text-muted-foreground border-border hover:bg-secondary hover:text-foreground'
-                    ]"
-                  >
+                  <button @click="setDark(false)" :class="[
+                    'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium border transition-colors',
+                    !isDark
+                      ? 'bg-primary text-primary-foreground border-transparent'
+                      : 'bg-muted text-muted-foreground border-border hover:bg-secondary hover:text-foreground'
+                  ]">
                     <Sun class="w-4 h-4" /> Light
                   </button>
-                  <button
-                    @click="setDark(true)"
-                    :class="[
-                      'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium border transition-colors',
-                      isDark
-                        ? 'bg-primary text-primary-foreground border-transparent'
-                        : 'bg-muted text-muted-foreground border-border hover:bg-secondary hover:text-foreground'
-                    ]"
-                  >
+                  <button @click="setDark(true)" :class="[
+                    'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium border transition-colors',
+                    isDark
+                      ? 'bg-primary text-primary-foreground border-transparent'
+                      : 'bg-muted text-muted-foreground border-border hover:bg-secondary hover:text-foreground'
+                  ]">
                     <Moon class="w-4 h-4" /> Dark
                   </button>
                 </div>
@@ -343,28 +305,18 @@
               <div>
                 <h3 class="subsection-title">Accent Club</h3>
                 <div class="grid grid-cols-3 gap-3 max-w-md">
-                  <button
-                    v-for="club in clubs"
-                    :key="club.hue"
-                    @click="setAccent(club.hue)"
-                    :title="club.label"
-                    :style="{ backgroundColor: club.color }"
-                    :class="[
+                  <button v-for="club in clubs" :key="club.hue" @click="setAccent(club.hue)" :title="club.label"
+                    :style="{ backgroundColor: club.color }" :class="[
                       'h-12 rounded-xl border-2 transition-all duration-150 flex items-center justify-center',
                       accentHue === club.hue
                         ? 'border-foreground shadow-md scale-105'
                         : 'border-transparent hover:scale-105'
-                    ]"
-                  >
+                    ]">
                     <Check v-if="accentHue === club.hue" class="w-4 h-4 text-white drop-shadow" />
                   </button>
                 </div>
                 <div class="grid grid-cols-3 gap-3 max-w-md mt-2">
-                  <span
-                    v-for="club in clubs"
-                    :key="club.hue"
-                    class="text-center text-[11px] text-muted-foreground"
-                  >
+                  <span v-for="club in clubs" :key="club.hue" class="text-center text-[11px] text-muted-foreground">
                     {{ club.label }}
                   </span>
                 </div>
@@ -427,30 +379,30 @@ type SectionKey = 'profile' | 'account' | 'notifications' | 'privacy' | 'appeara
 const activeSection = ref<SectionKey>('profile')
 
 const sections: { key: SectionKey; label: string; icon: any }[] = [
-  { key: 'profile',       label: 'Profile',       icon: User },
-  { key: 'account',       label: 'Account',       icon: Shield },
+  { key: 'profile', label: 'Profile', icon: User },
+  { key: 'account', label: 'Account', icon: Shield },
   { key: 'notifications', label: 'Notifications', icon: Bell },
-  { key: 'privacy',       label: 'Privacy',       icon: Lock },
-  { key: 'appearance',    label: 'Appearance',    icon: Palette }
+  { key: 'privacy', label: 'Privacy', icon: Lock },
+  { key: 'appearance', label: 'Appearance', icon: Palette }
 ]
 
 const clubs = [
-  { label: 'Quantum',  hue: 220, color: 'oklch(0.55 0.18 220)' },
+  { label: 'Quantum', hue: 220, color: 'oklch(0.55 0.18 220)' },
   { label: 'Elegance', hue: 300, color: 'oklch(0.55 0.22 300)' },
   { label: 'NextStop', hue: 160, color: 'oklch(0.55 0.20 160)' }
 ]
 const activeClub = computed(() => clubs.find(c => c.hue === accentHue.value) ?? clubs[0]!)
 
-const profileDraft       = reactive<UserProfile>({ ...settings.profile })
+const profileDraft = reactive<UserProfile>({ ...settings.profile })
 const notificationsDraft = reactive<NotificationSettings>({ ...settings.notifications })
-const privacyDraft       = reactive<PrivacySettings>({ ...settings.privacy })
-const appDraft           = reactive<AppSettings>({ ...settings.app })
+const privacyDraft = reactive<PrivacySettings>({ ...settings.privacy })
+const appDraft = reactive<AppSettings>({ ...settings.app })
 
 function syncDraftsFromStore() {
-  Object.assign(profileDraft,       settings.profile)
+  Object.assign(profileDraft, settings.profile)
   Object.assign(notificationsDraft, settings.notifications)
-  Object.assign(privacyDraft,       settings.privacy)
-  Object.assign(appDraft,           settings.app)
+  Object.assign(privacyDraft, settings.privacy)
+  Object.assign(appDraft, settings.app)
 }
 
 const profileInitials = computed(() => {
@@ -464,31 +416,31 @@ const notificationCategories: {
   title: string
   items: { key: keyof NotificationSettings; title: string; description: string }[]
 }[] = [
-  {
-    key: 'orders',
-    title: 'Orders & Shipping',
-    items: [
-      { key: 'orderUpdates',    title: 'Order Updates',    description: 'Get notified about order status changes.' },
-      { key: 'shippingUpdates', title: 'Shipping Updates', description: 'Receive shipping and delivery notifications.' }
-    ]
-  },
-  {
-    key: 'marketing',
-    title: 'Marketing & Promotions',
-    items: [
-      { key: 'promotions',             title: 'Promotional Emails',      description: 'Receive emails about sales and special offers.' },
-      { key: 'productRecommendations', title: 'Product Recommendations', description: 'Get personalized product suggestions.' }
-    ]
-  },
-  {
-    key: 'account',
-    title: 'Account Activity',
-    items: [
-      { key: 'securityAlerts', title: 'Security Alerts', description: 'Important security and login notifications.' },
-      { key: 'accountUpdates', title: 'Account Updates', description: 'Changes to your account settings.' }
-    ]
-  }
-]
+    {
+      key: 'orders',
+      title: 'Orders & Shipping',
+      items: [
+        { key: 'orderUpdates', title: 'Order Updates', description: 'Get notified about order status changes.' },
+        { key: 'shippingUpdates', title: 'Shipping Updates', description: 'Receive shipping and delivery notifications.' }
+      ]
+    },
+    {
+      key: 'marketing',
+      title: 'Marketing & Promotions',
+      items: [
+        { key: 'promotions', title: 'Promotional Emails', description: 'Receive emails about sales and special offers.' },
+        { key: 'productRecommendations', title: 'Product Recommendations', description: 'Get personalized product suggestions.' }
+      ]
+    },
+    {
+      key: 'account',
+      title: 'Account Activity',
+      items: [
+        { key: 'securityAlerts', title: 'Security Alerts', description: 'Important security and login notifications.' },
+        { key: 'accountUpdates', title: 'Account Updates', description: 'Changes to your account settings.' }
+      ]
+    }
+  ]
 
 function saveProfile() {
   settings.updateProfile(profileDraft)
@@ -507,10 +459,10 @@ function saveApp() {
   settings.saveToLocalStorage()
 }
 
-function resetProfileDraft()       { Object.assign(profileDraft,       settings.profile) }
+function resetProfileDraft() { Object.assign(profileDraft, settings.profile) }
 function resetNotificationsDraft() { Object.assign(notificationsDraft, settings.notifications) }
-function resetPrivacyDraft()       { Object.assign(privacyDraft,       settings.privacy) }
-function resetAppDraft()           { Object.assign(appDraft,           settings.app) }
+function resetPrivacyDraft() { Object.assign(privacyDraft, settings.privacy) }
+function resetAppDraft() { Object.assign(appDraft, settings.app) }
 
 onMounted(() => {
   settings.loadFromLocalStorage()
@@ -528,31 +480,39 @@ onMounted(() => {
   border-radius: 1.25rem;
   padding: 1.25rem;
 }
+
 @media (min-width: 640px) {
-  .panel { padding: 1.75rem; }
+  .panel {
+    padding: 1.75rem;
+  }
 }
+
 .panel__header {
   margin-bottom: 1.25rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
 }
+
 .panel__title {
   font-size: 1.125rem;
   font-weight: 600;
   color: var(--foreground);
   letter-spacing: -0.01em;
 }
+
 .panel__subtitle {
   margin-top: 0.25rem;
   font-size: 0.8125rem;
   color: var(--muted-foreground);
 }
+
 .panel__actions {
   display: flex;
   flex-direction: column-reverse;
   gap: 0.5rem;
   padding-top: 0.75rem;
 }
+
 @media (min-width: 640px) {
   .panel__actions {
     flex-direction: row;
@@ -580,6 +540,7 @@ onMounted(() => {
   color: var(--foreground);
   margin-bottom: 0.5rem;
 }
+
 .field {
   width: 100%;
   padding: 0.75rem 0.875rem;
@@ -591,16 +552,25 @@ onMounted(() => {
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.field::placeholder { color: var(--muted-foreground); }
+
+.field::placeholder {
+  color: var(--muted-foreground);
+}
+
 .field:focus {
   border-color: var(--ring);
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 18%, transparent);
 }
+
 .field--compact {
   padding: 0.5rem 0.75rem;
   border-radius: 0.625rem;
 }
-textarea.field { resize: vertical; line-height: 1.55; }
+
+textarea.field {
+  resize: vertical;
+  line-height: 1.55;
+}
 
 .btn-primary {
   display: inline-flex;
@@ -614,8 +584,14 @@ textarea.field { resize: vertical; line-height: 1.55; }
   font-size: 0.875rem;
   transition: filter 0.2s ease, transform 0.15s ease;
 }
-.btn-primary:hover { filter: brightness(1.05); }
-.btn-primary:active { transform: translateY(1px); }
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
 
 .btn-secondary {
   display: inline-flex;
@@ -630,7 +606,10 @@ textarea.field { resize: vertical; line-height: 1.55; }
   font-size: 0.875rem;
   transition: background 0.2s ease;
 }
-.btn-secondary:hover { background: var(--muted); }
+
+.btn-secondary:hover {
+  background: var(--muted);
+}
 
 .btn-ghost {
   display: inline-flex;
@@ -643,7 +622,11 @@ textarea.field { resize: vertical; line-height: 1.55; }
   font-size: 0.875rem;
   transition: color 0.2s ease, background 0.2s ease;
 }
-.btn-ghost:hover { color: var(--foreground); background: var(--muted); }
+
+.btn-ghost:hover {
+  color: var(--foreground);
+  background: var(--muted);
+}
 
 .row-card {
   display: flex;
@@ -654,6 +637,7 @@ textarea.field { resize: vertical; line-height: 1.55; }
   border: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
   border-radius: 0.875rem;
 }
+
 @media (min-width: 640px) {
   .row-card {
     flex-direction: row;
@@ -662,11 +646,13 @@ textarea.field { resize: vertical; line-height: 1.55; }
     gap: 1rem;
   }
 }
+
 .row-card__title {
   font-weight: 500;
   color: var(--foreground);
   font-size: 0.9375rem;
 }
+
 .row-card__desc {
   font-size: 0.8125rem;
   color: var(--muted-foreground);
@@ -680,6 +666,7 @@ textarea.field { resize: vertical; line-height: 1.55; }
   cursor: pointer;
   flex-shrink: 0;
 }
+
 .switch__track {
   width: 2.75rem;
   height: 1.5rem;
@@ -689,6 +676,7 @@ textarea.field { resize: vertical; line-height: 1.55; }
   transition: background 0.2s ease;
   position: relative;
 }
+
 .switch__track::after {
   content: '';
   position: absolute;
@@ -701,20 +689,29 @@ textarea.field { resize: vertical; line-height: 1.55; }
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
   transition: transform 0.2s ease;
 }
-.switch :where(input):checked ~ .switch__track {
+
+.switch :where(input):checked~.switch__track {
   background: var(--primary);
   border-color: transparent;
 }
-.switch :where(input):checked ~ .switch__track::after {
+
+.switch :where(input):checked~.switch__track::after {
   transform: translateX(1.25rem);
   background: var(--primary-foreground);
 }
-.switch :where(input):focus-visible ~ .switch__track {
+
+.switch :where(input):focus-visible~.switch__track {
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 25%, transparent);
 }
 
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
 .orb {
   position: absolute;
@@ -722,32 +719,54 @@ textarea.field { resize: vertical; line-height: 1.55; }
   filter: blur(20px);
   pointer-events: none;
 }
+
 .orb--a {
-  width: 420px; height: 420px;
-  top: -160px; right: -120px;
+  width: 420px;
+  height: 420px;
+  top: -160px;
+  right: -120px;
   background: radial-gradient(circle, oklch(0.55 0.18 220 / 0.07), transparent 70%);
   animation: drift 18s ease-in-out infinite;
 }
+
 .orb--b {
-  width: 380px; height: 380px;
-  bottom: -140px; left: -100px;
+  width: 380px;
+  height: 380px;
+  bottom: -140px;
+  left: -100px;
   background: radial-gradient(circle, oklch(0.55 0.22 300 / 0.06), transparent 70%);
   animation: drift 22s ease-in-out infinite reverse;
 }
+
 .orb--c {
-  width: 280px; height: 280px;
-  top: 50%; left: 50%;
+  width: 280px;
+  height: 280px;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle, oklch(0.55 0.20 160 / 0.05), transparent 70%);
   animation: drift 16s ease-in-out infinite 4s;
 }
+
 @keyframes drift {
-  0%, 100% { transform: translate(0, 0); }
-  50%      { transform: translate(20px, -30px); }
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(20px, -30px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orb { animation: none !important; }
-  * { transition-duration: 0.01ms !important; }
+  .orb {
+    animation: none !important;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>

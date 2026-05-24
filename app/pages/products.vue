@@ -60,8 +60,6 @@
         <p class="text-muted-foreground">Try adjusting your filters or search terms</p>
       </div>
     </div>
-
-    <ProductModal />
   </div>
 </template>
 

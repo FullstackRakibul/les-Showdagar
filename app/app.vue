@@ -40,6 +40,9 @@
 
     <!-- Compact floating theme toggle -->
     <ThemeToggleButton />
+
+    <!-- Global product modal -->
+    <ProductModal />
   </div>
 </template>
 

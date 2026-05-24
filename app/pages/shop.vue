@@ -94,8 +94,6 @@
       </div>
     </section>
 
-    <!-- Product Modal -->
-    <ProductModal />
   </div>
 </template>
 
@@ -104,7 +102,6 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { Search, ShoppingBag, Phone } from "lucide-vue-next";
 import { useProductStore } from "@/stores/products";
 import ProductCard from "@/components/ProductCard.vue";
-import ProductModal from "@/components/ProductModal.vue";
 
 const productStore = useProductStore();
 

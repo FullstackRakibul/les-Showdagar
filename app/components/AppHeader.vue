@@ -6,7 +6,8 @@
         <!-- Left: Menu + Megamenu -->
         <div class="flex items-center gap-2 shrink-0">
           <!-- Mobile menu toggle -->
-          <Button variant="ghost" size="icon" @click="layoutStore.toggleLeftSidebar">
+          <Button variant="ghost" size="icon" @click="layoutStore.toggleLeftSidebar"
+            class="border border-border rounded-full p-1 ">
             <Transition name="icon-rotate" mode="out-in">
               <HugeiconsIcon :key="layoutStore.leftSidebarOpen ? 'open' : 'closed'"
                 :icon="layoutStore.leftSidebarOpen ? MoveLeftIcon : MoveRightIcon" :size="20" />
@@ -100,14 +101,16 @@
 
           <!-- Guest: Login button -->
           <template v-else>
-            <Button variant="outline" size="sm" @click="navigateTo('/login')">
-              <HugeiconsIcon :icon="UserIcon" :size="18" class="mr-2" />
+            <Button variant="outline" size="sm" @click="navigateTo('/login')"
+              class="border border-border rounded-full p-1">
+              <HugeiconsIcon :icon="UserIcon" :size="20" />
             </Button>
           </template>
 
           <!-- Right Sidebar Toggle -->
 
-          <Button variant="ghost" size="icon" @click="layoutStore.toggleRightSidebar">
+          <Button variant="ghost" size="icon" @click="layoutStore.toggleRightSidebar"
+            class="border border-border rounded-full p-1">
             <Transition name="icon-rotate" mode="out-in">
               <HugeiconsIcon :key="layoutStore.rightSidebarOpen ? 'open' : 'closed'"
                 :icon="layoutStore.rightSidebarOpen ? MoveRightIcon : MoveLeftIcon" :size="20" />
