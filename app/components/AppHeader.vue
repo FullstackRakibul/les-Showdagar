@@ -29,8 +29,12 @@
         </div>
 
         <NuxtLink v-if="isHomePage" to="/" class="flex items-center opacity-90 hover:opacity-100 transition-opacity">
+          <!-- Mobile: square mark logo -->
+          <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns.png" alt="RH Business Club"
+            class="h-9 w-auto sm:hidden" />
+          <!-- Desktop: full logo -->
           <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
-            class="h-8 sm:h-8 w-auto" />
+            class="hidden sm:block h-8 w-auto" />
         </NuxtLink>
 
 

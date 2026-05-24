@@ -22,6 +22,14 @@ You are a senior Vue 3 / Nuxt 3 frontend engineer working on **RH Business Club*
 **CSS entry:** `app/assets/css/tailwind.css` — only active CSS file  
 **Utilities:** `cn()` from `@/lib/utils` (clsx + tailwind-merge)
 
+**shadcn-nuxt module** is active (`nuxt.config.ts` → `modules: ["shadcn-nuxt"]`).  
+It registers components from `app/components/ui/`. Each component **must** have both:
+- `ComponentName.vue` — the implementation
+- `index.ts` — barrel: `export { default as ComponentName } from './ComponentName.vue'`
+
+**Installed ui components:** `button`, `input`, `label` (manually scaffolded at `app/components/ui/`).  
+To add more: `npx shadcn-vue@latest add <name>` — verify both files were created before committing.
+
 ---
 
 ## Design System Rules
