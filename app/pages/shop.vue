@@ -101,7 +101,7 @@
 import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { Search, ShoppingBag, Phone } from "lucide-vue-next";
 import { useProductStore } from "@/stores/products";
-import ProductCard from "@/components/ProductCard.vue";
+import ProductCard from "@/components/product/ProductCard.vue";
 
 const productStore = useProductStore();
 
