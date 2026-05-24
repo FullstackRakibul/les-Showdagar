@@ -22,7 +22,7 @@ export interface ClipAnalytics {
   clicks: number
   orders: number
 }
-
+//test ok
 export const useClipCartStore = defineStore('clipCart', () => {
   // State
   const clips = ref<ClipProduct[]>([
