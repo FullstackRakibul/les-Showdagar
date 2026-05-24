@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-background">
     <!-- Hero Header -->
-    <section class="relative overflow-hidden bg-gradient-to-b from-card/30 to-background pt-12 pb-8">
+    <section class="relative overflow-hidden bg-linear-to-b from-card/30 to-background pt-12 pb-8">
       <div class="absolute inset-0 pointer-events-none">
         <div class="orb orb--clips-1" />
         <div class="orb orb--clips-2" />
@@ -89,15 +89,7 @@ const categories = [
   { id: 'nextstop', name: 'Travel', icon: Airplane01Icon },
 ]
 
-// Get clips from store (already populated with mock data)
-const allClips = computed(() => {
-  if (clipStore.featuredClips?.length) return clipStore.featuredClips
-  // Fallback mock data
-  return [
-    { id: '1', productId: 1, videoUrl: '/video/clip-electronics.mp4', posterUrl: '/images/poster1.jpg', title: 'Wireless Headphones', description: '', price: 99.99, club: 'quantum' as const, duration: 30, featured: true },
-    // ... more fallback items
-  ]
-})
+const allClips = computed(() => clipStore.clips)
 
 const filteredClips = computed(() => {
   if (activeCategory.value === 'all') return allClips.value

@@ -4,6 +4,8 @@ import { ref, computed } from 'vue'
 export interface ClipProduct {
   id: string
   productId: number
+  sourceType: 'youtube' | 'local'
+  youtubeId?: string
   videoUrl: string
   posterUrl: string
   title: string
@@ -27,7 +29,9 @@ export const useClipCartStore = defineStore('clipCart', () => {
     {
       id: 'clip-1',
       productId: 1,
-      videoUrl: '/video/clip-electronics.mp4',
+      sourceType: 'youtube',
+      youtubeId: 'dQw4w9WgXcQ',
+      videoUrl: '',
       posterUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80',
       title: 'Premium Wireless Headphones',
       description: 'Experience crystal-clear audio with our flagship wireless headphones',
@@ -40,7 +44,9 @@ export const useClipCartStore = defineStore('clipCart', () => {
     {
       id: 'clip-2',
       productId: 2,
-      videoUrl: '/video/clip-fashion.mp4',
+      sourceType: 'youtube',
+      youtubeId: 'dQw4w9WgXcQ',
+      videoUrl: '',
       posterUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
       title: 'Luxury Smart Watch',
       description: 'Elegance meets technology in this premium timepiece',
@@ -53,7 +59,9 @@ export const useClipCartStore = defineStore('clipCart', () => {
     {
       id: 'clip-3',
       productId: 3,
-      videoUrl: '/video/clip-travel.mp4',
+      sourceType: 'youtube',
+      youtubeId: 'dQw4w9WgXcQ',
+      videoUrl: '',
       posterUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=80',
       title: 'Thailand Visa Package',
       description: 'Complete visa assistance for your Thailand journey',
@@ -65,7 +73,9 @@ export const useClipCartStore = defineStore('clipCart', () => {
     {
       id: 'clip-4',
       productId: 4,
-      videoUrl: '/video/clip-phone.mp4',
+      sourceType: 'youtube',
+      youtubeId: 'dQw4w9WgXcQ',
+      videoUrl: '',
       posterUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80',
       title: 'Flagship Smartphone 2026',
       description: 'The most advanced smartphone experience',
@@ -78,7 +88,9 @@ export const useClipCartStore = defineStore('clipCart', () => {
     {
       id: 'clip-5',
       productId: 5,
-      videoUrl: '/video/clip-bag.mp4',
+      sourceType: 'youtube',
+      youtubeId: 'dQw4w9WgXcQ',
+      videoUrl: '',
       posterUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80',
       title: 'Designer Leather Bag',
       description: 'Handcrafted Italian leather with timeless design',
@@ -90,13 +102,45 @@ export const useClipCartStore = defineStore('clipCart', () => {
     {
       id: 'clip-6',
       productId: 6,
-      videoUrl: '/video/clip-dubai.mp4',
+      sourceType: 'youtube',
+      youtubeId: 'dQw4w9WgXcQ',
+      videoUrl: '',
       posterUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80',
       title: 'Dubai Visit Visa',
       description: 'Fast-track visa processing for UAE',
       price: 12000,
       club: 'nextstop',
       duration: 14,
+      featured: true,
+    },
+    {
+      id: 'clip-7',
+      productId: 7,
+      sourceType: 'youtube',
+      youtubeId: 'dQw4w9WgXcQ',
+      videoUrl: '',
+      posterUrl: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+      title: 'Smart Home Tech Bundle',
+      description: 'Transform your home with cutting-edge smart devices',
+      price: 32000,
+      originalPrice: 40000,
+      club: 'quantum',
+      duration: 30,
+      featured: true,
+    },
+    {
+      id: 'clip-8',
+      productId: 8,
+      sourceType: 'youtube',
+      youtubeId: '9bZkp7q19f0',
+      videoUrl: '',
+      posterUrl: 'https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg',
+      title: 'Elegance Collection Drop',
+      description: 'Exclusive fashion pieces curated for the modern wardrobe',
+      price: 18500,
+      originalPrice: 24000,
+      club: 'elegance',
+      duration: 25,
       featured: true,
     },
   ])
@@ -107,7 +151,7 @@ export const useClipCartStore = defineStore('clipCart', () => {
 
   // Computed
   const featuredClips = computed(() => clips.value.filter(clip => clip.featured))
-  
+
   const clipsByClub = computed(() => ({
     quantum: clips.value.filter(clip => clip.club === 'quantum'),
     elegance: clips.value.filter(clip => clip.club === 'elegance'),

@@ -5,11 +5,17 @@
     <!-- Video/Poster Container -->
     <div class="media-container">
       <img v-show="!isPlaying" :src="clip.posterUrl" :alt="clip.title" class="poster-image" loading="lazy" />
-      <video v-show="isPlaying" ref="videoRef" :src="clip.videoUrl" :poster="clip.posterUrl" class="video-element"
-        :muted="isMuted" loop playsinline @timeupdate="updateProgress" @loadedmetadata="onVideoLoaded" />
-      <div v-if="isPlaying" class="progress-container">
-        <div class="progress-bar" :style="{ width: `${progress}%` }" />
-      </div>
+
+      <template v-if="clip.sourceType !== 'youtube'">
+        <video v-show="isPlaying" ref="videoRef" :src="clip.videoUrl" :poster="clip.posterUrl" class="video-element"
+          :muted="isMuted" loop playsinline @timeupdate="updateProgress" @loadedmetadata="onVideoLoaded" />
+        <div v-if="isPlaying" class="progress-container">
+          <div class="progress-bar" :style="{ width: `${progress}%` }" />
+        </div>
+      </template>
+
+      <iframe v-else-if="isPlaying && iframeSrc" ref="iframeRef" :src="iframeSrc" class="video-element"
+        frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen />
     </div>
 
     <div class="gradient-overlay gradient-overlay--top" />
@@ -35,7 +41,7 @@
     </div>
 
     <Transition name="fade">
-      <button v-if="isPlaying" class="mute-toggle" @click.stop="toggleMute">
+      <button v-if="isPlaying && clip.sourceType !== 'youtube'" class="mute-toggle" @click.stop="toggleMute">
         <HugeiconsIcon :icon="isMuted ? VolumeMute01Icon : VolumeHighIcon" :size="16" />
       </button>
     </Transition>
@@ -124,6 +130,8 @@ const clipCartStore = useClipCartStore()
 const productStore = useProductStore()
 
 const videoRef = ref<HTMLVideoElement | null>(null)
+const iframeRef = ref<HTMLIFrameElement | null>(null)
+const iframeSrc = ref('')
 const isPlaying = ref(false)
 const isHovered = ref(false)
 const isMuted = ref(true)
@@ -173,8 +181,12 @@ const handleMouseEnter = () => {
   isHovered.value = true
   clipCartStore.trackView(props.clip.id)
   setTimeout(() => {
-    if (isHovered.value) {
-      isPlaying.value = true
+    if (!isHovered.value) return
+    isPlaying.value = true
+    if (props.clip.sourceType === 'youtube' && props.clip.youtubeId) {
+      const id = props.clip.youtubeId
+      iframeSrc.value = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}`
+    } else {
       setTimeout(() => { videoRef.value?.play() }, 100)
     }
   }, 400)
@@ -184,8 +196,12 @@ const handleMouseLeave = () => {
   isHovered.value = false
   isPlaying.value = false
   progress.value = 0
-  videoRef.value?.pause()
-  if (videoRef.value) videoRef.value.currentTime = 0
+  if (props.clip.sourceType === 'youtube') {
+    iframeSrc.value = ''
+  } else {
+    videoRef.value?.pause()
+    if (videoRef.value) videoRef.value.currentTime = 0
+  }
 }
 
 const handleCardClick = () => {
@@ -209,27 +225,30 @@ const handleBuyNow = () => {
 const handleLike = () => { isLiked.value = !isLiked.value }
 
 const handleShare = async () => {
+  if (!import.meta.client) return
+  const url = window.location.origin + `/products?id=${props.clip.productId}`
   try {
-    await navigator.share({
-      title: props.clip.title,
-      text: `Check out this product: ${props.clip.title}`,
-      url: window.location.origin + `/products?id=${props.clip.productId}`
-    })
+    await navigator.share({ title: props.clip.title, text: `Check out this product: ${props.clip.title}`, url })
   } catch {
-    navigator.clipboard.writeText(window.location.origin + `/products?id=${props.clip.productId}`)
+    navigator.clipboard.writeText(url)
   }
 }
 
 const toggleMute = () => { isMuted.value = !isMuted.value }
 
 watch(isPlaying, (playing) => {
-  if (!playing && videoRef.value) {
+  if (playing) return
+  iframeSrc.value = ''
+  if (videoRef.value) {
     videoRef.value.pause()
     videoRef.value.currentTime = 0
   }
 })
 
-onUnmounted(() => { videoRef.value?.pause() })
+onUnmounted(() => {
+  videoRef.value?.pause()
+  iframeSrc.value = ''
+})
 </script>
 
 <style scoped>
