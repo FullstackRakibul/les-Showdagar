@@ -1,55 +1,117 @@
 <template>
   <div class="relative" ref="dropdownRef">
-    <button class="relative p-2 rounded-lg hover:bg-muted transition-colors" data-cart-target @click="isOpen = !isOpen">
-      <HugeiconsIcon :icon="ShoppingCart01Icon" :size="20" class="text-foreground" />
-      <span v-if="cartStore.count > 0"
-        class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-quantum-500 rounded-full text-[10px] font-bold text-white flex items-center justify-center">
-        {{ cartStore.count > 9 ? '9+' : cartStore.count }}
-      </span>
+
+    <!-- Cart trigger button -->
+    <button
+      class="relative p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+      aria-label="Open cart"
+      @click="isOpen = !isOpen"
+    >
+      <HugeiconsIcon :icon="ShoppingCart01Icon" :size="18" />
+      <Transition name="badge-pop">
+        <span
+          v-if="cartStore.count > 0"
+          class="absolute -top-0.5 -right-0.5 min-w-4 h-4 px-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center leading-none"
+        >
+          {{ cartStore.count > 99 ? '99+' : cartStore.count }}
+        </span>
+      </Transition>
     </button>
 
+    <!-- Dropdown panel -->
     <Transition name="dropdown">
-      <div v-if="isOpen"
-        class="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
-        <div class="px-4 py-3 border-b border-border flex items-center justify-between">
-          <h3 class="text-sm font-semibold text-foreground">Cart ({{ cartStore.count }})</h3>
-          <button v-if="cartStore.items.length > 0" @click="cartStore.clearCart()"
-            class="text-[10px] text-muted-foreground hover:text-destructive transition-colors">Clear all</button>
+      <div
+        v-if="isOpen"
+        class="absolute right-0 top-full mt-2 w-80 rounded-lg border border-border bg-card shadow-xl z-50 overflow-hidden"
+      >
+        <!-- Header -->
+        <div class="flex items-center justify-between px-4 py-3 border-b border-border">
+          <div class="flex items-center gap-2">
+            <HugeiconsIcon :icon="ShoppingCart01Icon" :size="15" class="text-muted-foreground" />
+            <h3 class="text-sm font-semibold text-foreground">
+              Cart
+              <span class="text-muted-foreground font-normal ml-1">({{ cartStore.count }})</span>
+            </h3>
+          </div>
+          <button
+            v-if="cartStore.items.length > 0"
+            class="text-[10px] text-muted-foreground hover:text-destructive transition-colors"
+            @click="cartStore.clearCart()"
+          >
+            Clear all
+          </button>
         </div>
 
-        <div class="max-h-72 overflow-y-auto">
-          <div v-if="cartStore.items.length === 0" class="py-10 text-center">
-            <HugeiconsIcon :icon="ShoppingCart01Icon" :size="36" class="text-muted-foreground/40 mx-auto mb-2" />
+        <!-- Items list -->
+        <div class="max-h-64 overflow-y-auto overscroll-contain" data-lenis-prevent>
+          <!-- Empty state -->
+          <div v-if="cartStore.items.length === 0" class="py-12 flex flex-col items-center gap-3">
+            <HugeiconsIcon :icon="ShoppingCart01Icon" :size="36" class="text-muted-foreground/30" />
             <p class="text-xs text-muted-foreground">Your cart is empty</p>
+            <NuxtLink
+              to="/products"
+              class="text-xs font-medium text-foreground underline underline-offset-2 hover:text-muted-foreground transition-colors"
+              @click="isOpen = false"
+            >
+              Browse products
+            </NuxtLink>
           </div>
-          <div v-else class="divide-y divide-border">
-            <div v-for="item in cartStore.items" :key="`${item.productId}-${item.selectedColor}-${item.selectedSize}`"
-              class="p-3 flex items-center gap-3">
-              <img :src="item.productImage" :alt="item.productName" class="w-12 h-12 object-cover rounded-lg shrink-0" />
-              <div class="min-w-0 flex-1">
-                <p class="text-xs text-foreground line-clamp-1 font-medium">{{ item.productName }}</p>
-                <p class="text-xs text-muted-foreground mt-0.5">৳{{ item.price }} × {{ item.quantity }}</p>
+
+          <!-- Cart items -->
+          <TransitionGroup v-else name="cart-item" tag="div" class="divide-y divide-border">
+            <div
+              v-for="item in cartStore.items"
+              :key="`${item.productId}-${item.selectedColor}-${item.selectedSize}`"
+              class="flex items-center gap-3 p-3"
+            >
+              <img
+                :src="item.productImage"
+                :alt="item.productName"
+                class="w-12 h-12 object-cover rounded-md shrink-0 bg-muted"
+              />
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-medium text-foreground line-clamp-1">{{ item.productName }}</p>
+                <p class="text-xs text-muted-foreground mt-0.5">
+                  ৳{{ item.price }} × {{ item.quantity }}
+                </p>
+                <div class="flex gap-1 mt-1">
+                  <span v-if="item.selectedColor" class="text-[10px] bg-muted px-1.5 py-0.5 rounded text-muted-foreground">{{ item.selectedColor }}</span>
+                  <span v-if="item.selectedSize" class="text-[10px] bg-muted px-1.5 py-0.5 rounded text-muted-foreground">{{ item.selectedSize }}</span>
+                </div>
               </div>
-              <button @click="cartStore.removeItem(item.productId, item.selectedColor, item.selectedSize)"
-                class="shrink-0 text-muted-foreground hover:text-destructive transition-colors">
-                <HugeiconsIcon :icon="Delete01Icon" :size="14" />
-              </button>
+              <div class="shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs font-semibold text-foreground">
+                  ৳{{ (item.price * item.quantity).toFixed(2) }}
+                </span>
+                <button
+                  class="text-muted-foreground hover:text-destructive transition-colors"
+                  aria-label="Remove item"
+                  @click="cartStore.removeItem(item.productId, item.selectedColor, item.selectedSize)"
+                >
+                  <HugeiconsIcon :icon="Delete01Icon" :size="13" />
+                </button>
+              </div>
             </div>
-          </div>
+          </TransitionGroup>
         </div>
 
-        <div v-if="cartStore.items.length > 0" class="p-3 border-t border-border space-y-2.5">
-          <div class="flex justify-between text-sm">
+        <!-- Footer -->
+        <div v-if="cartStore.items.length > 0" class="px-4 py-3 border-t border-border space-y-3 bg-muted/30">
+          <div class="flex items-center justify-between text-sm">
             <span class="text-muted-foreground">Subtotal</span>
             <span class="font-semibold text-foreground">৳{{ cartStore.total.toFixed(2) }}</span>
           </div>
           <div class="grid grid-cols-2 gap-2">
-            <button @click="go('/cart')"
-              class="py-2 rounded-lg border border-border text-xs font-medium text-foreground hover:bg-muted transition-colors">
+            <button
+              class="py-2 rounded-md border border-border text-xs font-medium text-foreground hover:bg-muted transition-colors active:scale-[0.98]"
+              @click="goToCart"
+            >
               View Cart
             </button>
-            <button @click="go('/checkout')"
-              class="py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity">
+            <button
+              class="py-2 rounded-md bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-opacity active:scale-[0.98]"
+              @click="goToCheckout"
+            >
               Checkout
             </button>
           </div>
@@ -71,17 +133,66 @@ const cartStore = useCartStore()
 const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement | null>(null)
 
-function go(path: string) { isOpen.value = false; router.push(path) }
-
-function outside(e: MouseEvent) {
-  if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) isOpen.value = false
+const goToCart = () => {
+  isOpen.value = false
+  router.push('/cart')
 }
 
-onMounted(() => document.addEventListener('click', outside))
-onUnmounted(() => document.removeEventListener('click', outside))
+const goToCheckout = () => {
+  isOpen.value = false
+  router.push('/checkout')
+}
+
+const onClickOutside = (e: MouseEvent) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) {
+    isOpen.value = false
+  }
+}
+
+onMounted(() => document.addEventListener('click', onClickOutside))
+onUnmounted(() => document.removeEventListener('click', onClickOutside))
 </script>
 
 <style scoped>
-.dropdown-enter-active, .dropdown-leave-active { transition: all 0.15s ease; }
-.dropdown-enter-from, .dropdown-leave-to { opacity: 0; transform: translateY(-6px); }
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+}
+
+.badge-pop-enter-active {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease;
+}
+.badge-pop-leave-active {
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.badge-pop-enter-from,
+.badge-pop-leave-to {
+  transform: scale(0);
+  opacity: 0;
+}
+
+.cart-item-enter-active {
+  transition: all 0.2s ease;
+}
+.cart-item-leave-active {
+  transition: all 0.18s ease;
+  position: absolute;
+  width: 100%;
+}
+.cart-item-enter-from {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+.cart-item-leave-to {
+  opacity: 0;
+  transform: translateX(12px);
+}
+.cart-item-move {
+  transition: transform 0.2s ease;
+}
 </style>

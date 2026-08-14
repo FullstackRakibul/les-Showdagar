@@ -1,223 +1,350 @@
 <template>
-  <header class="bg-card border-b border-border sticky top-0 z-40">
-    <div class="px-4 sm:px-6">
-      <div class="flex items-center justify-between h-14 gap-4">
+  <div class="sticky top-3 z-50 px-3 sm:px-4">
+    <header
+      class="max-w-7xl mx-auto flex items-center gap-2 px-3 py-2 rounded-2xl border transition-all duration-300"
+      :class="scrolled
+        ? 'bg-background/90 backdrop-blur-xl border-border/80 shadow-lg shadow-background/20'
+        : 'bg-background/70 backdrop-blur-md border-border/50 shadow-md shadow-background/10'"
+    >
 
-        <!-- Left: Menu + Megamenu -->
-        <div class="flex items-center gap-2 shrink-0">
-          <!-- Mobile menu toggle -->
-          <Button variant="ghost" size="icon" @click="layoutStore.toggleLeftSidebar"
-            class="border border-border rounded-full p-1 ">
-            <Transition name="icon-rotate" mode="out-in">
-              <HugeiconsIcon :key="layoutStore.leftSidebarOpen ? 'open' : 'closed'"
-                :icon="layoutStore.leftSidebarOpen ? MoveLeftIcon : MoveRightIcon" :size="20" />
-            </Transition>
-          </Button>
-          <!-- Megamenu -->
-          <HeaderMegamenu />
-        </div>
+      <!-- § 1 — Logo -->
+      <NuxtLink to="/" class="shrink-0 flex items-center" aria-label="Home">
+        <img
+          src="../assets/img/globalUse/RH-Business-Club-logo-trsns.png"
+          alt="RH Business Club"
+          class="h-8 w-auto sm:hidden"
+        />
+        <img
+          src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png"
+          alt="RH Business Club"
+          class="hidden sm:block h-7 w-auto"
+        />
+      </NuxtLink>
 
-        <!-- Center: Search bar (hidden on home page) -->
-        <div v-if="!isHomePage" class="flex-1 max-w-md mx-4">
-          <div class="relative">
-            <HugeiconsIcon :icon="Search01Icon" :size="16"
-              class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-            <input v-model="searchQuery" type="text" placeholder="Search products..."
-              class="w-full h-9 pl-9 pr-4 rounded-lg bg-muted border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
-              @keydown.enter="handleSearch" />
-          </div>
-        </div>
+      <!-- Divider -->
+      <div class="hidden lg:block h-5 w-px bg-border/60 shrink-0 mx-1" />
 
-        <NuxtLink v-if="isHomePage" to="/" class="flex items-center opacity-90 hover:opacity-100 transition-opacity">
-          <!-- Mobile: square mark logo -->
-          <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns.png" alt="RH Business Club"
-            class="h-9 w-auto sm:hidden" />
-          <!-- Desktop: full logo -->
-          <img src="../assets/img/globalUse/RH-Business-Club-logo-trsns-vvv.png" alt="RH Business Club"
-            class="hidden sm:block h-8 w-auto" />
+      <!-- § 2 — Nav links (desktop) -->
+      <nav class="hidden lg:flex items-center gap-0.5 flex-1" aria-label="Main navigation">
+        <NuxtLink
+          v-for="link in navLinks"
+          :key="link.to"
+          :to="link.to"
+          class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150"
+          :class="isActive(link.to)
+            ? 'text-foreground bg-muted'
+            : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'"
+        >
+          {{ link.label }}
         </NuxtLink>
+      </nav>
 
+      <!-- Spacer (pushes § 3 + § 4 right on non-lg) -->
+      <div class="flex-1 lg:hidden" />
 
-        <!-- Right: Actions -->
-        <div class="flex items-center gap-1">
-          <!-- Authenticated user actions -->
-          <template v-if="authStore.isLoggedIn">
-            <!-- Notifications -->
-            <NotificationDropdown />
+      <!-- § 3 — Search -->
+      <div class="flex items-center">
+        <!-- Expanded input on md+ -->
+        <div class="hidden md:flex items-center gap-2 bg-muted/50 border border-border/50 rounded-full px-3 py-1.5 w-44 lg:w-52 focus-within:w-60 focus-within:border-border transition-all duration-300">
+          <HugeiconsIcon :icon="Search01Icon" :size="14" class="text-muted-foreground shrink-0" />
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Search..."
+            class="flex-1 min-w-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+            @keydown.enter="handleSearch"
+          />
+        </div>
 
-            <!-- Cart -->
-            <CartDropdown />
+        <!-- Icon-only on mobile, toggles overlay -->
+        <button
+          class="md:hidden p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label="Search"
+          @click="mobileSearchOpen = !mobileSearchOpen"
+        >
+          <HugeiconsIcon :icon="Search01Icon" :size="18" />
+        </button>
+      </div>
 
-            <!-- Profile Menu -->
-            <div class="relative" ref="profileDropdown">
-              <Button variant="ghost" size="sm" class="flex items-center gap-2 px-2"
-                @click="showProfileMenu = !showProfileMenu">
-                <div
-                  class="w-7 h-7 bg-quantum-500 rounded-full flex items-center justify-center text-white text-xs font-medium">
-                  {{ authStore.user?.initials || 'RH' }}
-                </div>
-                <!-- <HugeiconsIcon :icon="ArrowDown01Icon" :size="16"
-                  class="text-muted-foreground transition-transform hidden sm:block"
-                  :class="{ 'rotate-180': showProfileMenu }" /> -->
-              </Button>
+      <!-- Divider -->
+      <div class="hidden md:block h-5 w-px bg-border/60 shrink-0 mx-1" />
 
-              <!-- Profile Dropdown -->
-              <Transition name="dropdown">
-                <div v-if="showProfileMenu"
-                  class="absolute right-0 mt-2 w-64 bg-card rounded-lg border border-border shadow-lg py-1 z-50">
-                  <div class="px-4 py-3 border-b border-border">
-                    <div class="flex items-center gap-3">
-                      <div
-                        class="w-10 h-10 bg-quantum-500 rounded-full flex items-center justify-center text-white font-semibold">
-                        {{ authStore.user?.initials || 'RH' }}
-                      </div>
-                      <div class="min-w-0">
-                        <h3 class="font-medium text-foreground truncate">
-                          {{ authStore.user?.name || 'Guest User' }}
-                        </h3>
-                        <p class="text-sm text-muted-foreground truncate">
-                          {{ authStore.user?.email || 'guest@example.com' }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="py-1">
-                    <button @click="navigateTo('/settings')"
-                      class="w-full px-4 py-2 flex items-center gap-3 hover:bg-muted transition-colors text-foreground">
-                      <HugeiconsIcon :icon="UserIcon" :size="16" class="text-muted-foreground" />
-                      <span class="text-sm">Profile Settings</span>
-                    </button>
-                    <button @click="navigateTo('/orders')"
-                      class="w-full px-4 py-2 flex items-center gap-3 hover:bg-muted transition-colors text-foreground">
-                      <HugeiconsIcon :icon="Package01Icon" :size="16" class="text-muted-foreground" />
-                      <span class="text-sm">My Orders</span>
-                    </button>
-                    <button @click="handleLogout"
-                      class="w-full px-4 py-2 flex items-center gap-3 hover:bg-muted transition-colors text-red-400">
-                      <HugeiconsIcon :icon="Logout01Icon" :size="16" />
-                      <span class="text-sm">Logout</span>
-                    </button>
-                  </div>
-                </div>
-              </Transition>
+      <!-- § 4 — Profile & actions -->
+      <div class="flex items-center gap-1 shrink-0">
+
+        <!-- Cart dropdown -->
+        <CartDropdown />
+
+        <!-- Mobile nav hamburger -->
+        <button
+          class="lg:hidden p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label="Menu"
+          @click="mobileNavOpen = !mobileNavOpen"
+        >
+          <HugeiconsIcon :icon="mobileNavOpen ? Cancel01Icon : Menu01Icon" :size="18" />
+        </button>
+
+        <!-- Profile -->
+        <div class="relative" ref="profileRef">
+          <button
+            class="flex items-center gap-2 pl-1 pr-2 py-1 rounded-md hover:bg-muted transition-colors"
+            @click="profileOpen = !profileOpen"
+            aria-label="Profile menu"
+            :aria-expanded="profileOpen"
+          >
+            <div class="w-7 h-7 rounded-full bg-quantum-500 flex items-center justify-center text-white text-xs font-semibold shrink-0">
+              {{ authStore.user?.initials || 'G' }}
             </div>
-          </template>
+            <span class="hidden sm:block text-sm font-medium text-foreground max-w-22.5 truncate">
+              {{ authStore.user?.name?.split(' ')[0] || 'Guest' }}
+            </span>
+            <HugeiconsIcon
+              :icon="ArrowDown01Icon"
+              :size="14"
+              class="text-muted-foreground transition-transform duration-200"
+              :class="{ 'rotate-180': profileOpen }"
+            />
+          </button>
 
-          <!-- Guest: Login button -->
-          <template v-else>
-            <Button variant="outline" size="sm" @click="navigateTo('/login')"
-              class="border border-border rounded-full p-1">
-              <HugeiconsIcon :icon="UserIcon" :size="20" />
-            </Button>
-          </template>
+          <!-- Profile dropdown -->
+          <Transition name="dropdown">
+            <div
+              v-if="profileOpen"
+              class="absolute right-0 mt-2 w-56 rounded-lg border border-border bg-card shadow-xl py-1 z-50"
+            >
+              <!-- User info -->
+              <div class="px-3 py-2.5 border-b border-border">
+                <p class="text-sm font-semibold text-foreground truncate">
+                  {{ authStore.user?.name || 'Guest User' }}
+                </p>
+                <p class="text-xs text-muted-foreground truncate">
+                  {{ authStore.user?.email || 'Not signed in' }}
+                </p>
+              </div>
 
-          <!-- Right Sidebar Toggle -->
+              <div class="py-1">
+                <button
+                  v-for="item in profileMenuItems"
+                  :key="item.label"
+                  class="w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors"
+                  :class="item.destructive
+                    ? 'text-destructive hover:bg-destructive/10'
+                    : 'text-foreground hover:bg-muted'"
+                  @click="handleProfileAction(item)"
+                >
+                  <HugeiconsIcon :icon="item.icon" :size="15" class="shrink-0 text-muted-foreground" />
+                  {{ item.label }}
+                </button>
+              </div>
 
-          <Button variant="ghost" size="icon" @click="layoutStore.toggleRightSidebar"
-            class="border border-border rounded-full p-1">
-            <Transition name="icon-rotate" mode="out-in">
-              <HugeiconsIcon :key="layoutStore.rightSidebarOpen ? 'open' : 'closed'"
-                :icon="layoutStore.rightSidebarOpen ? MoveRightIcon : MoveLeftIcon" :size="20" />
-            </Transition>
-          </Button>
+              <template v-if="!authStore.isLoggedIn">
+                <div class="border-t border-border py-1">
+                  <button
+                    class="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+                    @click="handleProfileAction({ to: '/login' })"
+                  >
+                    <HugeiconsIcon :icon="Login01Icon" :size="15" class="shrink-0 text-muted-foreground" />
+                    Sign In
+                  </button>
+                </div>
+              </template>
+            </div>
+          </Transition>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+
+    <!-- Mobile search overlay -->
+    <Transition name="slide-down">
+      <div
+        v-if="mobileSearchOpen"
+        class="md:hidden mt-2 mx-0 rounded-2xl border border-border bg-background/90 backdrop-blur-xl shadow-lg px-3 py-2 flex items-center gap-2"
+      >
+        <HugeiconsIcon :icon="Search01Icon" :size="16" class="text-muted-foreground shrink-0" />
+        <input
+          ref="mobileSearchInput"
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search products, brands, categories..."
+          class="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+          @keydown.enter="handleSearch"
+          @keydown.esc="mobileSearchOpen = false"
+        />
+        <button
+          class="text-muted-foreground hover:text-foreground transition-colors"
+          @click="mobileSearchOpen = false"
+        >
+          <HugeiconsIcon :icon="Cancel01Icon" :size="16" />
+        </button>
+      </div>
+    </Transition>
+
+    <!-- Mobile nav dropdown -->
+    <Transition name="slide-down">
+      <nav
+        v-if="mobileNavOpen"
+        class="lg:hidden mt-2 rounded-2xl border border-border bg-background/90 backdrop-blur-xl shadow-lg overflow-hidden"
+        aria-label="Mobile navigation"
+      >
+        <NuxtLink
+          v-for="link in navLinks"
+          :key="link.to"
+          :to="link.to"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-medium border-b border-border/50 last:border-0 transition-colors"
+          :class="isActive(link.to)
+            ? 'text-foreground bg-muted'
+            : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'"
+          @click="mobileNavOpen = false"
+        >
+          <HugeiconsIcon :icon="link.icon" :size="16" class="shrink-0" />
+          {{ link.label }}
+        </NuxtLink>
+      </nav>
+    </Transition>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useLayoutStore } from '@/stores/layout'
 import { useAuthStore } from '@/stores/auth'
-import NotificationDropdown from '@/components/NotificationDropdown.vue'
-import CartDropdown from '@/components/CartDropdown.vue'
-import HeaderMegamenu from '@/components/header/HeaderMegamenu.vue'
-
-// HugeIcons
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
-  MoveRightIcon,
-  MoveLeftIcon,
-  Clubs02Icon,
-  UserIcon,
-  Logout01Icon,
-  ArrowDown01Icon,
-  SidebarRight01Icon,
-  Package01Icon,
   Search01Icon,
+  Menu01Icon,
+  Cancel01Icon,
+  ArrowDown01Icon,
+  UserIcon,
+  Package01Icon,
+  Settings01Icon,
+  Logout01Icon,
+  Login01Icon,
+  Home01Icon,
+  Store01Icon,
+  Award01Icon,
+  ShoppingBag01Icon,
+  Mail01Icon,
 } from '@hugeicons/core-free-icons'
 
 const route = useRoute()
 const router = useRouter()
-const layoutStore = useLayoutStore()
 const authStore = useAuthStore()
 
-const isHomePage = computed(() => route.path === '/')
-
-const showProfileMenu = ref(false)
-const profileDropdown = ref<HTMLElement | null>(null)
+// ── State ──────────────────────────────────────────────────────────────────────
+const scrolled = ref(false)
+const profileOpen = ref(false)
+const mobileNavOpen = ref(false)
+const mobileSearchOpen = ref(false)
 const searchQuery = ref('')
+const profileRef = ref<HTMLElement | null>(null)
+const mobileSearchInput = ref<HTMLInputElement | null>(null)
 
+// ── Nav links ──────────────────────────────────────────────────────────────────
+const navLinks = [
+  { label: 'Home', to: '/', icon: Home01Icon },
+  { label: 'Products', to: '/products', icon: Store01Icon },
+  { label: 'Clubs', to: '/club/membership', icon: Award01Icon },
+  { label: 'Shop', to: '/shop', icon: ShoppingBag01Icon },
+  { label: 'Contact', to: '/messages', icon: Mail01Icon },
+]
+
+const isActive = (to: string) =>
+  to === '/' ? route.path === '/' : route.path.startsWith(to)
+
+// ── Profile menu ───────────────────────────────────────────────────────────────
+const profileMenuItems = computed(() => {
+  const base = [
+    { label: 'Profile', to: '/settings', icon: UserIcon },
+    { label: 'My Orders', to: '/orders', icon: Package01Icon },
+    { label: 'Cart', to: '/cart', icon: ShoppingBag01Icon },
+    { label: 'Settings', to: '/settings', icon: Settings01Icon },
+  ]
+  if (authStore.isLoggedIn) {
+    base.push({ label: 'Logout', icon: Logout01Icon, destructive: true, action: 'logout' } as any)
+  }
+  return base
+})
+
+const handleProfileAction = (item: any) => {
+  profileOpen.value = false
+  if (item.action === 'logout') {
+    authStore.logout()
+    router.push('/products')
+    return
+  }
+  if (item.to) router.push(item.to)
+}
+
+// ── Search ─────────────────────────────────────────────────────────────────────
 const handleSearch = () => {
   const q = searchQuery.value.trim()
-  if (q) {
-    router.push(`/products?search=${encodeURIComponent(q)}`)
-    searchQuery.value = ''
+  if (!q) return
+  mobileSearchOpen.value = false
+  mobileNavOpen.value = false
+  router.push(`/products?search=${encodeURIComponent(q)}`)
+  searchQuery.value = ''
+}
+
+// Auto-focus mobile search input when it opens
+watch(mobileSearchOpen, async (open) => {
+  if (open) {
+    await nextTick()
+    mobileSearchInput.value?.focus()
   }
-}
+})
 
-const navigateTo = (path: string) => {
-  router.push(path)
-  showProfileMenu.value = false
-}
+// Close mobile panels on route change
+watch(() => route.path, () => {
+  profileOpen.value = false
+  mobileNavOpen.value = false
+  mobileSearchOpen.value = false
+})
 
-const handleLogout = () => {
-  authStore.logout()
-  showProfileMenu.value = false
-  router.push('/products')
-}
+// ── Scroll detection ───────────────────────────────────────────────────────────
+const onScroll = () => { scrolled.value = window.scrollY > 24 }
 
-const handleClickOutside = (event: MouseEvent) => {
-  if (profileDropdown.value && !profileDropdown.value.contains(event.target as Node)) {
-    showProfileMenu.value = false
+// ── Click outside to close profile ────────────────────────────────────────────
+const onClickOutside = (e: MouseEvent) => {
+  if (profileRef.value && !profileRef.value.contains(e.target as Node)) {
+    profileOpen.value = false
   }
 }
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
+  if (import.meta.client) {
+    window.addEventListener('scroll', onScroll, { passive: true })
+    document.addEventListener('click', onClickOutside)
+  }
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
+  if (import.meta.client) {
+    window.removeEventListener('scroll', onScroll)
+    document.removeEventListener('click', onClickOutside)
+  }
 })
 </script>
 
 <style scoped>
+/* Profile & nav dropdowns */
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.15s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
-
 .dropdown-enter-from,
 .dropdown-leave-to {
   opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+}
+
+/* Mobile panels slide down */
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.slide-down-enter-from,
+.slide-down-leave-to {
+  opacity: 0;
   transform: translateY(-8px);
-}
-
-.icon-rotate-enter-active,
-.icon-rotate-leave-active {
-  transition: opacity 0.12s ease, transform 0.12s ease;
-}
-
-.icon-rotate-enter-from {
-  opacity: 0;
-  transform: rotate(-90deg) scale(0.6);
-}
-
-.icon-rotate-leave-to {
-  opacity: 0;
-  transform: rotate(90deg) scale(0.6);
 }
 </style>
