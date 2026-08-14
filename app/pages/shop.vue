@@ -1,8 +1,78 @@
 <template>
-  <div class="space-y-8">
+  <div class="full-bleed bg-background">
+
+    <!-- Hero -->
+    <section
+      id="shop-hero"
+      class="relative overflow-hidden bg-background"
+      aria-labelledby="shop-hero-title"
+    >
+      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="orb orb--a" />
+        <div class="orb orb--b" />
+      </div>
+
+      <!-- pt accounts for the fixed header running over this hero. -->
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-16 sm:pt-40 sm:pb-20 text-center reveal">
+        <div class="flex items-center justify-center gap-2 mb-5">
+          <div class="h-px w-8 bg-nextstop-500/60" />
+          <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+            The Collection
+          </p>
+          <div class="h-px w-8 bg-quantum-500/60" />
+        </div>
+
+        <h1
+          id="shop-hero-title"
+          class="text-4xl sm:text-5xl font-bold text-foreground leading-tight tracking-tight"
+        >
+          Everything in One Place.
+        </h1>
+
+        <p class="text-lg text-muted-foreground leading-relaxed mt-5 max-w-2xl mx-auto">
+          Featured deals, fresh arrivals, and the full catalogue across Quantum, Elegance, and NextStop.
+        </p>
+
+        <p class="text-muted-foreground leading-relaxed mt-3 max-w-2xl mx-auto">
+          Quality products. Meaningful value. One trusted destination.
+        </p>
+
+        <div class="flex justify-center mt-9">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              @click="scrollTo('all-products')"
+            >
+              Browse the Collection
+              <HugeiconsIcon :icon="resolveIcon('ArrowDown01Icon')" :size="15" />
+            </button>
+
+            <NuxtLink
+              to="/DealsAndOffers"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md border border-border bg-background text-foreground text-sm font-semibold hover:bg-secondary active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              Deals &amp; Offers
+            </NuxtLink>
+          </div>
+        </div>
+
+        <!-- Live catalogue stats -->
+        <dl class="flex flex-wrap justify-center gap-x-10 gap-y-4 mt-12">
+          <div v-for="stat in heroStats" :key="stat.label" class="text-center">
+            <dt class="sr-only">{{ stat.label }}</dt>
+            <dd class="text-2xl font-bold text-foreground tabular-nums">{{ stat.value }}</dd>
+            <p class="text-xs text-muted-foreground mt-0.5">{{ stat.label }}</p>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 space-y-8">
+
     <!-- Promotional Section: Google Pixel 6A -->
     <section
-      class="relative overflow-hidden rounded-3xl p-6 sm:p-10 bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
+      class="relative overflow-hidden rounded-3xl p-6 sm:p-10 bg-linear-to-r from-emerald-500 to-teal-600 text-white">
       <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div>
           <div class="inline-flex items-center bg-white/10 text-white/90 px-3 py-1 rounded-full text-xs mb-3">
@@ -56,12 +126,12 @@
     </section>
 
     <!-- All Products with Infinite Scroll -->
-    <section>
+    <section id="all-products" class="scroll-mt-28">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+        <h2 class="text-2xl lg:text-3xl font-bold text-foreground">
           All Products
         </h2>
-        <span class="text-sm text-gray-500 dark:text-gray-400">
+        <span class="text-sm text-muted-foreground">
           Showing {{ displayedProducts.length }} of
           {{ productStore.filteredProducts.length }}
         </span>
@@ -94,16 +164,45 @@
       </div>
     </section>
 
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { Search, ShoppingBag, Phone } from "lucide-vue-next";
+import { useNuxtApp } from "#app";
+import { HugeiconsIcon } from "@hugeicons/vue";
 import { useProductStore } from "@/stores/products";
+import { resolveIcon } from "@/composables/useContentIcons";
 import ProductCard from "@/components/product/ProductCard.vue";
 
 const productStore = useProductStore();
+const { $lenis } = useNuxtApp();
+
+// Derived from the live catalogue so the hero never advertises a stale number.
+const heroStats = computed(() => {
+  const total = productStore.products.length;
+  // `categories` includes a synthetic "All Products" entry — exclude it.
+  const categoryCount = productStore.categories.filter(
+    (c) => c.name !== "All Products"
+  ).length;
+  const inStock = productStore.products.filter((p) => p.inStock).length;
+
+  return [
+    { label: total === 1 ? "Product" : "Products", value: total },
+    { label: categoryCount === 1 ? "Category" : "Categories", value: categoryCount },
+    { label: "In stock", value: inStock },
+  ];
+});
+
+/** Scrolls through Lenis so the jump keeps the smooth-scroll easing. */
+const scrollTo = (id) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if ($lenis?.value) $lenis.value.scrollTo(el, { offset: -100 });
+  else el.scrollIntoView({ behavior: "smooth", block: "start" });
+};
 
 // Promo action: open Pixel promo in modal if a matching product exists
 const openPromo = () => {
@@ -165,3 +264,69 @@ const resetFilters = () => {
   page.value = 1;
 };
 </script>
+<style scoped>
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.14;
+  animation: orbFloat 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.orb--a {
+  width: 480px;
+  height: 480px;
+  background: oklch(0.55 0.2 160);
+  top: -180px;
+  right: -100px;
+}
+
+.orb--b {
+  width: 420px;
+  height: 420px;
+  background: oklch(0.55 0.18 220);
+  bottom: -180px;
+  left: -100px;
+  animation-delay: -9s;
+}
+
+@keyframes orbFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(26px, -30px) scale(1.05);
+  }
+}
+
+.reveal {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+
+  .reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+</style>

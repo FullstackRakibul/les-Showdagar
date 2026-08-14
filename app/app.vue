@@ -4,9 +4,11 @@
     <!-- Floating header sits outside scroll flow -->
     <AppHeader />
 
-    <!-- Page content. Top padding clears the fixed header; pages with a
-         full-bleed hero cancel it with `-mt-20` on their own root. -->
-    <main class="pt-20">
+    <!-- The header is fixed, so `main` pads to clear it by default. Pages that
+         open with a full-bleed hero put `full-bleed` on their root element to
+         cancel that padding and let the hero reach the top of the viewport;
+         those heroes pad from within instead. -->
+    <main class="main-offset">
       <NuxtPage />
       <AppFooter />
     </main>
@@ -57,6 +59,20 @@ onUnmounted(() => {
 </script>
 
 <style>
+/*
+ * The fixed header sits outside document flow, so `main` pads to clear it.
+ * A page whose first section is a full-bleed hero adds `full-bleed` to its
+ * root, cancelling the padding so the hero background reaches the very top —
+ * that hero is then responsible for its own internal top padding.
+ */
+.main-offset {
+  padding-top: 5rem;
+}
+
+.main-offset > .full-bleed {
+  margin-top: -5rem;
+}
+
 /* Page transitions */
 .page-enter-active,
 .page-leave-active {

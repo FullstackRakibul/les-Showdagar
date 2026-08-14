@@ -1,5 +1,5 @@
 <template>
-  <div v-if="content" class="bg-background">
+  <div v-if="content" class="bg-background full-bleed">
 
     <!-- Hero -->
     <ContactHero :hero="content.hero" @jump="jumpTo" />

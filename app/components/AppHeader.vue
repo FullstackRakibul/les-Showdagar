@@ -169,7 +169,6 @@ import {
   Logout01Icon,
   Login01Icon,
   Home01Icon,
-  Store01Icon,
   Award01Icon,
   ShoppingBag01Icon,
   Mail01Icon,
@@ -191,7 +190,6 @@ const mobileSearchInput = ref<HTMLInputElement | null>(null)
 // ── Nav links ──────────────────────────────────────────────────────────────────
 const navLinks = [
   { label: 'Home', to: '/', icon: Home01Icon },
-  { label: 'Products', to: '/products', icon: Store01Icon },
   { label: 'Clubs', to: '/clubs', icon: Award01Icon },
   { label: 'Shop', to: '/shop', icon: ShoppingBag01Icon },
   { label: 'Contact', to: '/contact', icon: Mail01Icon },

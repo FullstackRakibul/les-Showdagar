@@ -25,25 +25,29 @@
           aria-hidden="true"
         >&rdquo;</div>
 
-        <blockquote class="flex-1">
-          <p class="text-sm text-foreground leading-relaxed relative">{{ item.quote }}</p>
-        </blockquote>
+        <!-- figcaption is only valid inside figure, so the quote and its
+             attribution are wrapped together rather than sitting bare in the li. -->
+        <figure class="flex flex-col flex-1 m-0">
+          <blockquote class="flex-1 m-0">
+            <p class="text-sm text-foreground leading-relaxed relative">{{ item.quote }}</p>
+          </blockquote>
 
-        <figcaption class="flex items-center gap-3 mt-5 pt-4 border-t border-border/60">
-          <div
-            class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-            :class="item.club
-              ? [getClubBgClass(item.club, true), getClubTextClass(item.club)]
-              : ['bg-primary/10', 'text-primary']"
-            aria-hidden="true"
-          >
-            {{ initials(item.author) }}
-          </div>
-          <div class="min-w-0">
-            <p class="text-sm font-semibold text-foreground truncate">{{ item.author }}</p>
-            <p v-if="item.role" class="text-xs text-muted-foreground truncate">{{ item.role }}</p>
-          </div>
-        </figcaption>
+          <figcaption class="flex items-center gap-3 mt-5 pt-4 border-t border-border/60">
+            <div
+              class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+              :class="item.club
+                ? [getClubBgClass(item.club, true), getClubTextClass(item.club)]
+                : ['bg-primary/10', 'text-primary']"
+              aria-hidden="true"
+            >
+              {{ initials(item.author) }}
+            </div>
+            <div class="min-w-0">
+              <p class="text-sm font-semibold text-foreground truncate">{{ item.author }}</p>
+              <p v-if="item.role" class="text-xs text-muted-foreground truncate">{{ item.role }}</p>
+            </div>
+          </figcaption>
+        </figure>
       </li>
     </ul>
   </div>

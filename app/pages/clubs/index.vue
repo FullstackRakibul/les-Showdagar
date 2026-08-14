@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-background">
+  <div class="bg-background full-bleed">
 
     <!-- 1 — Hero -->
     <ClubHero v-if="content.clubHero" :section="content.clubHero" />

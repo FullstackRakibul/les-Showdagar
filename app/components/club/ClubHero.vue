@@ -11,7 +11,8 @@
       <div class="orb orb--c" />
     </div>
 
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-24 sm:py-32 text-center">
+    <!-- pt accounts for the fixed header running over this hero. -->
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 pt-36 pb-24 sm:pt-44 sm:pb-32 text-center">
       <!-- Eyebrow -->
       <div v-if="section.subtitle" class="flex items-center justify-center gap-2 mb-6">
         <div class="h-px w-8 bg-quantum-500/60" />

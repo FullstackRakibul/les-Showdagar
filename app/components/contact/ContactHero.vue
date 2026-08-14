@@ -9,7 +9,8 @@
       <div class="orb orb--b" />
     </div>
 
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-28 text-center reveal">
+    <!-- pt accounts for the fixed header running over this hero. -->
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-20 sm:pt-40 sm:pb-28 text-center reveal">
       <div v-if="hero.subtitle" class="flex items-center justify-center gap-2 mb-5">
         <div class="h-px w-8 bg-quantum-500/60" />
         <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">

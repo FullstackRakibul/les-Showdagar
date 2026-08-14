@@ -45,12 +45,20 @@ export default defineNuxtConfig({
   },
 
   ssr: true,
-  compatibilityDate: '2025-10-01',
+  compatibilityDate: '2026-08-01',
   srcDir: 'app/',
 
   // `srcDir: 'app/'` makes Nitro look for `app/server/`, but the API handlers
   // live in `server/` at the repo root. Without this every /api/* route 404s.
   serverDir: 'server/',
+
+  experimental: {
+    // Vite's dependency scanner probes `#app-manifest` before Nuxt registers
+    // that virtual module, logging a "Failed to resolve import" error on every
+    // dev start. Nothing here uses the manifest (no useAppManifest, no route
+    // rules, no prerendering), so turning it off removes the noise.
+    appManifest: false,
+  },
 
   components: [
     { path: '~/components', pathPrefix: false },
