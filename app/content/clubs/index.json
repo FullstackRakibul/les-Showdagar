@@ -1,0 +1,49 @@
+{
+  "hero": {
+    "id": "club-hero",
+    "layout": "hero",
+    "title": "More Than Shopping.",
+    "subtitle": "Welcome to RH Business Club",
+    "description": "A club built around discovery, value, lifestyle, and experiences.",
+    "body": [
+      "Three clubs, one destination. Each one is a point of view about what's worth owning."
+    ],
+    "cta": { "label": "Explore the Clubs", "link": "#clubs", "variant": "primary" },
+    "secondaryCta": { "label": "Shop the Collection", "link": "/products", "variant": "secondary" }
+  },
+  "valueProps": [
+    {
+      "id": "curated",
+      "title": "Curated Discovery",
+      "description": "Explore products organized around interests and lifestyles instead of endless scrolling.",
+      "icon": "Compass01Icon"
+    },
+    {
+      "id": "exclusive",
+      "title": "Exclusive Value",
+      "description": "Discover selected offers, promotions, and opportunities available throughout the Club.",
+      "icon": "DiamondIcon"
+    },
+    {
+      "id": "personal",
+      "title": "A More Personal Experience",
+      "description": "Build your own collection, save products, and discover things that match what you care about.",
+      "icon": "UserIcon"
+    },
+    {
+      "id": "growing",
+      "title": "Growing With You",
+      "description": "RH Business Club is continuously evolving. New products, new experiences, and new possibilities are always ahead.",
+      "icon": "ChartUpIcon"
+    }
+  ],
+  "cta": {
+    "id": "club-closing",
+    "layout": "hero",
+    "title": "Discover more. Choose better. Go further.",
+    "subtitle": "Become part of RH Business Club",
+    "description": "Explore the Club and find the products, offers, and experiences that belong in your world.",
+    "cta": { "label": "Explore the Clubs", "link": "#clubs", "variant": "primary" },
+    "secondaryCta": { "label": "Shop the Collection", "link": "/products", "variant": "secondary" }
+  }
+}

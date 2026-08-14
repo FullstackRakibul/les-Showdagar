@@ -1,0 +1,26 @@
+[
+  {
+    "id": "featured-collection",
+    "title": "Handpicked for You",
+    "description": "Our featured collection highlights products that stand out for their quality, usefulness, value, or appeal.",
+    "icon": "StarIcon",
+    "link": "/products?filter=featured",
+    "badge": "Featured"
+  },
+  {
+    "id": "new-arrivals",
+    "title": "Fresh Finds. New Possibilities.",
+    "description": "Something new is always arriving at the Club. Explore our latest products and discover what's recently joined the collection.",
+    "icon": "SparklesIcon",
+    "link": "/products?filter=new",
+    "badge": "New"
+  },
+  {
+    "id": "deals-offers",
+    "title": "More Value. Less Hesitation.",
+    "description": "Good products become even better when the value makes sense. Explore our latest offers, promotions, and selected deals across the Club.",
+    "icon": "Tag01Icon",
+    "link": "/DealsAndOffers",
+    "badge": "Deals"
+  }
+]

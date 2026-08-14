@@ -48,6 +48,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-10-01',
   srcDir: 'app/',
 
+  // `srcDir: 'app/'` makes Nitro look for `app/server/`, but the API handlers
+  // live in `server/` at the repo root. Without this every /api/* route 404s.
+  serverDir: 'server/',
+
   components: [
     { path: '~/components', pathPrefix: false },
   ],

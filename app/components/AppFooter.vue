@@ -126,7 +126,7 @@
       </div>
 
       <!-- Gradient Divider -->
-      <div class="my-8 h-px bg-gradient-to-r from-transparent via-border/80 to-transparent" />
+      <div class="my-8 h-px bg-linear-to-r from-transparent via-border/80 to-transparent" />
 
       <!-- Bottom Bar -->
       <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">

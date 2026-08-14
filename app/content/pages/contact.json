@@ -1,0 +1,183 @@
+{
+  "slug": "contact",
+  "title": "Contact Us | RH Business Club",
+  "metaDescription": "Contact RH Business Club for product questions, order support, payment help, returns, and more. We're here to help.",
+  "hero": {
+    "id": "contact-hero",
+    "layout": "hero",
+    "title": "We're Here to Help.",
+    "subtitle": "Contact",
+    "description": "Have a question about a product, an order, delivery, payment, or something else?",
+    "body": [
+      "Send us a message. Our team is here to help make your RH Business Club experience easier."
+    ],
+    "cta": { "label": "Send a Message", "link": "#contact-form", "variant": "primary" },
+    "secondaryCta": { "label": "Read the FAQ", "link": "#faq", "variant": "secondary" }
+  },
+  "supportCategories": [
+    {
+      "id": "product-questions",
+      "title": "Product Questions",
+      "description": "Need more information before making a purchase? Ask us about product details, availability, specifications, or anything else you're unsure about.",
+      "icon": "ShoppingBag01Icon",
+      "subject": "Product question",
+      "cta": { "label": "Ask About a Product", "link": "#contact-form" }
+    },
+    {
+      "id": "order-delivery",
+      "title": "Order & Delivery",
+      "description": "Need an update about your order? Contact us regarding order status, delivery information, or an issue with a recent purchase.",
+      "icon": "Package01Icon",
+      "subject": "Order and delivery",
+      "cta": { "label": "Get Order Support", "link": "#contact-form" }
+    },
+    {
+      "id": "payment-checkout",
+      "title": "Payment & Checkout",
+      "description": "Having trouble completing your purchase? Let us know what happened and we'll help you through the process.",
+      "icon": "CreditCardIcon",
+      "subject": "Payment and checkout",
+      "cta": { "label": "Get Checkout Help", "link": "#contact-form" }
+    },
+    {
+      "id": "returns-support",
+      "title": "Returns & Support",
+      "description": "Something isn't right with your order? Tell us what happened and our support team will guide you through the next steps.",
+      "icon": "ArrowReloadHorizontalIcon",
+      "subject": "Returns and support",
+      "cta": { "label": "Contact Support", "link": "#contact-form" }
+    }
+  ],
+  "contactForm": {
+    "title": "Send Us a Message",
+    "subtitle": "Let's talk",
+    "description": "Fill in the form and we'll get back to you. Fields marked with an asterisk are required.",
+    "fields": [
+      {
+        "id": "name",
+        "type": "text",
+        "label": "Name",
+        "placeholder": "Your full name",
+        "required": true,
+        "maxLength": 100,
+        "autocomplete": "name"
+      },
+      {
+        "id": "email",
+        "type": "email",
+        "label": "Email Address",
+        "placeholder": "you@example.com",
+        "required": true,
+        "maxLength": 254,
+        "autocomplete": "email",
+        "help": "We'll only use this to reply to your message."
+      },
+      {
+        "id": "phone",
+        "type": "tel",
+        "label": "Phone Number",
+        "placeholder": "01XXXXXXXXX",
+        "required": false,
+        "maxLength": 20,
+        "autocomplete": "tel",
+        "help": "Optional — helpful if your question is about a delivery."
+      },
+      {
+        "id": "subject",
+        "type": "text",
+        "label": "Subject",
+        "placeholder": "What can we help you with?",
+        "required": true,
+        "maxLength": 150
+      },
+      {
+        "id": "message",
+        "type": "textarea",
+        "label": "Message",
+        "placeholder": "Tell us how we can help...",
+        "required": true,
+        "rows": 6,
+        "maxLength": 2000
+      }
+    ],
+    "submitLabel": "Send Message",
+    "submittingLabel": "Sending...",
+    "successTitle": "Message sent",
+    "successMessage": "Thank you for your message. We'll get back to you within one business day.",
+    "footnote": "We use your details only to respond to this enquiry."
+  },
+  "productRequest": {
+    "id": "contact-product-request",
+    "layout": "split",
+    "title": "Looking for Something We Don't Have?",
+    "subtitle": "Product Request",
+    "description": "Can't find a product you're looking for? We're listening.",
+    "body": [
+      "Use our Product Request feature to tell us what you'd like to see in the Club. Your request could help shape what we offer next."
+    ],
+    "cta": { "label": "Request a Product", "link": "/product-request", "variant": "primary" }
+  },
+  "companyInfo": {
+    "supportHours": "Saturday – Thursday, 9:00 AM – 6:00 PM",
+    "email": "support@rhbusinessclub.com",
+    "phone": "+880 1234 567890",
+    "location": "Bangladesh",
+    "responseTime": "We reply within one business day"
+  },
+  "suggestions": [
+    {
+      "id": "suggest-order",
+      "keywords": ["order", "tracking", "track", "where is", "shipped", "dispatch"],
+      "title": "Checking on an order?",
+      "description": "Your order status and expected delivery window are on your Orders page — often faster than waiting for a reply.",
+      "cta": { "label": "View my orders", "link": "/orders" }
+    },
+    {
+      "id": "suggest-delivery",
+      "keywords": ["delivery", "shipping", "deliver", "courier", "arrive"],
+      "title": "About delivery",
+      "description": "Orders within Dhaka typically arrive in 2–3 days, and other parts of Bangladesh within 4–7 days."
+    },
+    {
+      "id": "suggest-return",
+      "keywords": ["return", "refund", "exchange", "damaged", "broken", "wrong item"],
+      "title": "Returns and refunds",
+      "description": "Include your order number and a photo if the item arrived damaged — it helps us resolve things in one reply."
+    },
+    {
+      "id": "suggest-payment",
+      "keywords": ["payment", "pay", "checkout", "card", "bkash", "cash on delivery", "cod"],
+      "title": "Payment help",
+      "description": "We accept Cash on Delivery across Bangladesh along with common mobile financial services."
+    },
+    {
+      "id": "suggest-request",
+      "keywords": ["request", "stock", "available", "do you have", "looking for", "carry"],
+      "title": "Looking for a specific product?",
+      "description": "If it isn't in the catalogue yet, a Product Request goes straight to the team that decides what we stock next.",
+      "cta": { "label": "Request a product", "link": "/product-request" }
+    }
+  ],
+  "faqs": [
+    {
+      "id": "contact-faq-track",
+      "question": "How can I track my order?",
+      "answer": "You can view your order status from your account after placing an order. Every order shows its current status and expected delivery window."
+    },
+    {
+      "id": "contact-faq-request",
+      "question": "How can I request a product?",
+      "answer": "Use our Product Request feature and tell us what you're looking for. Requests also help shape what we stock next."
+    },
+    {
+      "id": "contact-faq-delivery",
+      "question": "Do you deliver across Bangladesh?",
+      "answer": "Yes. RH Business Club is focused on providing reliable delivery across Bangladesh, with Cash on Delivery available nationwide."
+    },
+    {
+      "id": "contact-faq-support",
+      "question": "How can I contact customer support?",
+      "answer": "Send us a message through this page or use the support channels listed above. We reply within one business day."
+    }
+  ]
+}

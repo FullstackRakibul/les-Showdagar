@@ -1,0 +1,44 @@
+[
+  {
+    "id": "benefit-discovery",
+    "title": "Curated Discovery",
+    "description": "Products organized around interests and lifestyles, not endless scrolling.",
+    "detail": "Every product belongs to a club — Quantum for technology, Elegance for fashion and lifestyle, NextStop for travel. Browsing starts from how you actually live rather than a flat catalogue.",
+    "icon": "Compass01Icon"
+  },
+  {
+    "id": "benefit-offers",
+    "title": "Selected Offers",
+    "description": "Deals and promotions surfaced across the Club as they become available.",
+    "detail": "Good products become better when the value makes sense. Offers appear in Deals & Offers and on the products themselves, so you see them where the decision happens.",
+    "icon": "Tag01Icon"
+  },
+  {
+    "id": "benefit-collection",
+    "title": "Your Own Collection",
+    "description": "Save products you love and keep your favourites close.",
+    "detail": "Wishlist keeps what you're considering. Clip Cart keeps what you re-order. Both persist between visits so you can pick up where you left off.",
+    "icon": "FavouriteIcon"
+  },
+  {
+    "id": "benefit-tracking",
+    "title": "Order Visibility",
+    "description": "Every order visible with its current status and delivery window.",
+    "detail": "From the moment you place an order to the moment it arrives, its status is on your Orders page — no need to ask where it is.",
+    "icon": "Package01Icon"
+  },
+  {
+    "id": "benefit-requests",
+    "title": "Product Requests",
+    "description": "Tell us what you're looking for when it isn't in the catalogue yet.",
+    "detail": "Sometimes the product you want simply isn't listed. Send a request and we'll do our best to find it — requests also shape what we stock next.",
+    "icon": "Mail01Icon"
+  },
+  {
+    "id": "benefit-delivery",
+    "title": "Reliable Delivery",
+    "description": "Dependable delivery across Bangladesh, from Dhaka outward.",
+    "detail": "A great shopping experience doesn't end at Place Order — it ends when the parcel reaches your doorstep. Delivery is part of what we promise, not an afterthought.",
+    "icon": "DeliveryTruck01Icon"
+  }
+]

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen -mt-20">
     <!-- 1. Full-Screen Hero Search -->
     <HeroSearch />
     <!-- 2. Clip Cart Section -->

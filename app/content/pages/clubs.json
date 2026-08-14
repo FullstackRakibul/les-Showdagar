@@ -1,0 +1,40 @@
+{
+  "slug": "clubs",
+  "title": "The Clubs | RH Business Club",
+  "metaDescription": "Quantum, Elegance, and NextStop — three curated clubs covering technology, fashion, and travel. Explore the collection that matches how you live.",
+  "heading": "Shop by Club",
+  "sections": [
+    {
+      "id": "clubs-hero",
+      "layout": "hero",
+      "title": "Shop by Club",
+      "subtitle": "Three identities, one destination",
+      "description": "Every product at RH Business Club belongs to a club — a point of view about what's worth owning.",
+      "body": [
+        "Whether you're upgrading your workspace, refreshing your personal style, or preparing for your next journey, there's a club for it."
+      ]
+    },
+    {
+      "id": "clubs-list",
+      "layout": "list",
+      "muted": true,
+      "title": "The Clubs"
+    },
+    {
+      "id": "clubs-closing",
+      "layout": "split",
+      "title": "Your Club. Your Collection.",
+      "description": "Save products you love, keep your favorites close, and build your own collection for later.",
+      "cta": {
+        "label": "Browse Products",
+        "link": "/products",
+        "variant": "primary"
+      },
+      "secondaryCta": {
+        "label": "View Wishlist",
+        "link": "/wishlist",
+        "variant": "secondary"
+      }
+    }
+  ]
+}

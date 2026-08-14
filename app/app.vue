@@ -4,8 +4,9 @@
     <!-- Floating header sits outside scroll flow -->
     <AppHeader />
 
-    <!-- Page content -->
-    <main ref="scrollContainer">
+    <!-- Page content. Top padding clears the fixed header; pages with a
+         full-bleed hero cancel it with `-mt-20` on their own root. -->
+    <main class="pt-20">
       <NuxtPage />
       <AppFooter />
     </main>
@@ -19,36 +20,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useNuxtApp } from '#app'
 
 const { $lenis, $Lenis } = useNuxtApp()
-const scrollContainer = ref<HTMLElement | null>(null)
+
+let rafId = 0
 
 onMounted(() => {
-  if (import.meta.client && $Lenis && scrollContainer.value) {
-    $lenis.value = new $Lenis({
-      wrapper: scrollContainer.value,
-      content: scrollContainer.value.firstElementChild ?? undefined,
-      duration: 1.0,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    })
+  if (!import.meta.client || !$Lenis) return
 
-    function raf(time: number) {
-      $lenis.value?.raf(time)
-      requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
+  // Scrolls the window, not a wrapper element. Passing a `wrapper` that is not
+  // itself scrollable makes Lenis capture wheel events and drop them.
+  $lenis.value = new $Lenis({
+    duration: 1.0,
+    easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 2,
+  })
+
+  function raf(time: number) {
+    $lenis.value?.raf(time)
+    rafId = requestAnimationFrame(raf)
   }
+  rafId = requestAnimationFrame(raf)
 })
 
 onUnmounted(() => {
+  if (rafId) cancelAnimationFrame(rafId)
   $lenis.value?.destroy()
+  $lenis.value = null
 })
 </script>
 

@@ -1,0 +1,31 @@
+{
+  "id": "quantum",
+  "name": "Quantum",
+  "tagline": "Think Forward.",
+  "category": "Technology & Innovation",
+  "description": "Smart products for the way you work, create, connect, and live.",
+  "body": [
+    "Discover technology, accessories, gadgets, and modern essentials selected for people who like to stay one step ahead."
+  ],
+  "icon": "CpuIcon",
+  "features": [
+    "Smart Devices",
+    "Work & Productivity",
+    "Tech Essentials",
+    "Connected Lifestyle"
+  ],
+  "categories": [
+    "Electronics",
+    "Gadgets",
+    "Computer Accessories",
+    "Mobile Accessories",
+    "Smart Devices",
+    "Work & Productivity",
+    "Tech Essentials"
+  ],
+  "cta": {
+    "label": "Explore Quantum",
+    "link": "/club/quantum",
+    "variant": "primary"
+  }
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "faq-what-is-club",
+    "question": "What is RH Business Club?",
+    "answer": "A premium e-commerce platform organized around three clubs — Quantum for technology and innovation, Elegance for fashion and lifestyle, and NextStop for travel and experiences. Each club is a point of view about what's worth owning."
+  },
+  {
+    "id": "faq-cost",
+    "question": "Does it cost anything to join?",
+    "answer": "No. Browsing, saving products, placing orders, and tracking deliveries are all free. Paid tiers with early access and members-only offers are planned but not yet available."
+  },
+  {
+    "id": "faq-pick-club",
+    "question": "Do I have to pick one club?",
+    "answer": "No. The clubs organize the catalogue — they don't restrict you. You can browse and buy across all three, and set whichever accent colour you prefer from any club card."
+  },
+  {
+    "id": "faq-delivery",
+    "question": "Where do you deliver?",
+    "answer": "Across Bangladesh. Orders within Dhaka typically arrive in 2–3 days, and other areas within 4–7 days. Cash on Delivery is available nationwide."
+  },
+  {
+    "id": "faq-request",
+    "question": "Can I request a product that isn't listed?",
+    "answer": "Yes. Use the Product Request form and tell us what you're searching for. Requests also help shape what we stock next."
+  },
+  {
+    "id": "faq-events",
+    "question": "What kind of events does the Club run?",
+    "answer": "Club events are being planned. When they're scheduled they'll appear on the Events page, and members will be able to register from there."
+  },
+  {
+    "id": "faq-tiers",
+    "question": "When will paid membership tiers be available?",
+    "answer": "Premium and Business tiers are in development. Pricing has not been finalized — join the waitlist and we'll let you know before they open."
+  }
+]

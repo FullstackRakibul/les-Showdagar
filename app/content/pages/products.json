@@ -1,0 +1,152 @@
+{
+  "slug": "products",
+  "title": "Products | RH Business Club",
+  "metaDescription": "Explore a carefully selected collection of products across technology, style, everyday living, and travel. Quality products, meaningful value, one trusted destination.",
+  "heading": "Discover Something Worth Having",
+  "sections": [
+    {
+      "id": "products-hero",
+      "layout": "hero",
+      "title": "Discover Something Worth Having",
+      "subtitle": "Products",
+      "description": "Explore a carefully selected collection of products designed around the things that matter most — technology, style, everyday living, and experiences.",
+      "body": [
+        "Whether you're upgrading your workspace, refreshing your personal style, or preparing for your next journey, RH Business Club brings useful and desirable products together in one place.",
+        "Quality products. Meaningful value. One trusted destination."
+      ]
+    },
+    {
+      "id": "shop-by-club",
+      "layout": "grid",
+      "columns": 3,
+      "title": "Shop by Club",
+      "subtitle": "Three identities, one destination",
+      "muted": true
+    },
+    {
+      "id": "featured-products",
+      "layout": "grid",
+      "columns": 3,
+      "title": "Featured Products",
+      "subtitle": "Handpicked for You",
+      "description": "Not everything needs to be everywhere. Our featured collection highlights products that stand out for their quality, usefulness, value, or appeal.",
+      "cta": {
+        "label": "Explore Featured Products",
+        "link": "/products?filter=featured",
+        "variant": "primary"
+      }
+    },
+    {
+      "id": "product-discovery",
+      "layout": "grid",
+      "columns": 3,
+      "muted": true,
+      "title": "Product Discovery",
+      "subtitle": "Find what you're looking for",
+      "cards": [
+        {
+          "id": "discovery-search",
+          "title": "Search",
+          "description": "Find the products you're looking for quickly.",
+          "icon": "Search01Icon"
+        },
+        {
+          "id": "discovery-filter",
+          "title": "Filter",
+          "description": "Explore products by category, club, price, availability, and other relevant attributes.",
+          "icon": "FilterIcon"
+        },
+        {
+          "id": "discovery-wishlist",
+          "title": "Wishlist",
+          "description": "Save products you're interested in and come back to them later.",
+          "icon": "FavouriteIcon",
+          "link": "/wishlist"
+        },
+        {
+          "id": "discovery-clip-cart",
+          "title": "Clip Cart",
+          "description": "Keep products ready for quick re-ordering and future purchases.",
+          "icon": "ShoppingBasket01Icon"
+        },
+        {
+          "id": "discovery-request",
+          "title": "Product Request",
+          "description": "Tell RH Business Club what you want to see next.",
+          "icon": "Mail01Icon"
+        }
+      ]
+    },
+    {
+      "id": "product-promise",
+      "layout": "grid",
+      "columns": 3,
+      "title": "Our Product Promise",
+      "description": "Every product is part of the experience we are building.",
+      "cards": [
+        {
+          "id": "promise-quality",
+          "title": "Quality",
+          "description": "Products worth choosing.",
+          "icon": "StarIcon"
+        },
+        {
+          "id": "promise-value",
+          "title": "Value",
+          "description": "Prices and offers that make sense.",
+          "icon": "Tag01Icon"
+        },
+        {
+          "id": "promise-practicality",
+          "title": "Practicality",
+          "description": "Products that have a purpose in everyday life.",
+          "icon": "CheckmarkCircle01Icon"
+        },
+        {
+          "id": "promise-discovery",
+          "title": "Discovery",
+          "description": "A collection that gives you something new to explore.",
+          "icon": "Compass01Icon"
+        },
+        {
+          "id": "promise-reliability",
+          "title": "Reliability",
+          "description": "A shopping experience you can trust from discovery to delivery.",
+          "icon": "ShieldCheck"
+        }
+      ]
+    },
+    {
+      "id": "product-request",
+      "layout": "split",
+      "muted": true,
+      "title": "Can't Find What You're Looking For?",
+      "subtitle": "Product Request",
+      "description": "Sometimes the product you're looking for simply isn't in the catalog yet.",
+      "body": [
+        "Tell us what you're searching for and we'll do our best to find it."
+      ],
+      "cta": {
+        "label": "Request a Product",
+        "link": "/contact#product-request",
+        "variant": "primary"
+      }
+    },
+    {
+      "id": "your-collection",
+      "layout": "split",
+      "title": "Your Club. Your Collection.",
+      "description": "Save products you love, keep your favorites close, and build your own collection for later.",
+      "cta": {
+        "label": "Browse Products",
+        "link": "/products",
+        "variant": "primary"
+      },
+      "secondaryCta": {
+        "label": "View Wishlist",
+        "link": "/wishlist",
+        "variant": "secondary"
+      }
+    }
+  ]
+}

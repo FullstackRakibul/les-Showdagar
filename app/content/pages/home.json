@@ -1,0 +1,117 @@
+{
+  "slug": "home",
+  "title": "RH Business Club | Quality. Value. Reliability.",
+  "metaDescription": "A premium e-commerce experience focused on bringing quality products, meaningful value, and reliable delivery to customers across Bangladesh.",
+  "heading": "Discover Something Worth Having",
+  "sections": [
+    {
+      "id": "home-hero",
+      "layout": "hero",
+      "title": "Discover Something Worth Having",
+      "subtitle": "RH Business Club",
+      "description": "Explore a carefully selected collection of products designed around the things that matter most — technology, style, everyday living, and experiences.",
+      "body": [
+        "Quality products. Meaningful value. One trusted destination."
+      ],
+      "cta": {
+        "label": "Browse Products",
+        "link": "/products",
+        "variant": "primary"
+      },
+      "secondaryCta": {
+        "label": "Shop Deals",
+        "link": "/DealsAndOffers",
+        "variant": "secondary"
+      }
+    },
+    {
+      "id": "home-clubs",
+      "layout": "grid",
+      "columns": 3,
+      "muted": true,
+      "title": "Shop by Club",
+      "subtitle": "Three identities, one destination",
+      "description": "Every product belongs to a club — a point of view about what's worth owning."
+    },
+    {
+      "id": "home-featured",
+      "layout": "grid",
+      "columns": 3,
+      "title": "Featured Products",
+      "subtitle": "Handpicked for You",
+      "description": "Not everything needs to be everywhere. Our featured collection highlights products that stand out for their quality, usefulness, value, or appeal.",
+      "cta": {
+        "label": "Explore Featured Products",
+        "link": "/products?filter=featured",
+        "variant": "primary"
+      }
+    },
+    {
+      "id": "home-new-arrivals",
+      "layout": "split",
+      "muted": true,
+      "title": "Fresh Finds. New Possibilities.",
+      "subtitle": "New Arrivals",
+      "description": "Something new is always arriving at the Club.",
+      "body": [
+        "Explore our latest products and discover what's recently joined the collection."
+      ],
+      "cta": {
+        "label": "View New Arrivals",
+        "link": "/products?filter=new",
+        "variant": "primary"
+      }
+    },
+    {
+      "id": "home-deals",
+      "layout": "split",
+      "title": "More Value. Less Hesitation.",
+      "subtitle": "Deals & Offers",
+      "description": "Good products become even better when the value makes sense.",
+      "body": [
+        "Explore our latest offers, promotions, and selected deals across the Club."
+      ],
+      "cta": {
+        "label": "Shop Deals",
+        "link": "/DealsAndOffers",
+        "variant": "primary"
+      }
+    },
+    {
+      "id": "home-request",
+      "layout": "split",
+      "muted": true,
+      "title": "Can't Find What You're Looking For?",
+      "subtitle": "Product Request",
+      "description": "Sometimes the product you're looking for simply isn't in the catalog yet.",
+      "body": [
+        "Tell us what you're searching for and we'll do our best to find it."
+      ],
+      "cta": {
+        "label": "Request a Product",
+        "link": "/contact#product-request",
+        "variant": "primary"
+      }
+    },
+    {
+      "id": "home-closing",
+      "layout": "hero",
+      "title": "Quality. Value. Reliability.",
+      "subtitle": "RH Business Club",
+      "description": "A premium e-commerce experience focused on bringing quality products, meaningful value, and reliable delivery to customers across Bangladesh.",
+      "body": [
+        "Discover more. Choose better."
+      ],
+      "cta": {
+        "label": "Browse Products",
+        "link": "/products",
+        "variant": "primary"
+      },
+      "secondaryCta": {
+        "label": "About the Club",
+        "link": "/about",
+        "variant": "secondary"
+      }
+    }
+  ]
+}

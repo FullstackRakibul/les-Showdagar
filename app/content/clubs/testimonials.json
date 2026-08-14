@@ -1,0 +1,26 @@
+[
+  {
+    "id": "testimonial-1",
+    "quote": "Illustrative placeholder — replace with a real member quote before launch. Describes finding a product quickly through the club structure rather than searching a flat catalogue.",
+    "author": "Member",
+    "role": "Dhaka",
+    "club": "quantum",
+    "placeholder": true
+  },
+  {
+    "id": "testimonial-2",
+    "quote": "Illustrative placeholder — replace with a real member quote before launch. Describes the delivery arriving within the stated window.",
+    "author": "Member",
+    "role": "Chattogram",
+    "club": "nextstop",
+    "placeholder": true
+  },
+  {
+    "id": "testimonial-3",
+    "quote": "Illustrative placeholder — replace with a real member quote before launch. Describes using the product request form for an item not yet in the catalogue.",
+    "author": "Member",
+    "role": "Sylhet",
+    "club": "elegance",
+    "placeholder": true
+  }
+]

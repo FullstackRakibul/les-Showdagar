@@ -1,0 +1,31 @@
+{
+  "id": "elegance",
+  "name": "Elegance",
+  "tagline": "Choose Better.",
+  "category": "Fashion & Lifestyle",
+  "description": "Style is not about having more. It's about choosing better.",
+  "body": [
+    "Explore fashion, accessories, personal essentials, and lifestyle products curated for people who appreciate detail, quality, and timeless appeal."
+  ],
+  "icon": "ShoppingBag01Icon",
+  "features": [
+    "Timeless Appeal",
+    "Personal Essentials",
+    "Everyday Style",
+    "Considered Detail"
+  ],
+  "categories": [
+    "Fashion",
+    "Bags",
+    "Watches",
+    "Accessories",
+    "Personal Care",
+    "Lifestyle Essentials",
+    "Everyday Style"
+  ],
+  "cta": {
+    "label": "Explore Elegance",
+    "link": "/club/elegance",
+    "variant": "primary"
+  }
+}

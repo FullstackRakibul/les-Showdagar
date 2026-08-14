@@ -1,5 +1,5 @@
 <template>
-  <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-background">
+  <section class="relative min-h-dvh flex flex-col items-center justify-center overflow-hidden bg-background">
 
     <!-- Static art-line image background -->
     <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">

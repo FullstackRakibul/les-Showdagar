@@ -1,0 +1,31 @@
+{
+  "id": "nextstop",
+  "name": "NextStop",
+  "tagline": "Go Further.",
+  "category": "Travel & Experiences",
+  "description": "Every journey starts with preparation.",
+  "body": [
+    "Discover travel essentials, practical accessories, lifestyle companions, and products designed to make your next destination a little easier to reach."
+  ],
+  "icon": "Airplane01Icon",
+  "features": [
+    "Travel Ready",
+    "Practical Accessories",
+    "Outdoor Companions",
+    "Journey Essentials"
+  ],
+  "categories": [
+    "Travel Accessories",
+    "Bags & Luggage",
+    "Travel Essentials",
+    "Outdoor Products",
+    "Personal Travel Gear",
+    "Experience Essentials",
+    "Journey Accessories"
+  ],
+  "cta": {
+    "label": "Explore NextStop",
+    "link": "/club/nextstop",
+    "variant": "primary"
+  }
+}

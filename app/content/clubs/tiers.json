@@ -1,0 +1,51 @@
+[
+  {
+    "id": "tier-member",
+    "name": "Member",
+    "price": "Free",
+    "period": "",
+    "description": "Everything you need to browse, save, and order across all three clubs.",
+    "placeholder": true,
+    "features": [
+      { "label": "Browse all three clubs" },
+      { "label": "Wishlist and Clip Cart" },
+      { "label": "Order tracking" },
+      { "label": "Product requests" },
+      { "label": "Cash on Delivery across Bangladesh" }
+    ],
+    "cta": { "label": "Start Browsing", "link": "/products", "variant": "secondary" }
+  },
+  {
+    "id": "tier-premium",
+    "name": "Premium",
+    "price": "Coming soon",
+    "period": "",
+    "description": "Early access to new arrivals and selected offers before they open up.",
+    "recommended": true,
+    "placeholder": true,
+    "features": [
+      { "label": "Everything in Member" },
+      { "label": "Early access to new arrivals" },
+      { "label": "Members-only offers" },
+      { "label": "Priority product requests" },
+      { "label": "Priority support" }
+    ],
+    "cta": { "label": "Join the Waitlist", "link": "/messages", "variant": "primary" }
+  },
+  {
+    "id": "tier-business",
+    "name": "Business",
+    "price": "Coming soon",
+    "period": "",
+    "description": "For teams and businesses sourcing in volume across the catalogue.",
+    "placeholder": true,
+    "features": [
+      { "label": "Everything in Premium" },
+      { "label": "Volume pricing" },
+      { "label": "Dedicated account contact" },
+      { "label": "Consolidated invoicing" },
+      { "label": "Bulk product sourcing" }
+    ],
+    "cta": { "label": "Talk to Us", "link": "/messages", "variant": "secondary" }
+  }
+]
