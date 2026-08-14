@@ -1,23 +1,18 @@
 <template>
   <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-background">
 
-    <!-- Fallback gradient orbs (always rendered) -->
+    <!-- Static art-line image background -->
     <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-      <div class="orb orb--1" />
-      <div class="orb orb--2" />
-      <div class="orb orb--3" />
-      <div class="absolute inset-0 bg-background/75" />
+      <img src="../../assets/img/dashboard/rhbusinessclub-art-line-bg-.avif"
+        class="absolute inset-0 w-full h-full object-cover" alt="" fetchpriority="high" />
+      <div class="absolute inset-0 bg-background/55 dark:bg-background/65" />
     </div>
 
-    <!-- Local video background -->
-    <div class="absolute inset-0 z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-      <video class="absolute inset-0 w-full h-full object-cover" :src="bgVideo" autoplay muted loop playsinline
-        preload="auto" />
-      <div class="absolute inset-0 bg-background/30 dark:bg-background/40 backdrop-blur-[2px]" />
-    </div>
+    <!-- Particle canvas -->
+    <canvas ref="particleCanvas" class="absolute inset-0 z-10 pointer-events-none" aria-hidden="true" />
 
     <!-- Main content -->
-    <div class="relative z-10 w-full max-w-2xl mx-auto px-4 pt-20 flex flex-col items-center gap-7">
+    <div class="relative z-20 w-full max-w-2xl mx-auto px-4 pt-20 flex flex-col items-center gap-7">
 
       <!-- Brand label -->
       <div class="flex items-center gap-2">
@@ -104,7 +99,7 @@
     </div>
 
     <!-- Stats row -->
-    <div class="relative z-10 mt-16 mb-24 w-full max-w-sm mx-auto px-4">
+    <div class="relative z-20 mt-16 mb-24 w-full max-w-sm mx-auto px-4">
       <div class="grid grid-cols-3 gap-6">
         <div v-for="stat in stats" :key="stat.label" class="text-center group cursor-default">
           <p class="text-3xl font-bold text-foreground group-hover:text-quantum-500 transition-colors duration-300">
@@ -118,7 +113,7 @@
     </div>
 
     <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center cursor-pointer group"
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 text-center cursor-pointer group"
       @click="scrollToClips">
       <div
         class="w-7 h-12 border-2 border-muted-foreground/20 rounded-full flex items-start justify-center p-1.5 backdrop-blur-sm bg-card/20 hover:border-quantum-500/50 transition-colors duration-300 mx-auto">
@@ -131,10 +126,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { HugeiconsIcon } from '@hugeicons/vue'
-import bgVideo from '~/assets/video/rh-business-club-bg-video.mp4'
 import {
   Search01Icon,
   Camera01Icon,
@@ -152,6 +146,95 @@ const searchQuery = ref('')
 const showSuggestions = ref(false)
 const isListening = ref(false)
 const imageInput = ref<HTMLInputElement | null>(null)
+const particleCanvas = ref<HTMLCanvasElement | null>(null)
+
+// ── Particle system ────────────────────────────────────────────────────────────
+// E-commerce glyphs drawn as simple Unicode paths on canvas
+const GLYPHS = ['🛍', '🏷', '🛒', '📦', '💳', '⭐', '🎁', '✨']
+
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  size: number
+  glyph: string
+  alpha: number
+  alphaDir: number
+  rotation: number
+  rotSpeed: number
+}
+
+let animId = 0
+let particles: Particle[] = []
+
+function initParticles(w: number, h: number) {
+  particles = Array.from({ length: 38 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    vx: (Math.random() - 0.5) * 0.35,
+    vy: -(Math.random() * 0.4 + 0.15),
+    size: Math.random() * 14 + 10,
+    glyph: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
+    alpha: Math.random() * 0.4 + 0.05,
+    alphaDir: Math.random() > 0.5 ? 1 : -1,
+    rotation: Math.random() * Math.PI * 2,
+    rotSpeed: (Math.random() - 0.5) * 0.012,
+  }))
+}
+
+function tick(ctx: CanvasRenderingContext2D, w: number, h: number) {
+  ctx.clearRect(0, 0, w, h)
+  for (const p of particles) {
+    p.x += p.vx
+    p.y += p.vy
+    p.rotation += p.rotSpeed
+    p.alpha += p.alphaDir * 0.003
+    if (p.alpha >= 0.45) p.alphaDir = -1
+    if (p.alpha <= 0.04) p.alphaDir = 1
+
+    if (p.y < -p.size * 2) { p.y = h + p.size; p.x = Math.random() * w }
+    if (p.x < -p.size * 2) p.x = w + p.size
+    if (p.x > w + p.size * 2) p.x = -p.size
+
+    ctx.save()
+    ctx.globalAlpha = p.alpha
+    ctx.translate(p.x, p.y)
+    ctx.rotate(p.rotation)
+    ctx.font = `${p.size}px serif`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(p.glyph, 0, 0)
+    ctx.restore()
+  }
+  animId = requestAnimationFrame(() => tick(ctx, w, h))
+}
+
+function startParticles() {
+  const canvas = particleCanvas.value
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
+  const resize = () => {
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+    initParticles(canvas.width, canvas.height)
+  }
+  resize()
+  window.addEventListener('resize', resize)
+  tick(ctx, canvas.width, canvas.height)
+
+  onUnmounted(() => {
+    cancelAnimationFrame(animId)
+    window.removeEventListener('resize', resize)
+  })
+}
+
+onMounted(() => {
+  if (import.meta.client) startParticles()
+})
+// ──────────────────────────────────────────────────────────────────────────────
 
 const recentSearches = [
   'wireless headphones',
@@ -224,55 +307,10 @@ const scrollToClips = () => {
 </script>
 
 <style scoped>
-/* Background orbs */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.45;
-  animation: orbFloat 20s ease-in-out infinite;
-}
-
-.orb--1 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, oklch(0.55 0.18 220 / 0.4), transparent 70%);
-  top: -150px;
-  left: -100px;
-}
-
-.orb--2 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, oklch(0.55 0.22 300 / 0.35), transparent 70%);
-  top: 40%;
-  right: -120px;
-  animation-delay: -8s;
-}
-
-.orb--3 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, oklch(0.55 0.20 160 / 0.3), transparent 70%);
-  bottom: -80px;
-  left: 30%;
-  animation-delay: -14s;
-}
-
-@keyframes orbFloat {
-
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  33% {
-    transform: translate(25px, -35px) scale(1.04);
-  }
-
-  66% {
-    transform: translate(-20px, 25px) scale(0.97);
-  }
+/* Particle canvas fills the section */
+canvas {
+  width: 100%;
+  height: 100%;
 }
 
 /* Suggestions transition */
@@ -307,8 +345,6 @@ const scrollToClips = () => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
-  .orb,
   .animate-scroll-bounce {
     animation: none !important;
     opacity: 1 !important;
