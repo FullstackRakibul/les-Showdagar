@@ -2,11 +2,7 @@
   <div class="full-bleed bg-background">
 
     <!-- Hero -->
-    <section
-      id="shop-hero"
-      class="relative overflow-hidden bg-background"
-      aria-labelledby="shop-hero-title"
-    >
+    <section id="shop-hero" class="relative overflow-hidden bg-background" aria-labelledby="shop-hero-title">
       <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div class="orb orb--a" />
         <div class="orb orb--b" />
@@ -22,10 +18,7 @@
           <div class="h-px w-8 bg-quantum-500/60" />
         </div>
 
-        <h1
-          id="shop-hero-title"
-          class="text-4xl sm:text-5xl font-bold text-foreground leading-tight tracking-tight"
-        >
+        <h1 id="shop-hero-title" class="text-4xl sm:text-5xl font-bold text-foreground leading-tight tracking-tight">
           Everything in One Place.
         </h1>
 
@@ -39,19 +32,15 @@
 
         <div class="flex justify-center mt-9">
           <div class="flex flex-col sm:flex-row gap-3">
-            <button
-              type="button"
+            <button type="button"
               class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              @click="scrollTo('all-products')"
-            >
+              @click="scrollTo('all-products')">
               Browse the Collection
               <HugeiconsIcon :icon="resolveIcon('ArrowDown01Icon')" :size="15" />
             </button>
 
-            <NuxtLink
-              to="/DealsAndOffers"
-              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md border border-border bg-background text-foreground text-sm font-semibold hover:bg-secondary active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
+            <NuxtLink to="/DealsAndOffers"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md border border-border bg-background text-foreground text-sm font-semibold hover:bg-secondary active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
               Deals &amp; Offers
             </NuxtLink>
           </div>
@@ -70,8 +59,8 @@
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 space-y-8">
 
-    <!-- Promotional Section: Google Pixel 6A -->
-    <section
+      <!-- Promotional Section: Google Pixel 6A -->
+      <!-- <section
       class="relative overflow-hidden rounded-3xl p-6 sm:p-10 bg-linear-to-r from-emerald-500 to-teal-600 text-white">
       <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div>
@@ -107,62 +96,62 @@
           <div class="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <!-- Category Filter Bar -->
-    <section
-      class="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-      <div class="flex flex-wrap items-center gap-2">
-        <button v-for="category in productStore.categories" :key="category.name"
-          @click="productStore.selectedCategory = category.name" :class="[
-            'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
-            productStore.selectedCategory === category.name
-              ? 'bg-primary text-white'
-              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600',
-          ]">
-          {{ category.name }} ({{ category.count }})
-        </button>
-      </div>
-    </section>
-
-    <!-- All Products with Infinite Scroll -->
-    <section id="all-products" class="scroll-mt-28">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl lg:text-3xl font-bold text-foreground">
-          All Products
-        </h2>
-        <span class="text-sm text-muted-foreground">
-          Showing {{ displayedProducts.length }} of
-          {{ productStore.filteredProducts.length }}
-        </span>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <ProductCard v-for="product in displayedProducts" :key="product.id" :product="product" />
-      </div>
-
-      <!-- Empty State -->
-      <div v-if="displayedProducts.length === 0" class="text-center py-16">
-        <Search class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-6" />
-        <h3 class="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-3">
-          No products found
-        </h3>
-        <p class="text-gray-500 dark:text-gray-500 mb-6">
-          Try adjusting your search or filter criteria
-        </p>
-        <button @click="resetFilters"
-          class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl transition-colors font-semibold">
-          Clear Filters
-        </button>
-      </div>
-
-      <!-- Infinite Scroll Sentinel -->
-      <div ref="sentinel" class="h-12 flex items-center justify-center mt-6">
-        <div v-if="canLoadMore" class="text-gray-500 dark:text-gray-400 text-sm">
-          Loading more...
+      <!-- Category Filter Bar -->
+      <section
+        class="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex flex-wrap items-center gap-2">
+          <button v-for="category in productStore.categories" :key="category.name"
+            @click="productStore.selectedCategory = category.name" :class="[
+              'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+              productStore.selectedCategory === category.name
+                ? 'bg-primary text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600',
+            ]">
+            {{ category.name }} ({{ category.count }})
+          </button>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- All Products with Infinite Scroll -->
+      <section id="all-products" class="scroll-mt-28">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-2xl lg:text-3xl font-bold text-foreground">
+            All Products
+          </h2>
+          <span class="text-sm text-muted-foreground">
+            Showing {{ displayedProducts.length }} of
+            {{ productStore.filteredProducts.length }}
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <ProductCard v-for="product in displayedProducts" :key="product.id" :product="product" />
+        </div>
+
+        <!-- Empty State -->
+        <div v-if="displayedProducts.length === 0" class="text-center py-16">
+          <Search class="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-6" />
+          <h3 class="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-3">
+            No products found
+          </h3>
+          <p class="text-gray-500 dark:text-gray-500 mb-6">
+            Try adjusting your search or filter criteria
+          </p>
+          <button @click="resetFilters"
+            class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl transition-colors font-semibold">
+            Clear Filters
+          </button>
+        </div>
+
+        <!-- Infinite Scroll Sentinel -->
+        <div ref="sentinel" class="h-12 flex items-center justify-center mt-6">
+          <div v-if="canLoadMore" class="text-gray-500 dark:text-gray-400 text-sm">
+            Loading more...
+          </div>
+        </div>
+      </section>
 
     </div>
   </div>
@@ -292,6 +281,7 @@ const resetFilters = () => {
 }
 
 @keyframes orbFloat {
+
   0%,
   100% {
     transform: translate(0, 0) scale(1);
