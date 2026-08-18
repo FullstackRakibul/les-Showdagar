@@ -18,6 +18,9 @@
 
     <!-- Global product modal -->
     <ProductModal />
+
+    <!-- RabbITic AI assistant (Ctrl/Cmd+K) -->
+    <RabbITicFloatingButton />
   </div>
 </template>
 

@@ -39,8 +39,15 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // Server-only: the Nuxt route at /api/rabbitic/chat proxies to Ollama so the
+    // browser never talks to it directly (no CORS, system prompt stays server-side).
+    ollamaApiUrl: import.meta.env.OLLAMA_API_URL || 'http://localhost:11434',
+
     public: {
       apiBase: import.meta.env.NUXT_PUBLIC_API_BASE || '/api',
+      // RabbitIC (.NET) backend — auth + conversation persistence.
+      rabbiticApiUrl: import.meta.env.NUXT_PUBLIC_RABBITIC_API_URL || '',
+      rabbiticModel: import.meta.env.NUXT_PUBLIC_RABBITIC_MODEL || 'llama3',
     },
   },
 
