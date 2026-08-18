@@ -37,18 +37,18 @@
                 <p class="text-xs font-medium text-foreground line-clamp-1">{{ item.productName }}</p>
                 <p class="text-xs text-muted-foreground">Qty: {{ item.quantity }}</p>
               </div>
-              <span class="text-xs font-semibold text-foreground">৳{{ (item.price * item.quantity).toFixed(2) }}</span>
+              <Price :amount="item.price * item.quantity" class="text-xs font-semibold text-foreground" />
             </div>
           </div>
 
           <div class="border-t border-border pt-3 space-y-2 text-sm">
-            <div class="flex justify-between"><span class="text-muted-foreground">Subtotal</span><span>৳{{ subtotal.toFixed(2) }}</span></div>
-            <div class="flex justify-between"><span class="text-muted-foreground">Shipping</span><span>৳{{ shipping.toFixed(2) }}</span></div>
-            <div class="flex justify-between"><span class="text-muted-foreground">Tax</span><span>৳{{ tax.toFixed(2) }}</span></div>
+            <div class="flex justify-between"><span class="text-muted-foreground">Subtotal</span><Price :amount="subtotal" /></div>
+            <div class="flex justify-between"><span class="text-muted-foreground">Shipping</span><Price :amount="shipping" /></div>
+            <div class="flex justify-between"><span class="text-muted-foreground">Tax</span><Price :amount="tax" /></div>
           </div>
           <div class="border-t border-border pt-3 flex justify-between">
             <span class="font-semibold text-foreground">Total</span>
-            <span class="text-lg font-bold text-foreground">৳{{ grandTotal.toFixed(2) }}</span>
+            <Price :amount="grandTotal" class="text-lg font-bold text-foreground" />
           </div>
 
           <!-- Place order -->

@@ -48,7 +48,7 @@
               <button @click="cartStore.updateQuantity(item.productId, item.quantity + 1, item.selectedColor, item.selectedSize)"
                 class="w-5 h-5 rounded-full bg-muted hover:bg-secondary flex items-center justify-center text-xs font-bold transition-colors">+</button>
             </div>
-            <span class="text-sm font-semibold text-foreground">৳{{ (item.price * item.quantity).toFixed(2) }}</span>
+            <Price :amount="item.price * item.quantity" class="text-sm font-semibold text-foreground" />
           </div>
         </div>
         <button @click="cartStore.removeItem(item.productId, item.selectedColor, item.selectedSize)"
@@ -62,7 +62,7 @@
     <div v-if="cartStore.items.length > 0" class="p-4 border-t border-border space-y-3">
       <div class="flex items-center justify-between text-sm">
         <span class="text-muted-foreground">Subtotal</span>
-        <span class="font-semibold text-foreground">৳{{ cartStore.total.toFixed(2) }}</span>
+        <Price :amount="cartStore.total" class="font-semibold text-foreground" />
       </div>
       <div class="grid grid-cols-2 gap-2">
         <NuxtLink to="/cart" @click="layoutStore.closeRightSidebar()"

@@ -33,12 +33,8 @@
           {{ product.name }}
         </h3>
         <div class="flex items-baseline gap-1.5 mt-1">
-          <span class="text-base font-bold text-foreground">
-            ${{ product.price }}
-          </span>
-          <span v-if="product.originalPrice" class="text-xs text-muted-foreground line-through">
-            ${{ product.originalPrice }}
-          </span>
+          <Price :amount="product.price" class="text-base font-bold text-foreground" />
+          <Price v-if="product.originalPrice" :amount="product.originalPrice" class="text-xs text-muted-foreground line-through" />
         </div>
       </div>
 

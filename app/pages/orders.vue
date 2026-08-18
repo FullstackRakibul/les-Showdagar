@@ -65,7 +65,7 @@
               </span>
             </div>
             <div class="flex items-center gap-4">
-              <span class="text-xl font-bold text-foreground">${{ order.total.toFixed(2) }}</span>
+              <Price :amount="order.total" class="text-xl font-bold text-foreground" />
               <button @click="viewOrder(order)"
                 class="px-4 py-1.5 text-sm bg-primary/10 text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-all duration-200 font-medium">
                 View Details
@@ -96,7 +96,7 @@
               <span>{{ getProgressPercentage(order.status) }}%</span>
             </div>
             <div class="h-1.5 bg-muted rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-primary to-ring rounded-full transition-all duration-500"
+              <div class="h-full bg-linear-to-r from-primary to-ring rounded-full transition-all duration-500"
                 :style="{ width: getProgressPercentage(order.status) + '%' }" />
             </div>
           </div>
@@ -144,7 +144,7 @@
                     </div>
                     <div>
                       <span class="text-muted-foreground">Total</span>
-                      <p class="text-xl font-bold text-foreground mt-0.5">${{ selectedOrder.total.toFixed(2) }}</p>
+                      <Price :amount="selectedOrder.total" class="text-xl font-bold text-foreground mt-0.5" />
                     </div>
                   </div>
                 </div>
@@ -193,7 +193,7 @@
                         <p class="text-sm text-muted-foreground mt-0.5">Quantity: {{ item.quantity }}</p>
                       </div>
                       <div class="text-right">
-                        <p class="font-semibold text-foreground">${{ (item.price * item.quantity).toFixed(2) }}</p>
+                        <Price :amount="item.price * item.quantity" class="font-semibold text-foreground" />
                       </div>
                     </div>
                   </div>

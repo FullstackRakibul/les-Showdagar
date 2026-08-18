@@ -33,6 +33,7 @@ pnpm-debug.log*
 # OS Files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Local env files
 .env
@@ -42,6 +43,27 @@ Thumbs.db
 # Test results
 coverage/
 .nyc_output/
+*.lcov
 
 # Docker
 .docker/
+
+# TypeScript
+*.tsbuildinfo
+
+# Yarn / pnpm / bun lockfiles (keep only one)
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# Temporary / generated
+*.local
+*.tmp
+*.temp
+.turbo/
+.vercel/
+.netlify/
+
+# Nuxt analyze
+.nuxt-analyze/
+analyze/

@@ -24,7 +24,7 @@
         <span>›</span>
         <NuxtLink :to="`/category/${product.categoryId}`" class="hover:text-foreground transition-colors capitalize">{{ product.category }}</NuxtLink>
         <span>›</span>
-        <span class="text-foreground truncate max-w-[160px]">{{ product.name }}</span>
+        <span class="text-foreground truncate max-w-40">{{ product.name }}</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -56,8 +56,8 @@
 
           <!-- Price -->
           <div class="flex items-baseline gap-3">
-            <span class="text-3xl font-bold text-foreground">৳{{ product.price }}</span>
-            <span v-if="product.originalPrice" class="text-lg text-muted-foreground line-through">৳{{ product.originalPrice }}</span>
+            <Price :amount="product.price" class="text-3xl font-bold text-foreground" />
+            <Price v-if="product.originalPrice" :amount="product.originalPrice" class="text-lg text-muted-foreground line-through" />
             <span v-if="product.originalPrice" class="text-xs font-semibold text-nextstop-600 bg-nextstop-50 px-2 py-0.5 rounded-full">
               {{ Math.round((1 - product.price / product.originalPrice) * 100) }}% off
             </span>

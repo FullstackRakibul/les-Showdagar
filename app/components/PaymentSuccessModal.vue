@@ -45,9 +45,7 @@
                 <span class="text-sm text-gray-600 dark:text-gray-400"
                   >Total Amount:</span
                 >
-                <span class="font-semibold text-lg text-primary"
-                  >${{ checkoutStore.currentOrder.total.toFixed(2) }}</span
-                >
+                <Price :amount="checkoutStore.currentOrder.total" class="font-semibold text-lg text-primary" />
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600 dark:text-gray-400">Items:</span>

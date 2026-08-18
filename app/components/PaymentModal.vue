@@ -43,7 +43,7 @@
             <div class="border-t border-border" />
             <div class="flex items-center justify-between text-xs">
               <span class="text-muted-foreground">Total</span>
-              <span class="font-semibold text-foreground text-sm">৳{{ checkoutStore.currentOrder?.total.toFixed(2) }}</span>
+              <Price v-if="checkoutStore.currentOrder" :amount="checkoutStore.currentOrder.total" class="font-semibold text-foreground text-sm" />
             </div>
           </div>
 

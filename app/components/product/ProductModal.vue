@@ -101,17 +101,13 @@
                     <div class="flex items-center justify-between pt-3">
                       <span class="text-sm text-muted-foreground">Price</span>
                       <div class="flex items-baseline gap-2">
-                        <span class="text-lg font-bold text-primary">${{ product.price }}</span>
-                        <span v-if="product.originalPrice" class="text-sm text-muted-foreground line-through">${{
-                          product.originalPrice }}</span>
+                        <Price :amount="product.price" class="text-lg font-bold text-primary" />
+                        <Price v-if="product.originalPrice" :amount="product.originalPrice" class="text-sm text-muted-foreground line-through" />
                       </div>
                     </div>
                     <div v-if="product.originalPrice" class="flex items-center justify-between pb-1">
                       <span class="text-sm text-muted-foreground">You Save</span>
-                      <span
-                        class="text-xs font-semibold px-2.5 py-1 rounded-md bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400">
-                        ${{ (product.originalPrice - product.price).toFixed(2) }}
-                      </span>
+                      <Price :amount="product.originalPrice - product.price" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-400" />
                     </div>
                   </div>
                 </div>

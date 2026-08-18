@@ -70,8 +70,8 @@
       <h3 class="product-title">{{ clip.title }}</h3>
       <div class="product-pricing">
         <div class="price-group">
-          <span class="current-price">৳{{ clip.price }}</span>
-          <span v-if="clip.originalPrice" class="original-price">৳{{ clip.originalPrice }}</span>
+          <Price :amount="clip.price" class="current-price" />
+          <Price v-if="clip.originalPrice" :amount="clip.originalPrice" class="original-price" />
           <span v-if="discountPercent" class="discount-badge">-{{ discountPercent }}%</span>
         </div>
         <Button size="sm" class="buy-now-btn group" @click.stop="handleBuyNow">

@@ -21,7 +21,7 @@
           <div class="flex items-center space-x-3">
             <div class="relative">
               <div
-                class="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold">
+                class="w-12 h-12 bg-linear-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold">
                 {{ conversation.name.charAt(0) }}
               </div>
               <div v-if="conversation.online"
@@ -65,7 +65,7 @@
             <div class="flex items-center space-x-3">
               <div class="relative">
                 <div
-                  class="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold">
+                  class="w-10 h-10 bg-linear-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-semibold">
                   {{ selectedConversation.name.charAt(0) }}
                 </div>
                 <div v-if="selectedConversation.online"

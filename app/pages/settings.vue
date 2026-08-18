@@ -338,13 +338,25 @@
                 </div>
                 <div>
                   <label class="field-label">Currency</label>
-                  <select v-model="appDraft.currency" class="field">
-                    <option value="USD">USD — US Dollar</option>
-                    <option value="EUR">EUR — Euro</option>
-                    <option value="GBP">GBP — British Pound</option>
-                    <option value="CAD">CAD — Canadian Dollar</option>
-                    <option value="AUD">AUD — Australian Dollar</option>
+                  <select
+                    :value="currencyStore.displayCurrency"
+                    class="field"
+                    @change="currencyStore.setCurrency(($event.target as HTMLSelectElement).value)"
+                  >
+                    <option value="BDT">BDT — Bangladeshi Taka (৳)</option>
+                    <option value="USD">USD — US Dollar ($)</option>
+                    <option value="EUR">EUR — Euro (€)</option>
+                    <option value="GBP">GBP — British Pound (£)</option>
+                    <option value="CAD">CAD — Canadian Dollar (CA$)</option>
+                    <option value="AUD">AUD — Australian Dollar (A$)</option>
+                    <option value="SGD">SGD — Singapore Dollar (S$)</option>
+                    <option value="INR">INR — Indian Rupee (₹)</option>
+                    <option value="AED">AED — UAE Dirham (د.إ)</option>
+                    <option value="SAR">SAR — Saudi Riyal (ر.س)</option>
                   </select>
+                  <p class="text-xs text-muted-foreground mt-1.5">
+                    All prices display in your selected currency. Base: BDT (৳)
+                  </p>
                 </div>
               </div>
 
@@ -364,6 +376,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { User, Shield, Bell, Lock, Palette, Check, Sun, Moon } from 'lucide-vue-next'
 import { useTheme } from '@/composables/useTheme'
+import { useCurrencyStore } from '@/stores/currency'
 import {
   useSettingsStore,
   type NotificationSettings,
@@ -373,6 +386,7 @@ import {
 } from '@/stores/settings'
 
 const settings = useSettingsStore()
+const currencyStore = useCurrencyStore()
 const { isDark, accentHue, setDark, setAccent, load: loadTheme } = useTheme()
 
 type SectionKey = 'profile' | 'account' | 'notifications' | 'privacy' | 'appearance'

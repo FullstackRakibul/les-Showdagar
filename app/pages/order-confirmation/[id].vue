@@ -23,17 +23,17 @@
             <p class="text-sm font-medium text-foreground line-clamp-1">{{ item.productName }}</p>
             <p class="text-xs text-muted-foreground">Qty: {{ item.quantity }}</p>
           </div>
-          <span class="text-sm font-semibold text-foreground">৳{{ (item.price * item.quantity).toFixed(2) }}</span>
+          <Price :amount="item.price * item.quantity" class="text-sm font-semibold text-foreground" />
         </div>
       </div>
 
       <div class="border-t border-border pt-4 space-y-1.5 text-sm">
-        <div class="flex justify-between"><span class="text-muted-foreground">Subtotal</span><span>৳{{ order.subtotal?.toFixed(2) }}</span></div>
-        <div class="flex justify-between"><span class="text-muted-foreground">Shipping</span><span>৳{{ order.shipping?.toFixed(2) }}</span></div>
-        <div class="flex justify-between"><span class="text-muted-foreground">Tax</span><span>৳{{ order.tax?.toFixed(2) }}</span></div>
+        <div class="flex justify-between"><span class="text-muted-foreground">Subtotal</span><Price v-if="order.subtotal != null" :amount="order.subtotal" /></div>
+        <div class="flex justify-between"><span class="text-muted-foreground">Shipping</span><Price v-if="order.shipping != null" :amount="order.shipping" /></div>
+        <div class="flex justify-between"><span class="text-muted-foreground">Tax</span><Price v-if="order.tax != null" :amount="order.tax" /></div>
         <div class="flex justify-between font-bold text-base pt-1 border-t border-border">
           <span class="text-foreground">Total</span>
-          <span class="text-foreground">৳{{ order.total?.toFixed(2) }}</span>
+          <Price v-if="order.total != null" :amount="order.total" class="text-foreground" />
         </div>
       </div>
 

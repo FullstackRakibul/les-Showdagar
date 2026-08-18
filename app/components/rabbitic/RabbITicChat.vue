@@ -257,10 +257,13 @@ async function send(preset?: string) {
 
 async function stream(text: string) {
   store.isStreaming = true
-  // History excludes the message being answered — it is passed separately.
+  // History excludes the user message being answered — it is passed separately as `text`.
   const history = store.messages.slice(0, -1).map(m => ({ role: m.role, content: m.content }))
-  store.addMessage('assistant', '')
+  // Do NOT pre-create the assistant bubble. The typing indicator shows until the
+  // first token lands, at which point we create the message with that token.
   await scrollToBottom(true)
+
+  let assistantStarted = false
 
   controller = sendMessageStream(
     text,
@@ -270,16 +273,23 @@ async function stream(text: string) {
     buildSystemPrompt(),
     {
       onToken: (token) => {
-        store.appendToLast(token)
+        if (!assistantStarted) {
+          store.addMessage('assistant', token)
+          assistantStarted = true
+        } else {
+          store.appendToLast(token)
+        }
         scrollToBottom()
       },
       onComplete: (conversationId) => {
+        if (!assistantStarted) store.addMessage('assistant', '')
         store.isStreaming = false
         controller = null
         if (conversationId) store.conversationId = conversationId
         store.persist()
       },
       onError: (err) => {
+        if (!assistantStarted) store.addMessage('assistant', '')
         store.isStreaming = false
         controller = null
         store.error = err.message

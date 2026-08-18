@@ -42,9 +42,8 @@
 
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-2">
-              <span class="text-lg font-bold text-gray-900 dark:text-white">${{ item.price }}</span>
-              <span v-if="item.originalPrice" class="text-sm text-gray-500 line-through">${{ item.originalPrice
-              }}</span>
+              <Price :amount="item.price" class="text-lg font-bold text-gray-900 dark:text-white" />
+              <Price v-if="item.originalPrice" :amount="item.originalPrice" class="text-sm text-gray-500 line-through" />
             </div>
             <div class="flex items-center">
               <LucideStar class="w-4 h-4 text-yellow-400 fill-current" />

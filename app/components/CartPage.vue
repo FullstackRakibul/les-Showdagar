@@ -69,14 +69,12 @@
                     <span v-if="item.selectedColor" class="text-[10px] bg-muted px-2 py-0.5 rounded text-muted-foreground">{{ item.selectedColor }}</span>
                     <span v-if="item.selectedSize" class="text-[10px] bg-muted px-2 py-0.5 rounded text-muted-foreground">{{ item.selectedSize }}</span>
                   </div>
-                  <p class="text-xs text-muted-foreground mt-1.5">৳{{ item.price }} each</p>
+                  <p class="text-xs text-muted-foreground mt-1.5 flex items-center gap-0.5"><Price :amount="item.price" /> each</p>
                 </div>
 
                 <!-- Qty + price + remove -->
                 <div class="shrink-0 flex flex-col items-end gap-3">
-                  <span class="text-base font-bold text-foreground">
-                    ৳{{ (item.price * item.quantity).toFixed(2) }}
-                  </span>
+                  <Price :amount="item.price * item.quantity" class="text-base font-bold text-foreground" />
                   <div class="flex items-center gap-1.5">
                     <button
                       class="w-6 h-6 rounded-full bg-muted hover:bg-secondary flex items-center justify-center text-sm font-bold transition-colors active:scale-90"
@@ -117,27 +115,28 @@
               <div class="space-y-2 text-sm">
                 <div class="flex justify-between text-muted-foreground">
                   <span>Subtotal ({{ cartStore.count }} items)</span>
-                  <span class="text-foreground font-medium">৳{{ cartStore.total.toFixed(2) }}</span>
+                  <Price :amount="cartStore.total" class="text-foreground font-medium" />
                 </div>
                 <div class="flex justify-between text-muted-foreground">
                   <span>Shipping</span>
                   <span class="font-medium" :class="shipping === 0 ? 'text-nextstop-500' : 'text-foreground'">
-                    {{ shipping === 0 ? 'Free' : `৳${shipping.toFixed(2)}` }}
+                    <template v-if="shipping === 0">Free</template>
+                    <Price v-else :amount="shipping" />
                   </span>
                 </div>
                 <div class="flex justify-between text-muted-foreground">
                   <span>Tax (8%)</span>
-                  <span class="text-foreground font-medium">৳{{ tax.toFixed(2) }}</span>
+                  <Price :amount="tax" class="text-foreground font-medium" />
                 </div>
               </div>
 
               <div class="border-t border-border pt-3 flex justify-between items-center">
                 <span class="font-semibold text-foreground">Total</span>
-                <span class="text-xl font-bold text-foreground">৳{{ grandTotal.toFixed(2) }}</span>
+                <Price :amount="grandTotal" class="text-xl font-bold text-foreground" />
               </div>
 
               <div v-if="shipping > 0" class="text-xs text-muted-foreground bg-muted/50 rounded-md px-3 py-2">
-                Add ৳{{ (1000 - cartStore.total).toFixed(0) }} more for free shipping
+                Add <Price :amount="1000 - cartStore.total" /> more for free shipping
               </div>
 
               <NuxtLink

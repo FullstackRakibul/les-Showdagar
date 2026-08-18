@@ -107,9 +107,8 @@
 
             <div class="reel-price-row">
               <div class="reel-price-group">
-                <span class="reel-price">৳{{ clip.price.toLocaleString() }}</span>
-                <span v-if="clip.originalPrice" class="reel-original-price">৳{{ clip.originalPrice.toLocaleString()
-                  }}</span>
+                <Price :amount="clip.price" class="reel-price" />
+                <Price v-if="clip.originalPrice" :amount="clip.originalPrice" class="reel-original-price" />
                 <span v-if="discountPercent" class="reel-discount">-{{ discountPercent }}%</span>
               </div>
 

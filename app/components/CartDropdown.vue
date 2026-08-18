@@ -71,8 +71,8 @@
               />
               <div class="flex-1 min-w-0">
                 <p class="text-xs font-medium text-foreground line-clamp-1">{{ item.productName }}</p>
-                <p class="text-xs text-muted-foreground mt-0.5">
-                  ৳{{ item.price }} × {{ item.quantity }}
+                <p class="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
+                  <Price :amount="item.price" /> × {{ item.quantity }}
                 </p>
                 <div class="flex gap-1 mt-1">
                   <span v-if="item.selectedColor" class="text-[10px] bg-muted px-1.5 py-0.5 rounded text-muted-foreground">{{ item.selectedColor }}</span>
@@ -80,9 +80,7 @@
                 </div>
               </div>
               <div class="shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs font-semibold text-foreground">
-                  ৳{{ (item.price * item.quantity).toFixed(2) }}
-                </span>
+                <Price :amount="item.price * item.quantity" class="text-xs font-semibold text-foreground" />
                 <button
                   class="text-muted-foreground hover:text-destructive transition-colors"
                   aria-label="Remove item"
@@ -99,7 +97,7 @@
         <div v-if="cartStore.items.length > 0" class="px-4 py-3 border-t border-border space-y-3 bg-muted/30">
           <div class="flex items-center justify-between text-sm">
             <span class="text-muted-foreground">Subtotal</span>
-            <span class="font-semibold text-foreground">৳{{ cartStore.total.toFixed(2) }}</span>
+            <Price :amount="cartStore.total" class="font-semibold text-foreground" />
           </div>
           <div class="grid grid-cols-2 gap-2">
             <button
