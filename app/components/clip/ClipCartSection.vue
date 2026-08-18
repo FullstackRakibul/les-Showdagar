@@ -59,7 +59,7 @@
           <div v-for="(clip, index) in filteredClips" :key="clip.id"
             class="shrink-0 w-37.5 min-[480px]:w-42.5 sm:w-45 md:w-50 lg:w-55 snap-start animate-fadeInUp"
             :style="{ animationDelay: `${index * 0.08}s` }">
-            <ClipCard :clip="clip" orientation="vertical" @add-to-cart="handleAddToCart" />
+            <ClipCard :clip="clip" orientation="vertical" @add-to-cart="handleAddToCart" @open-reel="openReel" />
           </div>
 
           <!-- View All card -->
@@ -102,15 +102,22 @@
 
     </div>
   </section>
+
+  <ClipReelModal
+    v-model="reelOpen"
+    :clips="filteredClips"
+    :start-index="reelStartIndex"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useClipCartStore } from '@/stores/clipCart'
+import { useClipCartStore, type ClipProduct } from '@/stores/clipCart'
 import { useCartStore } from '@/stores/cart'
 import { useProductStore } from '@/stores/products'
 import ClipCard from '@/components/clip/ClipCard.vue'
+import ClipReelModal from '@/components/clip/ClipReelModal.vue'
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
   ArrowRight01Icon,
@@ -141,6 +148,15 @@ const activeCategory = ref('all')
 const scrollContainer = ref<HTMLElement | null>(null)
 const canScrollLeft = ref(false)
 const canScrollRight = ref(true)
+
+const reelOpen = ref(false)
+const reelStartIndex = ref(0)
+
+function openReel(clip: ClipProduct) {
+  const idx = filteredClips.value.findIndex(c => c.id === clip.id)
+  reelStartIndex.value = idx >= 0 ? idx : 0
+  reelOpen.value = true
+}
 
 const filteredClips = computed(() => {
   const clips = clipCartStore.featuredClips

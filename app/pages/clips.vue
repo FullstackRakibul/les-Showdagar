@@ -51,19 +51,26 @@
 
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 auto-rows-fr">
         <ClipCard v-for="clip in filteredClips" :key="clip.id" :clip="clip" orientation="vertical"
-          @add-to-cart="handleAddToCart" />
+          @add-to-cart="handleAddToCart" @open-reel="openReel" />
       </div>
     </div>
+
+    <ClipReelModal
+      v-model="reelOpen"
+      :clips="filteredClips"
+      :start-index="reelStartIndex"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useClipCartStore } from '@/stores/clipCart'
+import { useClipCartStore, type ClipProduct } from '@/stores/clipCart'
 import { useCartStore } from '@/stores/cart'
 import { useProductStore } from '@/stores/products'
 import ClipCard from '@/components/clip/ClipCard.vue'
+import ClipReelModal from '@/components/clip/ClipReelModal.vue'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import {
@@ -81,6 +88,14 @@ const productStore = useProductStore()
 
 const isLoading = ref(false)
 const activeCategory = ref('all')
+const reelOpen = ref(false)
+const reelStartIndex = ref(0)
+
+function openReel(clip: ClipProduct) {
+  const idx = filteredClips.value.findIndex(c => c.id === clip.id)
+  reelStartIndex.value = idx >= 0 ? idx : 0
+  reelOpen.value = true
+}
 
 const categories = [
   { id: 'all', name: 'All', icon: GridIcon },

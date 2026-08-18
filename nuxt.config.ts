@@ -52,6 +52,12 @@ export default defineNuxtConfig({
   // live in `server/` at the repo root. Without this every /api/* route 404s.
   serverDir: 'server/',
 
+  nitro: {
+    routeRules: {
+      '/video/**': { headers: { 'content-type': 'video/mp4' }, static: true },
+    },
+  },
+
   experimental: {
     // Vite's dependency scanner probes `#app-manifest` before Nuxt registers
     // that virtual module, logging a "Failed to resolve import" error on every

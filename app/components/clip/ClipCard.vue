@@ -1,7 +1,6 @@
 <template>
   <div class="clip-card group" :class="[`clip-card--${orientation}`, { 'clip-card--playing': isPlaying }]"
     @click="handleCardClick" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
-
     <!-- Video/Poster Container -->
     <div class="media-container">
       <img v-show="!isPlaying" :src="clip.posterUrl" :alt="clip.title" class="poster-image" loading="lazy" />
@@ -22,7 +21,7 @@
     <div class="gradient-overlay gradient-overlay--bottom" />
 
     <Transition name="fade">
-      <div v-if="!isPlaying" class="play-button-container">
+      <div v-if="!isPlaying" class="play-button-container" @click.stop="emit('open-reel', clip)">
         <div class="play-button">
           <div class="play-button-ring" />
           <HugeiconsIcon :icon="PlayIcon" :size="24" class="play-icon" />
@@ -123,6 +122,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (e: 'add-to-cart', clip: ClipProduct): void
+  (e: 'open-reel', clip: ClipProduct): void
 }>()
 
 const router = useRouter()

@@ -22,6 +22,8 @@ export interface ClipAnalytics {
   clicks: number
   orders: number
 }
+
+
 //test ok
 export const useClipCartStore = defineStore('clipCart', () => {
   // State
@@ -29,9 +31,9 @@ export const useClipCartStore = defineStore('clipCart', () => {
     {
       id: 'clip-1',
       productId: 1,
-      sourceType: 'youtube',
-      youtubeId: 'dQw4w9WgXcQ',
-      videoUrl: '',
+      sourceType: 'local',
+      youtubeId: '',
+      videoUrl: '/video/rh-business-vlub-v-02.mp4',
       posterUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80',
       title: 'Premium Wireless Headphones',
       description: 'Experience crystal-clear audio with our flagship wireless headphones',
@@ -141,6 +143,61 @@ export const useClipCartStore = defineStore('clipCart', () => {
       originalPrice: 24000,
       club: 'elegance',
       duration: 25,
+      featured: true,
+    },
+    {
+      id: 'clip-9',
+      productId: 9,
+      sourceType: 'local',
+      videoUrl: '/video/rh-business-club-bg-video.mp4',
+      posterUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80',
+      title: 'RH Business Club — Brand Film',
+      description: 'The world of RH Business Club — where ambition meets refined commerce',
+      price: 0,
+      club: 'quantum',
+      duration: 30,
+      featured: true,
+    },
+    {
+      id: 'clip-10',
+      productId: 10,
+      sourceType: 'local',
+      videoUrl: '/video/rh-business-vlub-v-02.mp4',
+      posterUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&q=80',
+      title: 'Style Redefined — Elegance Edit',
+      description: 'Discover the latest Elegance Club collection in motion',
+      price: 22000,
+      originalPrice: 28000,
+      club: 'elegance',
+      duration: 30,
+      featured: true,
+    },
+    {
+      id: 'clip-11',
+      productId: 11,
+      sourceType: 'local',
+      videoUrl: '/video/rh-business-vlub-v-03.mp4',
+      posterUrl: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80',
+      title: 'Fashion Forward — Season Drop',
+      description: 'This season\'s curated picks for the modern professional',
+      price: 19500,
+      originalPrice: 25000,
+      club: 'elegance',
+      duration: 30,
+      featured: true,
+    },
+    {
+      id: 'clip-12',
+      productId: 12,
+      sourceType: 'local',
+      videoUrl: '/video/rh-business-club-bg-video.mp4',
+      posterUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80',
+      title: 'NextStop — Journey Awaits',
+      description: 'Exclusive travel experiences curated for club members',
+      price: 15000,
+      originalPrice: 18000,
+      club: 'nextstop',
+      duration: 30,
       featured: true,
     },
   ])

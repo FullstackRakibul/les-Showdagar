@@ -50,7 +50,7 @@ export const useCheckoutStore = defineStore('checkout', () => {
     paymentError.value = null
     try {
       const order = await createOrder(cartItems, totals)
-      await processPayment(order.id, { method: paymentInfo.value.method, ...paymentInfo.value })
+      await processPayment(order.id, { ...paymentInfo.value, method: paymentInfo.value.method })
 
       const completedOrder: Order = { ...order, status: 'completed' }
       orders.value.push(completedOrder)

@@ -26,7 +26,7 @@ To become the definitive platform where professional identity and commercial int
 |---|---|
 | Framework | Nuxt 3.17 (SSR enabled, `srcDir: app/`) |
 | UI Layer | Vue 3.5 + shadcn-vue + Radix Vue |
-| State | Pinia 3 (8 stores) |
+| State | Pinia 3 (9 stores) |
 | Styling | Tailwind CSS 4 (`@tailwindcss/vite`, `@theme` tokens, oklch colors) |
 | Icons | Lucide Vue Next, HugeIcons, FontAwesome Free |
 | Scroll | Lenis 1.3 (smooth scroll, client-only, scoped to main scroll container) |
@@ -64,7 +64,9 @@ Club colors are baked into the design system as fixed `@theme` tokens (`--color-
 ### Clip Cart
 A secondary purchase flow where products are "clipped" (saved for quick re-order). Managed by `stores/clipCart.ts` and rendered via `ClipCartSection` on the homepage and `pages/clips.vue`.
 
-### Club Membership
+### Club System
+- `pages/clubs/index.vue` — clubs directory/listing
+- `pages/club/[id].vue` — dynamic individual club detail (hero, benefits grid, events list, testimonials, FAQ, CTA)
 - `pages/club/membership.vue` — join / manage tier
 - `pages/club/benefits.vue` — tier-specific perks
 - `pages/club/events.vue` — club events calendar
@@ -75,7 +77,11 @@ A secondary purchase flow where products are "clipped" (saved for quick re-order
 - `NotificationDropdown` in the header for inline tray access
 
 ### Product Request
-A homepage section (`ProductRequestSection`) lets members request products not yet in the catalog.
+- `pages/product-request.vue` — standalone page for requesting products not yet in the catalog
+- `ProductRequestSection` on the homepage also surfaces this flow
+
+### Contact
+- `pages/contact.vue` — contact page backed by a full `contact/` component suite (hero, form, FAQ, company info, support categories)
 
 ---
 
@@ -84,10 +90,10 @@ A homepage section (`ProductRequestSection`) lets members request products not y
 ```
 les-showdagar-ecommerce/
 ├── app/                        <- Nuxt srcDir (all application code)
-│   ├── app.vue                 <- Root layout: dual sidebars, header, page slot, Lenis init
+│   ├── app.vue                 <- Root layout: header, main scroll area, ThemeToggleButton, ProductModal
 │   ├── error.vue               <- Error boundary
 │   ├── pages/
-│   │   ├── index.vue           <- Homepage: HeroSearch, ClipCartSection, FeaturedProducts, BusinessClubs, ProductRequest
+│   │   ├── index.vue           <- Homepage: HeroSearch, HeroBanner, ClipCartSection, FeaturedProducts, BusinessClubs, ProductRequest
 │   │   ├── browse.vue          <- Product browsing
 │   │   ├── products.vue        <- Full product listing
 │   │   ├── shop.vue            <- Shop view
@@ -101,11 +107,16 @@ les-showdagar-ecommerce/
 │   │   ├── settings.vue
 │   │   ├── about.vue
 │   │   ├── login.vue
+│   │   ├── contact.vue         <- Contact page
+│   │   ├── product-request.vue <- Product request submission
 │   │   ├── DealsAndOffers.vue
 │   │   ├── product/[slug].vue  <- Product detail (dynamic)
 │   │   ├── category/[slug].vue <- Category listing (dynamic)
 │   │   ├── order-confirmation/[id].vue
+│   │   ├── clubs/
+│   │   │   └── index.vue       <- Clubs directory listing
 │   │   └── club/
+│   │       ├── [id].vue        <- Individual club detail (dynamic)
 │   │       ├── membership.vue
 │   │       ├── benefits.vue
 │   │       └── events.vue
@@ -115,6 +126,7 @@ les-showdagar-ecommerce/
 │   │   ├── LeftSidebar.vue     <- Nav sidebar (togglable, desktop + mobile)
 │   │   ├── RightSidebar.vue    <- Cart/notifications sidebar (togglable)
 │   │   ├── MobileNavigator.vue
+│   │   ├── ErrorLayout.vue     <- Custom error page layout
 │   │   ├── ThemeToggleButton.vue <- Fixed bottom-right floating toggle
 │   │   ├── ThemeSettings.vue
 │   │   ├── CartDrawer.vue
@@ -127,9 +139,17 @@ les-showdagar-ecommerce/
 │   │   ├── ClipToCartButton.vue
 │   │   ├── CategoryCard.vue
 │   │   ├── header/             <- Topbar.vue, HeaderMegamenu.vue
-│   │   ├── index/              <- HeroSearch, HeroBanner, FeaturedProducts, BusinessClubsSection, ProductRequestSection, ClubCard
+│   │   ├── index/              <- HeroSearch, HeroBanner, HeroSectionBanner, herosection/HeroSectionOne,
+│   │   │                          FeaturedProducts, BusinessClubsSection, OurSpecializedBusinessClubs,
+│   │   │                          ClubCard, ProductRequestSection
 │   │   ├── clip/               <- ClipCartSection, ClipCard
 │   │   ├── product/            <- ProductModal, ProductCard, ProductGrid
+│   │   ├── club/               <- ClubHero, ClubCardLarge, ClubBenefitsGrid, ClubEventsList,
+│   │   │                          ClubMembershipTiers, ClubFAQ, ClubCTA, ClubTestimonials
+│   │   ├── contact/            <- ContactHero, ContactForm, ContactFAQ, ContactCompanyInfo,
+│   │   │                          ContactSupportCategory
+│   │   ├── content/            <- Generic content system: ContentCard, ContentCTA, ContentClubCard,
+│   │   │                          ContentGrid, ContentHero, ContentSection, FeaturePill
 │   │   ├── footer/             <- NewsletterSubscription
 │   │   └── ui/                 <- shadcn-vue primitives: button, input, label
 │   ├── stores/
@@ -140,12 +160,22 @@ les-showdagar-ecommerce/
 │   │   ├── checkout.ts         <- Checkout step state
 │   │   ├── products.ts         <- Product catalog + filters
 │   │   ├── categories.ts       <- Category data
+│   │   ├── contentStore.ts     <- Content system state
 │   │   └── settings.ts         <- User settings
 │   ├── composables/
 │   │   ├── useTheme.ts         <- Dark/light toggle + accent hue (singleton, localStorage)
 │   │   ├── useProducts.ts      <- Product fetching/filtering
+│   │   ├── useClubProducts.ts  <- Club-scoped product filtering
 │   │   ├── useLayout.ts        <- Layout utilities
 │   │   ├── useSmoothScroll.ts  <- Lenis integration
+│   │   ├── useApi.ts           <- API fetch wrapper
+│   │   ├── useCardTilt.ts      <- 3D tilt effect for cards
+│   │   ├── useClipAnimation.ts <- Clip cart animation logic
+│   │   ├── useContactForm.ts   <- Contact form state + submission
+│   │   ├── useContentContext.ts <- Content system context
+│   │   ├── useContentIcons.ts  <- Icon mapping for content components
+│   │   ├── useMessageSuggestions.ts <- Message autocomplete suggestions
+│   │   ├── useScrollReveal.ts  <- Scroll-triggered reveal animations
 │   │   ├── useIcons.ts
 │   │   └── useHugeIcons.ts
 │   ├── plugins/
@@ -182,6 +212,10 @@ onMounted(load) // required in every modal/panel for SSR-safe restore
 - Buttons, badges, inputs: `rounded-md`
 - Avatars, icon buttons: `rounded-full`
 
+### Layout
+- Header is fixed/floating; `<main>` has `80px` top padding via `.main-offset`
+- Hero pages can cancel header clearance with `.full-bleed` (`margin-top: -5rem`)
+
 ### Component Placement Rules
 - `<ProductModal />` is mounted once in `app.vue` only — never on individual pages
 - `<ThemeToggleButton />` is mounted in `app.vue`, hidden when any sidebar is open
@@ -200,7 +234,7 @@ cartStore.clearCart()
 Cart state persists to `localStorage` under the key `rh-cart`.
 
 ### Lenis Smooth Scroll
-Initialized in `app.vue` `onMounted()`, scoped to the main scroll container `div` (not `window`). RAF loop drives animation. Destroyed `onUnmounted()`.
+Initialized in `app.vue` `onMounted()` via the `$lenis` plugin, scoped to the main scroll container. RAF loop drives animation (`duration: 1.0`, exponential easing, `smoothWheel: true`). Destroyed `onUnmounted()`.
 
 ### Per-Product Pastel Backgrounds
 Dynamic hue derived from product ID via CSS variable:
