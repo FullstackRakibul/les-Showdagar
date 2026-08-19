@@ -8,7 +8,7 @@ dist
 
 # Node dependencies
 node_modules
-package-lock.json.lock
+package-lock.json
 
 # Logs
 logs
@@ -18,7 +18,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# IDEs and Editors
+# IDEs and editors
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
@@ -30,7 +30,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-# OS Files
+# OS files
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -45,13 +45,10 @@ coverage/
 .nyc_output/
 *.lcov
 
-# Docker
-.docker/
-
 # TypeScript
 *.tsbuildinfo
 
-# Yarn / pnpm / bun lockfiles (keep only one)
+# Lockfiles — keep only package-lock.json
 yarn.lock
 pnpm-lock.yaml
 bun.lockb

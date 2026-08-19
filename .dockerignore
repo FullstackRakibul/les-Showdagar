@@ -1,25 +1,59 @@
-**/.classpath
-**/.dockerignore
-**/.env
-**/.git
-**/.gitignore
-**/.project
-**/.settings
-**/.toolstarget
-**/.vs
-**/.vscode
-**/*.*proj.user
-**/*.dbmdl
-**/*.jfm
-**/bin
-**/charts
-**/docker-compose*
-**/compose*
-**/Dockerfile*
-**/node_modules
-**/npm-debug.log
-**/obj
-**/secrets.dev.yaml
-**/values.dev.yaml
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Nuxt build artifacts (rebuilt inside container)
+.nuxt
+.output
+.nitro
+.cache
+.data
+dist
+
+# Node dependencies (reinstalled inside container)
+node_modules
+
+# Env files (injected at runtime)
+.env
+.env.*
+!.env.example
+
+# IDE / editor
+.vscode
+.idea
+*.suo
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs
+*.log
+
+# Test / coverage
+coverage
+.nyc_output
+*.lcov
+
+# TypeScript incremental
+*.tsbuildinfo
+
+# Temporary
+*.tmp
+*.temp
+.turbo
+
+# CI / deploy configs
+.vercel
+.netlify
+
+# Claude Code
+.claude
+
+# Docs
+*.md
 LICENSE
-README.md
