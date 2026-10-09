@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly" # Only check once a week instead of daily
+    open-pull-requests-limit: 3 # Only allow 3 open PRs at a time
+    groups:
+      dependencies:
+        patterns:
+          - "*" # Group all minor/patch updates into ONE single PR
